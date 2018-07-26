@@ -146,7 +146,7 @@
     ho:ClearAllPoints()
     ho:SetPoint(cfg.hotkeys.pos1.a1,bu,cfg.hotkeys.pos1.x,cfg.hotkeys.pos1.y)
     ho:SetPoint(cfg.hotkeys.pos2.a1,bu,cfg.hotkeys.pos2.x,cfg.hotkeys.pos2.y)
-    if not dominos and not bartender4 and not cfg.hotkeys.show then
+    if not dominos and not bartender4 and not UberuiDB.Hotkey then
       ho:Hide()
     end
     --macro name
@@ -154,7 +154,7 @@
     na:ClearAllPoints()
     na:SetPoint(cfg.macroname.pos1.a1,bu,cfg.macroname.pos1.x,cfg.macroname.pos1.y)
     na:SetPoint(cfg.macroname.pos2.a1,bu,cfg.macroname.pos2.x,cfg.macroname.pos2.y)
-    if not dominos and not bartender4 and not cfg.macroname.show then
+    if not dominos and not bartender4 and not UberuiDB.Macroname then
       na:Hide()
     end
     --item stack count
@@ -366,7 +366,7 @@ end
   --update hotkey func
   local function updateHotkey(self, actionButtonType)
     local ho = _G[self:GetName().."HotKey"]
-    if ho and not cfg.hotkeys.show and ho:IsShown() then
+    if ho and not UberuiDB.Hotkey and ho:IsShown() then
       ho:Hide()
     end
   end

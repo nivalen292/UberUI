@@ -353,16 +353,26 @@
 			v:SetVertexColor(.2, .2, .2)
   	
 		end
-    	for i,v in pairs({
-			MainMenuBarArtFrame.LeftEndCap,
-    	    MainMenuBarArtFrame.RightEndCap, 
-		}) do
-			if UberuiDB.Gryphon then
-				v:SetVertexColor(.35, .35, .35)
-			else
-    	    	v:Hide()
-    	    end
-       	end
+	
+		--if UberuiDB.Gryphon and UberuiDB.Classcolor then
+		--	MainMenuBarArtFrame.LeftEndCap:SetTexture("Interface\\AddOns\\Uber UI\\textures\\target\\Priest\\UI-MainMenuBar-EndCap-Dwarf")
+		--	MainMenuBarArtFrame.LeftEndCap:SetVertexColor(1, 1, 1)
+		--	MainMenuBarArtFrame.LeftEndCap:SetTexCoord(0,1,.40625,1)
+		--	MainMenuBarArtFrame.RightEndCap:SetTexture("Interface\\AddOns\\Uber UI\\textures\\target\\Priest\\UI-MainMenuBar-EndCap-Dwarf")
+		--	MainMenuBarArtFrame.RightEndCap:SetVertexColor(1, 1, 1)
+		--	MainMenuBarArtFrame.RightEndCap:SetTexCoord(1,0,.40625,1)
+		--else
+    		for i,v in ipairs({
+				MainMenuBarArtFrame.LeftEndCap,
+    		    MainMenuBarArtFrame.RightEndCap, 
+			}) do
+				if UberuiDB.Gryphon then
+					v:SetVertexColor(.35, .35, .35)
+				else
+    		    	v:Hide()
+    		    end
+    	   	end
+    	--end
 	end)
 	
  -- COLORING ARENA FRAMES

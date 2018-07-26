@@ -13,12 +13,6 @@ local addon, ns = ...
 -- DEFAULTS
 -----------------------------
 
-local defaults = {
-    gryphons	= true,
-    hotkeys		= true, --Not yet turned on
-    macroname	= false, --Not yet turned on
-}
-
 --generate a holder for the config data
 local cfg = CreateFrame("Frame")
 cfg:SetScript("OnEvent", function(self, event, ...) return self[event] and self[event](self, ...) end)
@@ -26,7 +20,9 @@ cfg:RegisterEvent("PLAYER_LOGIN")
 
 local defaults = {
     Gryphon = true,
-    --Classcolor = true, --Not yet enabled
+    Hotkey   = true,
+    Macroname = false, 
+    Classcolor = false, --Not yet enabled
 }
 
 function GoFish:PLAYER_LOGIN()
