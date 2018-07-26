@@ -1,5 +1,5 @@
 ## Interface: 80000
-## Version: 3.3.1
+## Version: 1.0.0
 
 ## Author: lorti, Uberlicious
 ## Notes: Darkens and modifies original Blizzard UI.
