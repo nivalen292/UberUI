@@ -8,6 +8,9 @@
   local cfg = ns.cfg
   local dragFrameList = ns.dragFrameList
 
+  local classcolor = RAID_CLASS_COLORS[select(2, UnitClass("player"))]
+  local class = UnitClass("player")
+
   ---------------------------------------
   -- ACTIONS
   ---------------------------------------
@@ -355,10 +358,10 @@
 		end
 	
 		--if UberuiDB.Gryphon and UberuiDB.Classcolor then
-		--	MainMenuBarArtFrame.LeftEndCap:SetTexture("Interface\\AddOns\\Uber UI\\textures\\target\\Priest\\UI-MainMenuBar-EndCap-Dwarf")
+		--	MainMenuBarArtFrame.LeftEndCap:SetTexture("Interface\\AddOns\\Uber UI\\textures\\classtextures\\"..class.."\\mainmenubar-endcap-dwarf")
 		--	MainMenuBarArtFrame.LeftEndCap:SetVertexColor(1, 1, 1)
 		--	MainMenuBarArtFrame.LeftEndCap:SetTexCoord(0,1,.40625,1)
-		--	MainMenuBarArtFrame.RightEndCap:SetTexture("Interface\\AddOns\\Uber UI\\textures\\target\\Priest\\UI-MainMenuBar-EndCap-Dwarf")
+		--	MainMenuBarArtFrame.RightEndCap:SetTexture("Interface\\AddOns\\Uber UI\\textures\\classtextures\\"..class.."\\mainmenubar-endcap-dwarf")
 		--	MainMenuBarArtFrame.RightEndCap:SetVertexColor(1, 1, 1)
 		--	MainMenuBarArtFrame.RightEndCap:SetTexCoord(1,0,.40625,1)
 		--else
@@ -371,7 +374,7 @@
 				else
     		    	v:Hide()
     		    end
-    	   	end
+    	 	end
     	--end
 	end)
 	

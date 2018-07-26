@@ -9,6 +9,7 @@
   local cfg = ns.cfg
 
   local classcolor = RAID_CLASS_COLORS[select(2, UnitClass("player"))]
+  local class = UnitClass("player")
   local dominos = IsAddOnLoaded("Dominos")
   local bartender4 = IsAddOnLoaded("Bartender4")
 
