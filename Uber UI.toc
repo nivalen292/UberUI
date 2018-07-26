@@ -1,0 +1,16 @@
+## Interface: 80000
+## Version: 3.3.1
+
+## Author: lorti, Uberlicious
+## Notes: Darkens and modifies original Blizzard UI.
+## Title: Uber UI
+## Notes: Darkens the default UI
+## SavedVariables: UberuiDB
+
+config.lua
+options.lua
+
+core\frames.lua
+core\buffs.lua
+core\actionbars.lua
+core\auras.lua
