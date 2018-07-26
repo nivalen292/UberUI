@@ -1,6 +1,6 @@
 
--- // Lorti UI-DEV
--- // Lorti - 2016
+-- // Uber UI
+-- // Uberlicious - 2018
 
 -----------------------------
 -- INIT
