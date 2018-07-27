@@ -25,7 +25,7 @@ local defaults = {
     Classcolor = false, --Not yet enabled
 }
 
-function GoFish:PLAYER_LOGIN()
+function cfg:PLAYER_LOGIN()
   --print("LOGIN")
   local function initDB(a, b)
     if type(a) ~= "table" then return {} end
