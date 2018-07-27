@@ -29,7 +29,7 @@ Options:SetScript("OnShow", function(self)
 	SubText:SetHeight(32)
 	SubText:SetJustifyH("LEFT")
 	SubText:SetJustifyV("TOP")
-	SubText:SetText("Darkens the default blizzard UI. Note: All options currently require /reload to update")
+	SubText:SetText("Darkens the default blizzard UI.")
 
 	local Gryphon = CreateFrame("CheckButton", "$parentGryphon", self, "InterfaceOptionsCheckButtonTemplate")
 	Gryphon:SetPoint("TOPLEFT", SubText, "BOTTOMLEFT", 0, -12)
@@ -78,16 +78,21 @@ Options:SetScript("OnShow", function(self)
 				_G["MultiBarBottomRightButton"..i]["HotKey"]:Show()
 				_G["MultiBarRightButton"..i]["HotKey"]:Show()
 				_G["MultiBarLeftButton"..i]["HotKey"]:Show()
-				_G["PetActionButton"..i]["HotKey"]:Show()
 			else
 				_G["ActionButton"..i]["HotKey"]:Hide()
 				_G["MultiBarBottomLeftButton"..i]["HotKey"]:Hide()
 				_G["MultiBarBottomRightButton"..i]["HotKey"]:Hide()
 				_G["MultiBarRightButton"..i]["HotKey"]:Hide()
 				_G["MultiBarLeftButton"..i]["HotKey"]:Hide()
-				_G["PetActionButton"..i]["HotKey"]:Hide()
 			end
     	end
+    	for i=1, NUM_PET_ACTION_SLOTS do
+			if UberuiDB.Hotkey then
+      			_G["PetActionButton"..i]["HotKey"]:Show()
+      		else
+      			_G["PetActionButton"..i]["HotKey"]:Hide()
+      		end
+      	end
 	end)
 
 	local Macroname = CreateFrame("CheckButton", "$parentMacroname", self, "InterfaceOptionsCheckButtonTemplate")
@@ -105,16 +110,21 @@ Options:SetScript("OnShow", function(self)
 				_G["MultiBarBottomRightButton"..i]["Name"]:Show()
 				_G["MultiBarRightButton"..i]["Name"]:Show()
 				_G["MultiBarLeftButton"..i]["Name"]:Show()
-				_G["PetActionButton"..i]["Name"]:Show()
 			else
 				_G["ActionButton"..i]["Name"]:Hide()
 				_G["MultiBarBottomLeftButton"..i]["Name"]:Hide()
 				_G["MultiBarBottomRightButton"..i]["Name"]:Hide()
 				_G["MultiBarRightButton"..i]["Name"]:Hide()
 				_G["MultiBarLeftButton"..i]["Name"]:Hide()
-				_G["PetActionButton"..i]["Name"]:Hide()
 			end
     	end
+    	for i=1, NUM_PET_ACTION_SLOTS do
+			if UberuiDB.Hotkey then
+      			_G["PetActionButton"..i]["HotKey"]:Show()
+      		else
+      			_G["PetActionButton"..i]["HotKey"]:Hide()
+      		end
+      	end
 	end)
 
 
