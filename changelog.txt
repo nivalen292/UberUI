@@ -1,1 +1,1 @@
-Squashed some initial bugs.
+Added exception in to not conflict with Easy Frames.

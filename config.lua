@@ -27,17 +27,17 @@ local defaults = {
 
 function cfg:PLAYER_LOGIN()
   --print("LOGIN")
-  local function initDB(a, b)
-    if type(a) ~= "table" then return {} end
-    if type(b) ~= "table" then b = {} end
-    for k, v in pairs(a) do
+  local function initDB(def, tbl)
+    if type(def) ~= "table" then return {} end
+    if type(tbl) ~= "table" then tbl = {} end
+    for k, v in pairs(def) do
       if type(v) == "table" then
-        b[k] = initDB(v, b[k])
-      elseif type(b[k]) ~= type(v) then
-        b[k] = v
+        tbl[k] = initDB(v, tbl[k])
+      elseif type(tbl[k]) ~= type(v) then
+        tbl[k] = v
       end
     end
-    return b
+    return tbl
   end
   UberuiDB = initDB(defaults, UberuiDB)
   self:UnregisterEvent("PLAYER_LOGIN")

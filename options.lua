@@ -34,7 +34,7 @@ Options:SetScript("OnShow", function(self)
 	local Gryphon = CreateFrame("CheckButton", "$parentGryphon", self, "InterfaceOptionsCheckButtonTemplate")
 	Gryphon:SetPoint("TOPLEFT", SubText, "BOTTOMLEFT", 0, -12)
 	Gryphon.Text:SetText("Show Gryphons")
-	Gryphon.tooltipText = "Shows the gryphons on the sides of actionbars. (Requires Reload)"
+	Gryphon.tooltipText = "Shows the gryphons on the sides of actionbars."
 	Gryphon:SetScript("OnClick", function(this)
 		local checked = not not this:GetChecked()
 		PlaySound(checked and SOUND_ON or SOUND_OFF)
@@ -66,7 +66,7 @@ Options:SetScript("OnShow", function(self)
 	local Hotkey = CreateFrame("CheckButton", "$parentHotkey", self, "InterfaceOptionsCheckButtonTemplate")
 	Hotkey:SetPoint("TOPLEFT", Gryphon, "BOTTOMLEFT", 0, -12)
 	Hotkey.Text:SetText("Show Hotkeys")
-	Hotkey.tooltipText = "Shows the Hotkeys on the actionbar buttons. (Requires Reload)"
+	Hotkey.tooltipText = "Shows the Hotkeys on the actionbar buttons."
 	Hotkey:SetScript("OnClick", function(this)
 		local checked = not not this:GetChecked()
 		PlaySound(checked and SOUND_ON or SOUND_OFF)
@@ -78,27 +78,22 @@ Options:SetScript("OnShow", function(self)
 				_G["MultiBarBottomRightButton"..i]["HotKey"]:Show()
 				_G["MultiBarRightButton"..i]["HotKey"]:Show()
 				_G["MultiBarLeftButton"..i]["HotKey"]:Show()
+				_G["PetActionButton"..i]["HotKey"]:Show()
 			else
 				_G["ActionButton"..i]["HotKey"]:Hide()
 				_G["MultiBarBottomLeftButton"..i]["HotKey"]:Hide()
 				_G["MultiBarBottomRightButton"..i]["HotKey"]:Hide()
 				_G["MultiBarRightButton"..i]["HotKey"]:Hide()
 				_G["MultiBarLeftButton"..i]["HotKey"]:Hide()
+				_G["PetActionButton"..i]["HotKey"]:Hide()
 			end
     	end
-    	for i=1, NUM_PET_ACTION_SLOTS do
-			if UberuiDB.Hotkey then
-      			_G["PetActionButton"..i]["HotKey"]:Show()
-      		else
-      			_G["PetActionButton"..i]["HotKey"]:Hide()
-      		end
-      	end
 	end)
 
 	local Macroname = CreateFrame("CheckButton", "$parentMacroname", self, "InterfaceOptionsCheckButtonTemplate")
 	Macroname:SetPoint("TOPLEFT", Hotkey, "BOTTOMLEFT", 0, -12)
 	Macroname.Text:SetText("Show Macronames")
-	Macroname.tooltipText = "Shows the Macronames on the actionbar buttons. (Requires Reload)"
+	Macroname.tooltipText = "Shows the Macronames on the actionbar buttons."
 	Macroname:SetScript("OnClick", function(this)
 		local checked = not not this:GetChecked()
 		PlaySound(checked and SOUND_ON or SOUND_OFF)
@@ -110,21 +105,16 @@ Options:SetScript("OnShow", function(self)
 				_G["MultiBarBottomRightButton"..i]["Name"]:Show()
 				_G["MultiBarRightButton"..i]["Name"]:Show()
 				_G["MultiBarLeftButton"..i]["Name"]:Show()
+				_G["PetActionButton"..i]["Name"]:Show()
 			else
 				_G["ActionButton"..i]["Name"]:Hide()
 				_G["MultiBarBottomLeftButton"..i]["Name"]:Hide()
 				_G["MultiBarBottomRightButton"..i]["Name"]:Hide()
 				_G["MultiBarRightButton"..i]["Name"]:Hide()
 				_G["MultiBarLeftButton"..i]["Name"]:Hide()
+				_G["PetActionButton"..i]["Name"]:Hide()
 			end
     	end
-    	for i=1, NUM_PET_ACTION_SLOTS do
-			if UberuiDB.Hotkey then
-      			_G["PetActionButton"..i]["HotKey"]:Show()
-      		else
-      			_G["PetActionButton"..i]["HotKey"]:Hide()
-      		end
-      	end
 	end)
 
 
