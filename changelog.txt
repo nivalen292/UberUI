@@ -1,1 +1,5 @@
 Added exception in to not conflict with Easy Frames.
+
+####1.0.25
+Fixed config file DB variable issue.
+Added Ret Paladin Resource bar to coloring.
