@@ -58,18 +58,12 @@
   		old_uierrosframe_addmessage(frame, text, red, green, blue, id)
 	end
 
-	function onevent (frame, event, ...)
-  		if event == 'PLAYER_LOGIN' then
-    			enable()
-  		end
-	end
-	event_frame:SetScript('OnEvent', onevent)
-	event_frame:RegisterEvent('PLAYER_LOGIN')
-	
-  -- REWORKING THE MINIMAP
-	local CF=CreateFrame("Frame")
+	local CF = CreateFrame("frame")
 	CF:RegisterEvent("PLAYER_LOGIN")
 	CF:SetScript("OnEvent", function(self, event)
+
+  -- REWORKING THE MINIMAP
+  function minimaprework()
 		if not (IsAddOnLoaded("SexyMap")) then
 			for i,v in pairs({
 				MinimapBorder,
@@ -77,7 +71,15 @@
 				QueueStatusMinimapButtonBorder,
 				select(1, TimeManagerClockButton:GetRegions()),
               		}) do
-                 		v:SetVertexColor(.05, .05, .05)
+					if v == MinimapBorder and UberuiDB.ClassColorFrames then
+						v:SetTexture("Interface\\AddOns\\Uber UI\\textures\\minimap-border")
+						v:SetVertexColor(classcolor.r, classcolor.g, classcolor.b)
+					elseif v == MinimapBorder and not UberuiDB.ClassColorFrames then
+						v:SetTexture("Interface\\Minimap\\UI-MInimap-Border")
+                 		v:SetVertexColor(.05,.05,.05)
+                 	else
+                 		v:SetVertexColor(.05,.05,.05)
+                 	end
 			end
 			select(2, TimeManagerClockButton:GetRegions()):SetVertexColor(1,1,1)
 
@@ -100,7 +102,11 @@
 
 					gb.border.texture = gb.border:CreateTexture(nil, "ARTWORK")
 					gb.border.texture:SetTexture("Interface\\PlayerFrame\\UI-PlayerFrame-Deathknight-Ring")
-					gb.border.texture:SetVertexColor(.05,.05,.05)
+					if UberuiDB.ClassColorFrames then
+						gb.border.texture:SetVertexColor(classcolor.r, classcolor.g, classcolor.b)
+					else
+						gb.border.texture:SetVertexColor(.05,.05,.05)
+					end
 					gb.border.texture:SetPoint("CENTER", 1, -2)
 					gb.border.texture:SetSize(45,45)
 				end
@@ -116,7 +122,6 @@
                 			gb.icon:SetTexCoord(unpack(t))
 				end
 			end)
-		
   			MinimapBorderTop:Hide()
 			MinimapZoomIn:Hide()
 			MinimapZoomOut:Hide()
@@ -147,47 +152,292 @@
 				end
 			end)
 		end
-	end)
+	end
 
-  -- COLORING FRAMES
-	local CF=CreateFrame("Frame")
-	CF:RegisterEvent("PLAYER_ENTERING_WORLD")
-	CF:RegisterEvent("GROUP_ROSTER_UPDATE")
-	
-	hooksecurefunc('TargetFrame_CheckClassification', function(self, forceNormalTexture)
-		 local classification = UnitClassification(self.unit);
-		if ( classification == "minus" ) then
-			self.borderTexture:SetTexture("Interface\\TargetingFrame\\UI-TargetingFrame-Minus");
-			self.borderTexture:SetVertexColor(.05, .05, .05)
-			self.nameBackground:Hide();
-			self.manabar.pauseUpdates = true;
-			self.manabar:Hide();
-			self.manabar.TextString:Hide();
-			self.manabar.LeftText:Hide();
-			self.manabar.RightText:Hide();
-			forceNormalTexture = true;
-		elseif ( classification == "worldboss" or classification == "elite" ) then
-			self.borderTexture:SetTexture("Interface\\AddOns\\Uber UI\\textures\\target\\elite")
-			self.borderTexture:SetVertexColor(1, 1, 1)
-		elseif ( classification == "rareelite" ) then
-			self.borderTexture:SetTexture("Interface\\AddOns\\Uber UI\\textures\\target\\rare-elite")
-			self.borderTexture:SetVertexColor(1, 1, 1)
-		elseif ( classification == "rare" ) then
-			self.borderTexture:SetTexture("Interface\\AddOns\\Uber UI\\textures\\target\\rare")
-			self.borderTexture:SetVertexColor(1, 1, 1)
+minimaprework()
+
+--color health bars
+local function ClassColor(statusbar, unit)
+if UberuiDB.ClassColorHealth == true then
+	local _, class, c
+	if UnitIsPlayer(unit) and UnitIsConnected(unit) and unit == statusbar.unit and UnitClass(unit) then
+		_, class = UnitClass(unit)
+		c = CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[class] or RAID_CLASS_COLORS[class]
+		statusbar:SetStatusBarColor(c.r, c.g, c.b)
+	end
+	if not UnitIsPlayer("target") then
+		color = FACTION_BAR_COLORS[UnitReaction("target", "player")]
+		if (not UnitPlayerControlled("target") and UnitIsTapDenied("target")) then
+			TargetFrameHealthBar:SetStatusBarColor(0.5, 0.5, 0.5)
 		else
-			self.borderTexture:SetTexture("Interface\\TargetingFrame\\UI-TargetingFrame")
-			self.borderTexture:SetVertexColor(.05, .05, .05)
+			if color then
+				TargetFrameHealthBar:SetStatusBarColor(color.r, color.g, color.b)
+				TargetFrameHealthBar.lockColor = true
+			end
 		end
+	end
+	if not UnitIsPlayer("focus") then
+		color = FACTION_BAR_COLORS[UnitReaction("focus", "player")]
+		if (not UnitPlayerControlled("focus") and UnitIsTapDenied("focus")) then
+			FocusFrameHealthBar:SetStatusBarColor(0.5, 0.5, 0.5)
+		else
+			if color then
+				FocusFrameHealthBar:SetStatusBarColor(color.r, color.g, color.b)
+				FocusFrameHealthBar.lockColor = true
+			end
+		end
+	end
+	if not UnitIsPlayer("targettarget") then
+		color = FACTION_BAR_COLORS[UnitReaction("targettarget", "player")]
+		if (not UnitPlayerControlled("targettarget") and UnitIsTapDenied("targettarget")) then
+			TargetFrameToTHealthBar:SetStatusBarColor(0.5, 0.5, 0.5)
+		else
+			if color then
+				TargetFrameToTHealthBar:SetStatusBarColor(color.r, color.g, color.b)
+				TargetFrameToTHealthBar.lockColor = true
+			end
+		end
+	end
+	if not UnitIsPlayer("focustarget") then
+		color = FACTION_BAR_COLORS[UnitReaction("focustarget", "player")]
+		if (not UnitPlayerControlled("focustarget") and UnitIsTapDenied("focustarget")) then
+			FocusFrameToTHealthBar:SetStatusBarColor(0.5, 0.5, 0.5)
+		else
+			if color then
+				FocusFrameToTHealthBar:SetStatusBarColor(color.r, color.g, color.b)
+				FocusFrameToTHealthBar.lockColor = true
+			end
+		end
+	end
+end
+end
+
+hooksecurefunc(
+	"UnitFrameHealthBar_Update",
+	function(self)
+		ClassColor(self, self.unit)
+	end
+)
+
+hooksecurefunc(
+	"HealthBar_OnValueChanged",
+	function(self)
+		ClassColor(self, self.unit)
+	end
+)
+
+  --PLAYER
+function PlayerFrameHealth(self)
+	if not (IsAddOnLoaded("EasyFrames")) then
+	PlayerFrameTexture:SetTexture("Interface\\Addons\\Uber UI\\textures\\target\\TargetFramebig")
+	if UberuiDB.ClassColorFrames then
+		PlayerFrameTexture:SetVertexColor(classcolor.r, classcolor.g, classcolor.b)
+	else
+		PlayerFrameTexture:SetVertexColor(.05, .05, .05)
+	end
+	PlayerName:Hide()
+	PlayerFrameGroupIndicatorText:ClearAllPoints()
+	PlayerFrameGroupIndicatorText:SetPoint("BOTTOMLEFT", PlayerFrame, "TOP", 0, -20)
+	PlayerFrameGroupIndicatorLeft:Hide()
+	PlayerFrameGroupIndicatorMiddle:Hide()
+	PlayerFrameGroupIndicatorRight:Hide()
+	PlayerFrameHealthBar:SetPoint("TOPLEFT", 106, -24)
+	PlayerFrameHealthBar:SetHeight(26)
+	PlayerFrameHealthBar.LeftText:ClearAllPoints()
+	PlayerFrameHealthBar.LeftText:SetPoint("LEFT", PlayerFrameHealthBar, "LEFT", 10, 0)
+	PlayerFrameHealthBar.RightText:ClearAllPoints()
+	PlayerFrameHealthBar.RightText:SetPoint("RIGHT", PlayerFrameHealthBar, "RIGHT", -5, 0)
+	PlayerFrameHealthBarText:SetPoint("CENTER", PlayerFrameHealthBar, "CENTER", 0, 0)
+	PlayerFrameManaBar:SetPoint("TOPLEFT", 106, -52)
+	PlayerFrameManaBar:SetHeight(13)
+	PlayerFrameManaBar.LeftText:ClearAllPoints()
+	PlayerFrameManaBar.LeftText:SetPoint("LEFT", PlayerFrameManaBar, "LEFT", 10, 0)
+	PlayerFrameManaBar.RightText:ClearAllPoints()
+	PlayerFrameManaBar.RightText:SetPoint("RIGHT", PlayerFrameManaBar, "RIGHT", -5, 1)
+	PlayerFrameManaBarText:SetPoint("CENTER", PlayerFrameManaBar, "CENTER", 0, 0)
+	PlayerFrameManaBar.FeedbackFrame:ClearAllPoints()
+	PlayerFrameManaBar.FeedbackFrame:SetPoint("CENTER", PlayerFrameManaBar, "CENTER", 0, 0)
+	PlayerFrameManaBar.FeedbackFrame:SetHeight(13)
+	PlayerFrameManaBar.FullPowerFrame.SpikeFrame.AlertSpikeStay:ClearAllPoints()
+	PlayerFrameManaBar.FullPowerFrame.SpikeFrame.AlertSpikeStay:SetPoint(
+		"CENTER",
+		PlayerFrameManaBar.FullPowerFrame,
+		"RIGHT",
+		-6,
+		-3
+	)
+	PlayerFrameManaBar.FullPowerFrame.SpikeFrame.AlertSpikeStay:SetSize(30, 29)
+	PlayerFrameManaBar.FullPowerFrame.PulseFrame:ClearAllPoints()
+	PlayerFrameManaBar.FullPowerFrame.PulseFrame:SetPoint("CENTER", PlayerFrameManaBar.FullPowerFrame, "CENTER", -6, -2)
+	PlayerFrameManaBar.FullPowerFrame.SpikeFrame.BigSpikeGlow:ClearAllPoints()
+	PlayerFrameManaBar.FullPowerFrame.SpikeFrame.BigSpikeGlow:SetPoint(
+		"CENTER",
+		PlayerFrameManaBar.FullPowerFrame,
+		"RIGHT",
+		5,
+		-4
+	)
+	PlayerFrameManaBar.FullPowerFrame.SpikeFrame.BigSpikeGlow:SetSize(30, 50)
+
+	hooksecurefunc(
+	"PlayerFrame_UpdateStatus",
+	function()
+		PlayerStatusTexture:Hide()
+		PlayerRestGlow:Hide()
+		PlayerStatusGlow:Hide()
+		PlayerPrestigeBadge:SetAlpha(0)
+		PlayerPrestigePortrait:SetAlpha(0)
+		TargetFrameTextureFramePrestigeBadge:SetAlpha(0)
+		TargetFrameTextureFramePrestigePortrait:SetAlpha(0)
+		FocusFrameTextureFramePrestigeBadge:SetAlpha(0)
+		FocusFrameTextureFramePrestigePortrait:SetAlpha(0)
 	end)
+	end
+	hooksecurefunc("PlayerFrame_ToPlayerArt", PlayerFrameHealth)
+end
+
+if UberuiDB.LargeHealth then
+	PlayerFrameHealth()
+end
+
+--TARGET
+function StyleTargetFrame(self, forceNormalTexture)
+	if not (IsAddOnLoaded("EasyFrames")) and UberuiDB.LargeHealth then
+		self.deadText:ClearAllPoints()
+		self.deadText:SetPoint("CENTER", self.healthbar, "CENTER", 0, 0)
+		self.levelText:SetPoint("RIGHT", self.healthbar, "BOTTOMRIGHT", 63, 10)
+		self.nameBackground:Hide()
+		self.Background:SetSize(119, 42)
+		self.manabar.pauseUpdates = false
+		self.manabar:Show()
+		TextStatusBar_UpdateTextString(self.manabar)
+		self.threatIndicator:SetTexture("Interface\\TargetingFrame\\UI-TargetingFrame-Flash")
+		self.name:SetPoint("LEFT", self, 15, 36)
+		self.healthbar:SetSize(119, 26)
+		self.healthbar:ClearAllPoints()
+		self.healthbar:SetPoint("TOPLEFT", 5, -24)
+		self.healthbar.LeftText:ClearAllPoints()
+		self.healthbar.LeftText:SetPoint("LEFT", self.healthbar, "LEFT", 8, 0)
+		self.healthbar.RightText:ClearAllPoints()
+		self.healthbar.RightText:SetPoint("RIGHT", self.healthbar, "RIGHT", -5, 0)
+		self.healthbar.TextString:SetPoint("CENTER", self.healthbar, "CENTER", 0, 0)
+		self.manabar:ClearAllPoints()
+		self.manabar:SetPoint("TOPLEFT", 5, -52)
+		self.manabar:SetSize(119, 13)
+		self.manabar.LeftText:ClearAllPoints()
+		self.manabar.LeftText:SetPoint("LEFT", self.manabar, "LEFT", 8, 0)
+		self.manabar.RightText:ClearAllPoints()
+		self.manabar.RightText:SetPoint("RIGHT", self.manabar, "RIGHT", -5, 0)
+		self.manabar.TextString:SetPoint("CENTER", self.manabar, "CENTER", 0, 0)
 	
+		--TargetOfTarget
+		TargetFrameToTHealthBar:ClearAllPoints()
+		TargetFrameToTHealthBar:SetPoint("TOPLEFT", 44, -15)
+		TargetFrameToTHealthBar:SetHeight(8)
+		TargetFrameToTManaBar:ClearAllPoints()
+		TargetFrameToTManaBar:SetPoint("TOPLEFT", 44, -24)
+		TargetFrameToTManaBar:SetHeight(5)
+		FocusFrameToTHealthBar:ClearAllPoints()
+		FocusFrameToTHealthBar:SetPoint("TOPLEFT", 45, -15)
+		FocusFrameToTHealthBar:SetHeight(8)
+		FocusFrameToTManaBar:ClearAllPoints()
+		FocusFrameToTManaBar:SetPoint("TOPLEFT", 45, -25)
+		FocusFrameToTManaBar:SetHeight(3)
+		FocusFrameToT.deadText:SetWidth(0.01)
+	end
+
+			--TargetFrame.EliteDragon = CreateFrame("frame", "EliteDragon",TargetFrame)
+			--TargetFrame.EliteDragon:ClearAllPoints()
+			--TargetFrame.EliteDragon:SetPoint("TOPRIGHT", TargetFrame)
+			--TargetFrame.EliteDragon:SetFrameStrata("MEDIUM")
+			--TargetFrame.EliteDragon:SetFrameLevel(4)
+			--TargetFrame.EliteDragonTexture = TargetFrame:CreateTexture(nil, "ARTWORK", nil, -8)
+			--TargetFrame.EliteDragonTexture:SetPoint("TOPRIGHT", TargetFrame)
+
+			local classification = UnitClassification(self.unit)
+			if ( classification == "minus" ) then
+				self.borderTexture:SetTexture("Interface\\TargetingFrame\\UI-TargetingFrame-Minus");
+				self.borderTexture:SetVertexColor(.05, .05, .05)
+				self.nameBackground:Hide();
+				self.manabar.pauseUpdates = true;
+				self.manabar:Hide();
+				self.manabar.TextString:Hide();
+				self.manabar.LeftText:Hide();
+				self.manabar.RightText:Hide();
+				forceNormalTexture = true;
+			elseif ( classification == "worldboss" or classification == "elite" ) then
+				if UberuiDB.ClassColorFrames then
+					self.borderTexture:SetTexture("Interface\\AddOns\\Uber UI\\textures\\target\\elitewhite")
+					self.borderTexture:SetVertexColor(classcolor.r, classcolor.g, classcolor.b)
+				else
+					self.borderTexture:SetTexture("Interface\\AddOns\\Uber UI\\textures\\target\\elitewhite")
+					self.borderTexture:SetVertexColor(.05, .05, .05)
+				end
+			elseif ( classification == "rareelite" ) then
+				if UberuiDB.ClassColorFrames then
+					self.borderTexture:SetTexture("Interface\\AddOns\\Uber UI\\textures\\target\\rare-elitewhite")
+					self.borderTexture:SetVertexColor(classcolor.r, classcolor.g, classcolor.b)
+				else
+					self.borderTexture:SetTexture("Interface\\AddOns\\Uber UI\\textures\\target\\rare-elitewhite")
+					self.borderTexture:SetVertexColor(.05, .05, .05)
+				end
+			elseif ( classification == "rare" ) then
+				if UberuiDB.ClassColorFrames then
+					self.borderTexture:SetTexture("Interface\\AddOns\\Uber UI\\textures\\target\\rarewhite")
+					self.borderTexture:SetVertexColor(classcolor.r, classcolor.g, classcolor.b)
+				else
+					self.borderTexture:SetTexture("Interface\\AddOns\\Uber UI\\textures\\target\\rarewhite")
+					self.borderTexture:SetVertexColor(.05, .05, .05)
+				end
+			else
+				
+				if UberuiDB.ClassColorFrames then
+					self.borderTexture:SetTexture("Interface\\AddOns\\Uber UI\\textures\\target\\TargetFramebig")
+					self.borderTexture:SetVertexColor(classcolor.r, classcolor.g, classcolor.b)
+				else
+					self.borderTexture:SetTexture("Interface\\AddOns\\Uber UI\\textures\\target\\TargetFramebig")
+					self.borderTexture:SetVertexColor(.05, .05, .05)
+				end
+			end
+		end
+hooksecurefunc("TargetFrame_CheckClassification", StyleTargetFrame)
+
+	hooksecurefunc("PetFrame_Update", function(self, override)
+		  if ( (not PlayerFrame.animating) or (override) ) then
+  			  if ( UnitIsVisible(self.unit) and PetUsesPetFrame() and not PlayerFrame.vehicleHidesPet ) then
+  			    if ( self:IsShown() ) then
+  			      UnitFrame_Update(self);
+  			    else
+  			      self:Show();
+  			    end
+  			    --self.flashState = 1;
+  			    --self.flashTimer = PET_FLASH_ON_TIME;
+  			    if ( UnitPowerMax(self.unit) == 0 ) then
+  			      PetFrameTexture:SetTexture("Interface\\AddOns\\Uber UI\\textures\\target\\smalltargetingframe-nomana");
+  			      PetFrameManaBarText:Hide();
+  			    else
+  			      PetFrameTexture:SetTexture("Interface\\AddOns\\Uber UI\\textures\\target\\smalltargetingframe");
+  			    end
+  			    PetAttackModeTexture:Hide();
+ 			
+  			    RefreshDebuffs(self, self.unit, nil, nil, true);
+  			  else
+  			    self:Hide();
+  			  end
+  			end
+		end)
+
 	function ColorRaid()
 		for g = 1, NUM_RAID_GROUPS do
 			local group = _G["CompactRaidGroup"..g.."BorderFrame"]
 			if group then
 				for _, region in pairs({group:GetRegions()}) do
 					if region:IsObjectType("Texture") then
-						region:SetVertexColor(.05, .05, .05)
+						if UberuiDB.ClassColorFrames then
+							region:SetVertexColor(classcolor.r, classcolor.g, classcolor.b)
+						else
+							region:SetVertexColor(.05, .05, .05)
+						end
 					end
 				end
 			end
@@ -197,7 +447,11 @@
 					groupcolored = true
 					for _, region in pairs({frame:GetRegions()}) do
 						if region:GetName():find("Border") then
-							region:SetVertexColor(.05, .05, .05)
+							if UberuiDB.ClassColorFrames then
+								region:SetVertexColor(classcolor.r, classcolor.g, classcolor.b)
+							else
+								region:SetVertexColor(.05, .05, .05)
+							end
 						end
 					end
 				end
@@ -206,7 +460,11 @@
 					singlecolored = true
 					for _, region in pairs({frame:GetRegions()}) do
 						if region:GetName():find("Border") then
-							region:SetVertexColor(.05, .05, .05)
+							if UberuiDB.ClassColorFrames then
+								region:SetVertexColor(classcolor.r, classcolor.g, classcolor.b)
+							else
+								region:SetVertexColor(.05, .05, .05)
+							end
 						end
 					end
 				end
@@ -214,7 +472,11 @@
 		end
 		for _, region in pairs({CompactRaidFrameContainerBorderFrame:GetRegions()}) do
 			if region:IsObjectType("Texture") then
-				region:SetVertexColor(.05, .05, .05)
+				if UberuiDB.ClassColorFrames then
+					region:SetVertexColor(classcolor.r, classcolor.g, classcolor.b)
+				else
+					region:SetVertexColor(.05, .05, .05)
+				end
 			end
 		end
 	end
@@ -229,15 +491,17 @@
 				ColorRaid()
 			end
 		end)
+	end)
+
 		if event == "GROUP_ROSTER_UPDATE" then return end
 		if not (IsAddOnLoaded("Shadowed Unit Frames") or IsAddOnLoaded("PitBull Unit Frames 4.0") or IsAddOnLoaded("X-Perl UnitFrames")) then
-                if not (IsAddOnLoaded("EasyFrames")) then
+                if not IsAddOnLoaded("EasyFrames") then
                 	for i,v in pairs({
-						PlayerFrameTexture, 
+                		PlayerFrameTexture,
 						PlayerFrameAlternateManaBarBorder, 
 						PlayerFrameAlternateManaBarRightBorder, 
 						PlayerFrameAlternateManaBarLeftBorder,
-						TargetFrameTextureFrameTexture, 
+						--TargetFrameTextureFrameTexture, 
 						TargetFrameToTTextureFrameTexture,
 						PetFrameTexture, 
 						FocusFrameTextureFrameTexture, 
@@ -251,7 +515,23 @@
 						PartyMemberFrame3PetFrameTexture,
 						PartyMemberFrame4PetFrameTexture
                 		}) do
-                	v:SetVertexColor(.05,.05,.05)
+                	    if UberuiDB.ClassColorFrames then
+                	    	if v:GetTexture() == "Interface\\TargetingFrame\\UI-TargetingFrame" and not UberuiDB.LargeHealth then
+                	    		v:SetTexture("Interface\\AddOns\\Uber UI\\textures\\target\\targetingframebig")
+                	    		v:SetVertexColor(classcolor.r, classcolor.g, classcolor.b)
+                	    	elseif v:GetTexture() == "Interface\\TargetingFrame\\UI-SmallTargetingFrame" then
+                	    		v:SetTexture("Interface\\AddOns\\Uber UI\\textures\\target\\smalltargetingframe") 
+                				v:SetVertexColor(classcolor.r, classcolor.g, classcolor.b)
+                			elseif v:GetTexture() == "Interface\\TargetingFrame\\UI-PartyFrame" then
+                				v:SetTexture("Interface\\AddOns\\Uber UI\\textures\\partyframe")
+                				v:SetVertexColor(classcolor.r, classcolor.g, classcolor.b)
+                			elseif v:GetTexture() == "Interface\\TargetingFrame\\UI-TargetofTargetFrame" then
+                				v:SetTexture("Interface\\AddOns\\Uber UI\\textures\\target\\targetoftargetframe")
+                				v:SetVertexColor(classcolor.r, classcolor.g, classcolor.b)
+       						end
+                		else
+                 			v:SetVertexColor(.05,.05,.05)
+                 		end
                 	end
                 end
                 	for i,v in pairs({
@@ -282,39 +562,56 @@
 				PaladinPowerBarFrameBG,
 				PaladinPowerBarFrameBankBG
 			}) do
+                	if UberuiDB.ClassColorFrames then
+                		v:SetVertexColor(classcolor.r, classcolor.g, classcolor.b)
+                	else
                  		v:SetVertexColor(.05, .05, .05)
+                 	end
 			end
 
 			for _, region in pairs({StopwatchFrame:GetRegions()}) do
- 				region:SetVertexColor(.05, .05, .05)
+				if UberuiDB.ClassColorFrames then
+					region:SetVertexColor(classcolor.r, classcolor.g, classcolor.b)
+				else
+ 					region:SetVertexColor(.05, .05, .05)
+ 				end
  			end
 			
 			for _, region in pairs({CompactRaidFrameManager:GetRegions()}) do
-				if region:IsObjectType("Texture") then
-					region:SetVertexColor(.05, .05, .05)
-				end
+				if region:IsObjectType("Texture") and UberuiDB.ClassColorFrames then
+					region:SetVertexColor(classcolor.r, classcolor.g, classcolor.b)
+				else region:IsObjectType("Texture")
+ 					region:SetVertexColor(.05, .05, .05)
+ 				end
 			end
 			for _, region in pairs({CompactRaidFrameManagerContainerResizeFrame:GetRegions()}) do
-				if region:GetName():find("Border") then
-					region:SetVertexColor(.05, .05, .05)
+				if region:GetName():find("Border") and UberuiDB.ClassColorFrames then
+					region:SetVertexColor(classcolor.r, classcolor.g, classcolor.b)
+				else region:IsObjectType("Border")
+ 					region:SetVertexColor(.05, .05, .05)
 				end
 			end
 			CompactRaidFrameManagerToggleButton:SetNormalTexture("Interface\\AddOns\\Uber UI\\textures\\raid\\RaidPanel-Toggle")
 			
 			hooksecurefunc("GameTooltip_ShowCompareItem", function(self, anchorFrame)
-				if self then
-					local shoppingTooltip1, shoppingTooltip2 = unpack(self.shoppingTooltips)
+				local shoppingTooltip1, shoppingTooltip2 = unpack(self.shoppingTooltips)
+				if self and UberuiDB.ClassColorFrames then
+					shoppingTooltip1:SetBackdropBorderColor(classcolor.r, classcolor.g, classcolor.b)
+					shoppingTooltip2:SetBackdropBorderColor(classcolor.r, classcolor.g, classcolor.b)
+				elseif self then
 					shoppingTooltip1:SetBackdropBorderColor(.05, .05, .05)
 					shoppingTooltip2:SetBackdropBorderColor(.05, .05, .05)
 				end
 			end)
 			
 			hooksecurefunc("GameTooltip_SetBackdropStyle", function(self, style)
-				if self then
+				if UberuiDB.ClassColorFrames then
+					self:SetBackdropBorderColor(classcolor.r, classcolor.g, classcolor.b)
+				elseif self then
 					self:SetBackdropBorderColor(.05, .05, .05);
 				end
 			end)
-			--GameTooltip:SetBackdropBorderColor(.05, .05, .05)
+
 			--GameTooltip.SetBackdropBorderColor = function() end
 			
 			for i,v in pairs({
@@ -334,24 +631,31 @@
 			PlayerHitIndicator.SetText = function() end
 			PetHitIndicator:SetText(nil) 
 			PetHitIndicator.SetText = function() end
- 			for _, child in pairs({WarlockPowerFrame:GetChildren()}) do
-				for _, region in pairs({child:GetRegions()}) do
- 					if region:GetDrawLayer() == "BORDER" then
- 						region:SetVertexColor(.05, .05, .05)
- 					end
-				end
- 			end
 
+		if UberuiDB.ClassColorFrames then
+			TargetFrameSpellBar.Border:SetTexture("Interface\\AddOns\\Uber UI\\textures\\castingbar-small")
+			TargetFrameSpellBar.Border:SetVertexColor(classcolor.r, classcolor.g, classcolor.b)
 		else
-			CastingBarFrameBorder:SetVertexColor(.05,.05,.05)    
+			TargetFrameSpellBar.Border:SetVertexColor(.05,.05,.05)
 		end
-	end)
-   
+
+ 		if UberuiDB.ClassColorFrames then
+ 			CastingBarFrame.Border:SetTexture("Interface\\AddOns\\Uber UI\\textures\\castingbarborder")
+ 			CastingBarFrame.Border:SetVertexColor(classcolor.r, classcolor.g, classcolor.b)
+		else
+			CastingBarFrame.Border:SetVertexColor(.05,.05,.05)    
+		end
+	end
+	MBBB_Toggle()
+	UUI_BigFrames()
+end)
+
+
  -- COLORING THE MAIN BAR
  	local CF=CreateFrame("Frame")
  	CF:RegisterEvent("PLAYER_LOGIN")
  	CF:SetScript("OnEvent", function(self, event)
-		for i,v in pairs({
+		for _,v in pairs({
 			MainMenuBarArtFrameBackground.BackgroundLarge,
 			MainMenuBarArtFrameBackground.BackgroundSmall,
 			SlidingActionBarTexture0,
@@ -361,20 +665,33 @@
 			StatusTrackingBarManager.SingleBarSmall,
 			StatusTrackingBarManager.SingleBarSmallUpper,
 			MicroButtonAndBagsBar.MicroBagBar,
+			MainMenuBarArtFrame.LeftEndCap,
+    	    MainMenuBarArtFrame.RightEndCap,
 		}) do
-			v:SetVertexColor(.2, .2, .2)
-  	
-		end
-    		for i,v in ipairs({
-				MainMenuBarArtFrame.LeftEndCap,
-    		    MainMenuBarArtFrame.RightEndCap, 
-			}) do
-				if UberuiDB.Gryphon then
-					v:SetVertexColor(.35, .35, .35)
+			if UberuiDB.ClassColorFrames then
+				local frameAtlas = v:GetAtlas()
+   				if frameAtlas ~= nil then
+   				   	local txl, txr, txt, txb = select(4, GetAtlasInfo(frameAtlas))
+   				   	v:SetTexture("Interface\\AddOns\\Uber UI\\Textures\\MainMenuBar")
+   				   	v:SetTexCoord(txl, txr, txt, txb)
+   				   	if v == MainMenuBarArtFrame.RightEndCap then
+   				   		v:SetTexCoord(txr, txl, txt, txb)
+   				   	end
+   				   	v:SetVertexColor(classcolor.r, classcolor.g, classcolor.b)
+   				else
+   				   v:SetVertexColor(classcolor.r, classcolor.g, classcolor.b)
+   				end
+   			else 
+   				v:SetVertexColor(.2,.2,.2)
+   			end
+   			if v == MainMenuBarArtFrame.RightEndCap or v == MainMenuBarArtFrame.LeftEndCap then
+   				if UberuiDB.Gryphon then
+					v:Show()
 				else
-    		    	v:Hide()
-    		    end
-    	 	end
+				  	v:Hide()
+				end
+			end
+		end
 	end)
 	
  -- COLORING ARENA FRAMES
@@ -442,3 +759,44 @@
                 	v:SetVertexColor(.05, .05, .05)
 	      	end 
 	end
+	function UUI_BigFrames()
+		if UberuiDB.BigFrames == true then
+			PlayerFrame:SetScale(1.2)
+			TargetFrame:SetScale(1.2)
+		else
+			PlayerFrame:SetScale(1)
+			TargetFrame:SetScale(1)
+		end
+	end
+
+local CF = CreateFrame("Frame")
+local _, instanceType = IsInInstance()
+CF:RegisterEvent("ADDON_LOADED")
+CF:RegisterEvent("PLAYER_ENTERING_WORLD")
+CF:SetScript("OnEvent", function(self, event, addon)
+
+	function MBBB_Toggle()
+		for _,v in pairs({
+			MicroButtonAndBagsBar,
+			CharacterMicroButton,
+			SpellbookMicroButton,
+			TalentMicroButton,
+			AchievementMicroButton,
+			QuestLogMicroButton,
+			GuildMicroButton,
+			LFDMicroButton,
+			EJMicroButton,
+			CollectionsMicroButton,
+			MainMenuMicroButton,
+			StoreMicroButton,
+			HelpMicroButton,
+		}) do
+			if UberuiDB.MBBB then
+				v:Show()
+			else
+				v:Hide()
+			end
+		end
+	end
+	MBBB_Toggle()
+end)

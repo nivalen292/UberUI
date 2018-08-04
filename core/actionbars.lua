@@ -13,9 +13,16 @@
   local dominos = IsAddOnLoaded("Dominos")
   local bartender4 = IsAddOnLoaded("Bartender4")
 
-  if cfg.color.classcolored then
+
+CF = CreateFrame("frame")
+CF:RegisterEvent("ADDON_LOADED")
+CF:SetScript("OnEvent", function(self, event) 
+
+  if UberuiDB.ClassColorFrames then
     cfg.color.normal = classcolor
   end
+
+end)
 
   --backdrop settings
   local bgfile, edgefile = "", ""
@@ -55,7 +62,7 @@
      bu.bg:SetPoint("TOPLEFT", bu, "TOPLEFT", -4, 4)
      bu.bg:SetPoint("BOTTOMRIGHT", bu, "BOTTOMRIGHT", 4, -4)
      bu.bg:SetFrameLevel(bu:GetFrameLevel()-1)
-     if cfg.background.classcolored then
+     if UberuiDB.ClassColorFrames then
        cfg.background.backgroundcolor = classcolor
        cfg.background.shadowcolor = classcolor
      end
@@ -63,14 +70,14 @@
        local t = bu.bg:CreateTexture(nil,"BACKGROUND",-8)
        t:SetTexture(cfg.textures.buttonback)
        --t:SetAllPoints(bu)
-       t:SetVertexColor(cfg.background.backgroundcolor.r,cfg.background.backgroundcolor.g,cfg.background.backgroundcolor.b,cfg.background.backgroundcolor.a)
+       t:SetVertexColor(cfg.background.backgroundcolor.r,cfg.background.backgroundcolor.g,cfg.background.backgroundcolor.b,.3)
      end
      bu.bg:SetBackdrop(backdrop)
     if cfg.background.useflatbackground then
-      bu.bg:SetBackdropColor(cfg.background.backgroundcolor.r,cfg.background.backgroundcolor.g,cfg.background.backgroundcolor.b,cfg.background.backgroundcolor.a)
+      bu.bg:SetBackdropColor(cfg.background.backgroundcolor.r,cfg.background.backgroundcolor.g,cfg.background.backgroundcolor.b,.3)
     end
     if cfg.background.showshadow then
-      bu.bg:SetBackdropBorderColor(cfg.background.shadowcolor.r,cfg.background.shadowcolor.g,cfg.background.shadowcolor.b,cfg.background.shadowcolor.a)
+      bu.bg:SetBackdropBorderColor(cfg.background.shadowcolor.r,cfg.background.shadowcolor.g,cfg.background.shadowcolor.b,.9)
     end
    end
  end
@@ -183,9 +190,9 @@
     cd:SetPoint("TOPLEFT", bu, "TOPLEFT", cfg.cooldown.spacing, -cfg.cooldown.spacing)
     cd:SetPoint("BOTTOMRIGHT", bu, "BOTTOMRIGHT", -cfg.cooldown.spacing, cfg.cooldown.spacing)
     --apply the normaltexture
-    if action and  IsEquippedAction(action) then
-      --bu:SetNormalTexture(cfg.textures.equipped)
-      nt:SetVertexColor(cfg.color.equipped.r,cfg.color.equipped.g,cfg.color.equipped.b,1)
+    if action and (IsEquippedAction(action)) then
+      bu:SetNormalTexture(cfg.textures.equipped)
+      --nt:SetVertexColor(cfg.color.equipped.r,cfg.color.equipped.g,cfg.color.equipped.b,1)
     else
       bu:SetNormalTexture(cfg.textures.normal)
       nt:SetVertexColor(cfg.color.normal.r,cfg.color.normal.g,cfg.color.normal.b,1)
@@ -196,11 +203,13 @@
     hooksecurefunc(nt, "SetVertexColor", function(nt, r, g, b, a)
       local bu = nt:GetParent()
       local action = bu.action
-      --print("bu"..bu:GetName().."R"..r.."G"..g.."B"..b)
+      --print(bu:GetName(), IsEquippedAction(action))
+      --print("bu "..bu:GetName().." R"..r.." G"..g.." B"..b)
       if r==1 and g==1 and b==1 and action and (IsEquippedAction(action)) then
         if cfg.color.equipped.r == 1 and  cfg.color.equipped.g == 1 and  cfg.color.equipped.b == 1 then
           nt:SetVertexColor(0.999,0.999,0.999,1)
         else
+          bu:SetNormalTexture(cfg.textures.equipped)
           nt:SetVertexColor(cfg.color.equipped.r,cfg.color.equipped.g,cfg.color.equipped.b,1)
         end
       elseif r==0.5 and g==0.5 and b==1 then
@@ -208,13 +217,16 @@
         if cfg.color.normal.r == 0.5 and  cfg.color.normal.g == 0.5 and  cfg.color.normal.b == 1 then
           nt:SetVertexColor(0.499,0.499,0.999,1)
         else
+          bu:SetNormalTexture(cfg.textures.normal)
           nt:SetVertexColor(cfg.color.normal.r,cfg.color.normal.g,cfg.color.normal.b,1)
         end
       elseif r==1 and g==1 and b==1 then
         if cfg.color.normal.r == 1 and  cfg.color.normal.g == 1 and  cfg.color.normal.b == 1 then
+          bu:SetNormalTexture(cfg.textures.normal)
           nt:SetVertexColor(0.999,0.999,0.999,1)
         else
-          nt:SetVertexColor(cfg.color.normal.r,cfg.color.normal.g,cfg.color.normal.b,1)
+          bu:SetNormalTexture(cfg.textures.normal)
+          nt:SetVertexColor(cfg.color.normal.r,cfg.color.normal.g,cfg.color.normal.b,.5)
         end
       end
     end)
@@ -236,7 +248,7 @@
 	local bo = bu:CreateTexture(name.."Border", "BACKGROUND", nil, -7)
 	nt:SetTexCoord(0.2,0.8,0.2,0.8)
 	nt:SetPoint("TOPLEFT", bu, "TOPLEFT", 2, -2)
-    nt:SetPoint("BOTTOMRIGHT", bu, "BOTTOMRIGHT", -2, 2)
+  nt:SetPoint("BOTTOMRIGHT", bu, "BOTTOMRIGHT", -2, 2)
 	bo:SetTexture(cfg.textures.normal)
 	bo:SetTexCoord(0, 1, 0, 1)
 	bo:SetDrawLayer("BACKGROUND",- 7)
@@ -356,12 +368,12 @@ local function styleBag(bu)
         		self:SetNormalTexture(cfg.textures.normal)
       		end
    	 end)
-	bu.Back = CreateFrame("Frame", nil, bu)
-		bu.Back:SetPoint("TOPLEFT", bu, "TOPLEFT", -4, 4)
-		bu.Back:SetPoint("BOTTOMRIGHT", bu, "BOTTOMRIGHT", 4, -4)
-		bu.Back:SetFrameLevel(bu:GetFrameLevel() - 1)
-		bu.Back:SetBackdrop(backdrop)
-		bu.Back:SetBackdropBorderColor(0, 0, 0, 0.9)
+	--bu.Back = CreateFrame("Frame", nil, bu)
+	--	bu.Back:SetPoint("TOPLEFT", bu, "TOPLEFT", -4, 4)
+	--	bu.Back:SetPoint("BOTTOMRIGHT", bu, "BOTTOMRIGHT", 4, -4)
+	--	bu.Back:SetFrameLevel(bu:GetFrameLevel() - 1)
+	--	bu.Back:SetBackdrop(backdrop)
+	--	bu.Back:SetBackdropBorderColor(0, 0, 0, 0.9)
 end
 
   --update hotkey func
@@ -390,9 +402,9 @@ end
 		styleBag(_G["CharacterBag"..i.."Slot"])
     end
 	styleBag(MainMenuBarBackpackButton)
-    for i = 1, 6 do
-      styleActionButton(_G["OverrideActionBarButton"..i])
-    end
+    --for i = 1,6 do
+    --  styleActionButton(_G["OverrideActionBarButton"..i])
+    --end
     --style leave button
 	styleLeaveButton(MainMenuBarVehicleLeaveButton)
     styleLeaveButton(rABS_LeaveVehicleButton)
@@ -422,6 +434,8 @@ end
       end
     end
     SpellFlyout:HookScript("OnShow",checkForFlyoutButtons)
+
+
 
     --dominos styling
     if dominos then
