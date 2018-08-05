@@ -1,1 +1,5 @@
-Added exception in to not conflict with Easy Frames.
+Additions:
+	Class Color Health and Frames
+	Bigger Player / Target frames
+	Larger Health Bar Size
+	MicroMenu Toggle

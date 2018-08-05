@@ -778,23 +778,17 @@ CF:SetScript("OnEvent", function(self, event, addon)
 	function MBBB_Toggle()
 		for _,v in pairs({
 			MicroButtonAndBagsBar,
-			CharacterMicroButton,
-			SpellbookMicroButton,
-			TalentMicroButton,
-			AchievementMicroButton,
-			QuestLogMicroButton,
-			GuildMicroButton,
-			LFDMicroButton,
-			EJMicroButton,
-			CollectionsMicroButton,
-			MainMenuMicroButton,
-			StoreMicroButton,
-			HelpMicroButton,
 		}) do
 			if UberuiDB.MBBB then
-				v:Show()
+				local point, rf, rp, ofsx, ofxy = v:GetPoint()
+				v:ClearAllPoints()
+				v:SetPoint(point, rf, rp, ofsx, ofxy-500)
 			else
-				v:Hide()
+				local point, rf, rp, ofsx, ofxy = v:GetPoint()
+				if ofxy ~= 0 then
+					v:ClearAllPoints()
+					v:SetPoint(point, rf, rp, ofsx, ofxy+500)
+				end
 			end
 		end
 	end
