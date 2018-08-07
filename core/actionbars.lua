@@ -1,16 +1,17 @@
-﻿---------------------------------------
--- VARIABLES
----------------------------------------
---get the addon namespace
-local addon, ns = ...
-local uui_ActionBars
+  ---------------------------------------
+  -- VARIABLES
+  ---------------------------------------
 
---get the config values
-local cfg = ns.cfg
-local classcolor = RAID_CLASS_COLORS[select(2, UnitClass("player"))]
-local class = UnitClass("player")
-local dominos = IsAddOnLoaded("Dominos")
-local bartender4 = IsAddOnLoaded("Bartender4")
+  --get the addon namespace
+  local addon, ns = ...
+
+  --get the config values
+  local cfg = ns.cfg
+
+  local classcolor = RAID_CLASS_COLORS[select(2, UnitClass("player"))]
+  local class = UnitClass("player")
+  local dominos = IsAddOnLoaded("Dominos")
+  local bartender4 = IsAddOnLoaded("Bartender4")
 
 
 CF = CreateFrame("frame")
@@ -225,7 +226,7 @@ end)
           nt:SetVertexColor(0.999,0.999,0.999,1)
         else
           bu:SetNormalTexture(cfg.textures.normal)
-          nt:SetVertexColor(cfg.color.normal.r,cfg.color.normal.g,cfg.color.normal.b,.5)
+          nt:SetVertexColor(cfg.color.normal.r,cfg.color.normal.g,cfg.color.normal.b,1)
         end
       end
     end)
