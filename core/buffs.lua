@@ -45,6 +45,11 @@
     self:SetUserPlaced(true)
   end
 
+CF = CreateFrame("frame")
+CF:RegisterEvent("ADDON_LOADED")
+CF:SetScript("OnEvent", function(self)
+
+
   ---------------------------------------
   -- LOCALS
   ---------------------------------------
@@ -124,11 +129,12 @@
       cfg = ns.cfg.buffFrame
       backdrop = backdropBuff
     end
+
     --check class coloring options
-    if cfg.border.classcolored then
+    if UberuiDB.ClassColorFrames then
       cfg.border.color = classColor
     end
-    if cfg.background.classcolored then
+    if UberuiDB.ClassColorFrames then
       cfg.background.color = classColor
     end
 
@@ -323,3 +329,4 @@
   --hook Blizzard functions
   hooksecurefunc("BuffFrame_UpdateAllBuffAnchors", updateAllBuffAnchors)
   hooksecurefunc("DebuffButton_UpdateAnchors", updateDebuffAnchors)
+end)

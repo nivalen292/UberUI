@@ -22,7 +22,11 @@ local defaults = {
     Gryphon = true,
     Hotkey   = true,
     Macroname = false, 
-    Classcolor = false, --Not yet enabled
+    LargeHealth = true,
+    ClassColorHealth = true,
+    ClassColorFrames = false,
+    BigFrames = true,
+    MBBB = true,
 }
 
 function cfg:PLAYER_LOGIN()
@@ -50,12 +54,13 @@ end
 -- action bars settings
   cfg.textures = {
     normal            = "Interface\\AddOns\\Uber UI\\textures\\gloss",
+    light             = "Interface\\AddOns\\Uber UI\\textures\\glosslight",
     flash             = "Interface\\AddOns\\Uber UI\\textures\\flash",
     hover             = "Interface\\AddOns\\Uber UI\\textures\\hover",
     pushed            = "Interface\\AddOns\\Uber UI\\textures\\pushed",
     checked           = "Interface\\AddOns\\Uber UI\\textures\\checked",
     equipped          = "Interface\\AddOns\\Uber UI\\textures\\gloss_grey",
-    buttonback        = "Interface\\AddOns\\Uber UI\\textures\\button_background",
+    buttonback        = "Interface\\AddOns\\Uber UI\\textures\\button_backgroundlight",
     buttonbackflat    = "Interface\\AddOns\\Uber UI\\textures\\button_background_flat",
     outer_shadow      = "Interface\\AddOns\\Uber UI\\textures\\outer_shadow",
   }
@@ -66,14 +71,14 @@ end
     useflatbackground = false,  --true uses plain flat color instead
     backgroundcolor   = { r = 0.2, g = 0.2, b = 0.2, a = 0.3},
     shadowcolor       = { r = 0, g = 0, b = 0, a = 0.9},
-    classcolored      = false,
+    classcolored      = true,
     inset             = 5,
   }
 
   cfg.color = {
     normal            = { r = 0.37, g = 0.3, b = 0.3, },
     equipped          = { r = 0.1, g = 0.5, b = 0.1, },
-    classcolored      = false,
+    classcolored      = true,
   }
 
   cfg.hotkeys = {
@@ -136,7 +141,7 @@ end
       show              = true,   --show backdrop
       edgeFile          = "Interface\\AddOns\\Uber UI\\textures\\outer_shadow",
       color             = { r = 0, g = 0, b = 0, a = 0.9},
-      classcolored      = false,
+      classcolored      = true,
       inset             = 6,
       padding           = 4,
     },
@@ -175,7 +180,7 @@ end
       show              = true,   --show backdrop
       edgeFile          = "Interface\\AddOns\\Uber UI\\textures\\outer_shadow",
       color             = { r = 0, g = 0, b = 0, a = 0.9},
-      classcolored      = false,
+      classcolored      = true,
       inset             = 6,
       padding           = 4,
     },
