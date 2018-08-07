@@ -16,12 +16,6 @@ uui_TargetFrame:SetScript("OnEvent", function(self, event)
 		if uuidb.general.largehealth then
 			self:StyleTargetFrame()
 		end
-		hooksecurefunc("TargetFrame_CheckClassification", uui_TargetFrame_TargetType)
-
-		if tar.classcolorhealth then
-		hooksecurefunc("UnitFrameHealthBar_Update", uui_TargetFrame_ClassColorHealth)
-		hooksecurefunc("HealthBar_OnValueChanged", uui_TargetFrame_ClassColorHealth)
-		end
 	end
 end)
 
