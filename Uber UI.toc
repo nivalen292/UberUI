@@ -1,5 +1,5 @@
 ## Interface: 80000
-## Version: 1.0.1
+## Version: 8.0.1
 
 ## Author: lorti, Uberlicious
 ## Notes: Darkens and modifies original Blizzard UI.
@@ -10,7 +10,11 @@
 config.lua
 options.lua
 
-core\frames.lua
+core\general.lua
+core\playerframe.lua
+core\targetframe.lua
+core\minimap.lua
 core\buffs.lua
 core\actionbars.lua
 core\auras.lua
+core\miscframes.lua

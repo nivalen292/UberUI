@@ -10,7 +10,7 @@ uui_Minimap:SetScript("OnEvent", function(self, event)
 	end
 end)
 
-function uui_Minimap:Color(r,g,b,a)
+function uui_Minimap:Color(color)
 	MinimapBorder:SetTexture(uuidb.minimap.texture)
 	for _,v in pairs({
 		MinimapBorder,
@@ -18,12 +18,12 @@ function uui_Minimap:Color(r,g,b,a)
 		QueueStatusMinimapButtonBorder,
 		select(1, TimeManagerClockButton:GetRegions()),
     }) do
-		v:SetVertexColor(r,g,b,a)
+		v:SetVertexColor(color)
 	end
 	select(2, TimeManagerClockButton:GetRegions()):SetVertexColor(1,1,1)
 end
 
-function uui_Minimap:GarrisonBtn(r,g,b,a)
+function uui_Minimap:GarrisonBtn(color)
 	hooksecurefunc("GarrisonLandingPageMinimapButton_UpdateIcon", function(self)
 		self:GetNormalTexture():SetTexture(nil)
 		self:GetPushedTexture():SetTexture(nil)
@@ -41,7 +41,7 @@ function uui_Minimap:GarrisonBtn(r,g,b,a)
 			gb.border:SetAllPoints()
 			gb.border.texture = gb.border:CreateTexture(nil, "ARTWORK")
 			gb.border.texture:SetTexture("Interface\\PlayerFrame\\UI-PlayerFrame-Deathknight-Ring")
-			gb.border.textuer:SetVertexColor(r,g,b,a)
+			gb.border.textuer:SetVertexColor(color)
 			gb.border.texture:SetPoint("CENTER", 1, -2)
 			gb.border.texture:SetSize(45,45)
 		end
@@ -93,10 +93,10 @@ end
 
 function uui_Minimap:ReworkColorAll()
 	if uuidb.general.customcolor then
-		local r,g,b,a = unpack(uuidb.general.customcolor)
+		color = uuidb.general.customcolorval
 	else
-		local r,g,b,a = unpack(uuidb.minimap.colors)
+		color = uuidb.minimap.color
 	end
-	self.Color(r,g,b,a)
-	self.MinimapBtn(r,g,b,a)
+	self.Color(color)
+	self.MinimapBtn(color)
 end
