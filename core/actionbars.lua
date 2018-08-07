@@ -1,17 +1,16 @@
-﻿  ---------------------------------------
-  -- VARIABLES
-  ---------------------------------------
+﻿---------------------------------------
+-- VARIABLES
+---------------------------------------
+--get the addon namespace
+local addon, ns = ...
+local uui_ActionBars
 
-  --get the addon namespace
-  local addon, ns = ...
-
-  --get the config values
-  local cfg = ns.cfg
-
-  local classcolor = RAID_CLASS_COLORS[select(2, UnitClass("player"))]
-  local class = UnitClass("player")
-  local dominos = IsAddOnLoaded("Dominos")
-  local bartender4 = IsAddOnLoaded("Bartender4")
+--get the config values
+local cfg = ns.cfg
+local classcolor = RAID_CLASS_COLORS[select(2, UnitClass("player"))]
+local class = UnitClass("player")
+local dominos = IsAddOnLoaded("Dominos")
+local bartender4 = IsAddOnLoaded("Bartender4")
 
 
 CF = CreateFrame("frame")

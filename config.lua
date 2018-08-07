@@ -19,15 +19,49 @@ cfg:SetScript("OnEvent", function(self, event, ...) return self[event] and self[
 cfg:RegisterEvent("PLAYER_LOGIN")
 
 local defaults = {
-    Gryphon = true,
-    Hotkey   = true,
-    Macroname = false, 
-    LargeHealth = true,
-    ClassColorHealth = true,
-    ClassColorFrames = false,
-    BigFrames = true,
-    MBBB = true,
+  general = {
+    classcolorhealth      = true,
+    classcolorframes      = false,
+    customolor            = false,
+  },
+  mainmenu = {
+    gryphon               = true,
+    microbuttonbar        = true,
+    gryphcolor            = {.35,.35,.35},
+    mainbarcolor          = {.2,.2,.2},
+  },
+  playerframe = {
+    largehealth           = true,
+    scale                 = 1.2,
+    color                 = {.05,.05,.05},
+  },
+  targetframe = {
+    largehealth           = true,
+    scale                 = 1.2,
+    color                 = {.05,.05,.05},
+  },
+  minimap = {
+    color                 = {.05,.05,.05}
+  },
+  buffs = {
+  },
+  auras = {
+  },
+  actionbars = {
+    
+  },
 }
+
+--local defaults = {
+--    Gryphon = true,
+--    Hotkey   = true,
+--    Macroname = false, 
+--    LargeHealth = true,
+--    ClassColorHealth = true,
+--    ClassColorFrames = false,
+--    BigFrames = true,
+--    MBBB = true,
+--}
 
 function cfg:PLAYER_LOGIN()
   --print("LOGIN")

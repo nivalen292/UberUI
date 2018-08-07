@@ -1,5 +1,7 @@
 ﻿--get the addon namespace
 local addon, ns = ...
+local uui_Auras
+
 --get the config values
 local cfg = ns.cfg
 

@@ -1,49 +1,51 @@
 
-  --get the addon namespace
-  local addon, ns = ...
-  --get the config values
-  local cfg = ns.cfg
-  local dragFrameList = ns.dragFrameList
+--get the addon namespace
+local addon, ns = ...
+local uui_Buffs
 
-  -----------------------------
-  -- GLOBAL FUNCTIONS
-  -----------------------------
+--get the config values
+local cfg = ns.cfg
+local dragFrameList = ns.dragFrameList
 
-  --rCreateDragFrame func
-  function rCreateDragFrame(self, dragFrameList, inset, clamp)
-    if not self or not dragFrameList then return end
-    --save the default position for later
-    self.defaultPoint = rGetPoint(self)
-    table.insert(dragFrameList,self) --add frame object to the list
-    --anchor a dragable frame on self
-    local df = CreateFrame("Frame",nil,self)
-    df:SetAllPoints(self)
-    df:SetFrameStrata("HIGH")
-    df:SetHitRectInsets(inset or 0,inset or 0,inset or 0,inset or 0)
-    df:EnableMouse(true)
-    df:RegisterForDrag("LeftButton")
-    df:SetScript("OnDragStart", function(self) if IsAltKeyDown() and IsShiftKeyDown() then self:GetParent():StartMoving() end end)
-    df:SetScript("OnDragStop", function(self) self:GetParent():StopMovingOrSizing() end)
-    df:SetScript("OnEnter", function(self)
-      GameTooltip:SetOwner(self, "ANCHOR_TOP")
-      GameTooltip:AddLine(self:GetParent():GetName(), 0, 1, 0.5, 1, 1, 1)
-      GameTooltip:AddLine("Hold down ALT+SHIFT to drag!", 1, 1, 1, 1, 1, 1)
-      GameTooltip:Show()
-    end)
-    df:SetScript("OnLeave", function(s) GameTooltip:Hide() end)
-    df:Hide()
-    --overlay texture
-    local t = df:CreateTexture(nil,"OVERLAY",nil,6)
-    t:SetAllPoints(df)
-    t:SetTexture(0,1,0)
-    t:SetAlpha(0.2)
-    df.texture = t
-    --self stuff
-    self.dragFrame = df
-    self:SetClampedToScreen(clamp or false)
-    self:SetMovable(true)
-    self:SetUserPlaced(true)
-  end
+-----------------------------
+-- GLOBAL FUNCTIONS
+-----------------------------
+
+--rCreateDragFrame func
+function rCreateDragFrame(self, dragFrameList, inset, clamp)
+  if not self or not dragFrameList then return end
+  --save the default position for later
+  self.defaultPoint = rGetPoint(self)
+  table.insert(dragFrameList,self) --add frame object to the list
+  --anchor a dragable frame on self
+  local df = CreateFrame("Frame",nil,self)
+  df:SetAllPoints(self)
+  df:SetFrameStrata("HIGH")
+  df:SetHitRectInsets(inset or 0,inset or 0,inset or 0,inset or 0)
+  df:EnableMouse(true)
+  df:RegisterForDrag("LeftButton")
+  df:SetScript("OnDragStart", function(self) if IsAltKeyDown() and IsShiftKeyDown() then self:GetParent():StartMoving() end end)
+  df:SetScript("OnDragStop", function(self) self:GetParent():StopMovingOrSizing() end)
+  df:SetScript("OnEnter", function(self)
+    GameTooltip:SetOwner(self, "ANCHOR_TOP")
+    GameTooltip:AddLine(self:GetParent():GetName(), 0, 1, 0.5, 1, 1, 1)
+    GameTooltip:AddLine("Hold down ALT+SHIFT to drag!", 1, 1, 1, 1, 1, 1)
+    GameTooltip:Show()
+  end)
+  df:SetScript("OnLeave", function(s) GameTooltip:Hide() end)
+  df:Hide()
+  --overlay texture
+  local t = df:CreateTexture(nil,"OVERLAY",nil,6)
+  t:SetAllPoints(df)
+  t:SetTexture(0,1,0)
+  t:SetAlpha(0.2)
+  df.texture = t
+  --self stuff
+  self.dragFrame = df
+  self:SetClampedToScreen(clamp or false)
+  self:SetMovable(true)
+  self:SetUserPlaced(true)
+end
 
 CF = CreateFrame("frame")
 CF:RegisterEvent("ADDON_LOADED")

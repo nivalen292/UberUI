@@ -1,9 +1,12 @@
-  ---------------------------------------
-  -- VARIABLES
-  ---------------------------------------
+---------------------------------------
+-- VARIABLES
+---------------------------------------
 
-  --get the addon namespace
-  local addon, ns = ...
+--get the addon namespace
+local addon, ns = ...
+local uui_MainMenu
+
+
   --get the config values
   local cfg = ns.cfg
   local dragFrameList = ns.dragFrameList
