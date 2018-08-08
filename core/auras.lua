@@ -1,43 +1,44 @@
 --get the addon namespace
 local addon, ns = ...
---get the config values
-local cfg = ns.cfg
+uui_Auras = {}
 
- ---------------------------------------
- -- LOCALS
- ---------------------------------------
+local uui_Auras = CreateFrame("frame")
+uui_Auras:RegisterEvent("ADDON_LOADED")
+uui_Auras:SetScript("OnEvent", function(self,event)
+	initlocals()
+	uui_Auras_ReworkAllColors()
+end)
 
---classcolor
-local classColor = RAID_CLASS_COLORS[select(2, UnitClass("player"))]
-
---backdrop
-local backdrop = {
-	bgFile = nil,
-	edgeFile = "Interface\\AddOns\\Uber UI\\textures\\outer_shadow",
-	tile = false,
-	tileSize = 32,
-	edgeSize = 4,
-	insets = {
-		left = 4,
-		right = 4,
-		top = 4,
-		bottom = 4,
-	},
-}
+local function initlocals()
+	--backdrop
+	local backdrop = {
+		bgFile = nil,
+		edgeFile = "Interface\\AddOns\\Uber UI\\textures\\outer_shadow",
+		tile = false,
+		tileSize = 32,
+		edgeSize = 4,
+		insets = {
+			left = 4,
+			right = 4,
+			top = 4,
+			bottom = 4,
+		},
+	}
+end
 
  ---------------------------------------
   -- FUNCTIONS
  ---------------------------------------
 
 --apply aura frame texture func
-local function applySkin(b)
+local function applySkin(b, color)
 	if not b or (b and b.styled) then return end
 	--button name
 	local name = b:GetName()
 	if (name:match("Debuff")) then
 		b.debuff = true
-   	else
-   		b.buff = true
+	else
+		b.buff = true
 	end
 	--icon
 	local icon = _G[name.."Icon"]
@@ -50,7 +51,11 @@ local function applySkin(b)
 	border:SetTexCoord(0, 1, 0, 1)
 	border:SetDrawLayer("BACKGROUND",- 7)
 	if b.buff then
-		border:SetVertexColor(0.4, 0.35, 0.35)
+		if (UnitIsConnected(border.unit)) and uuidb.targetframe.colortargett then
+			uui_General_ClassColored(border, border.unit)
+		else
+			border:SetVertexColor(color.r, color.g, color.b, color.a)
+		end
 	end
 	border:ClearAllPoints()
 	border:SetPoint("TOPLEFT", b, "TOPLEFT", -1, 1)
@@ -70,7 +75,7 @@ end
 
 --apply castbar texture
 
-local function applycastSkin(b)
+local function applycastSkin(b, color)
 	if not b or (b and b.styled) then return end
 	-- parent
 	if b == TargetFrameSpellBar.Icon then
@@ -78,20 +83,26 @@ local function applycastSkin(b)
 	else
 		b.parent = FocusFrameSpellBar
 	end
+
 	-- frame
 	frame = CreateFrame("Frame", nil, b.parent)
-    	--icon
-    	b:SetTexCoord(0.1, 0.9, 0.1, 0.9)
-    	--border
-    	local border = frame:CreateTexture(nil, "BACKGROUND")
-    	border:SetTexture("Interface\\AddOns\\Uber UI\\textures\\gloss")
-    	border:SetTexCoord(0, 1, 0, 1)
-    	border:SetDrawLayer("BACKGROUND",- 7)
-	border:SetVertexColor(0.4, 0.35, 0.35)
-    	border:ClearAllPoints()
+	--icon
+	b:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+	--border
+	local border = frame:CreateTexture(nil, "BACKGROUND")
+	border:SetTexture("Interface\\AddOns\\Uber UI\\textures\\gloss")
+	border:SetTexCoord(0, 1, 0, 1)
+	border:SetDrawLayer("BACKGROUND",- 7)
+	border:ClearAllPoints()
 	border:SetPoint("TOPLEFT", b, "TOPLEFT", -1, 1)
-      	border:SetPoint("BOTTOMRIGHT", b, "BOTTOMRIGHT", 1, -1)
-    	b.border = border
+	border:SetPoint("BOTTOMRIGHT", b, "BOTTOMRIGHT", 1, -1)
+	--border color
+	if (UnitIsConnected(border.unit)) and uuidb.targetframe.colortargett then
+		uui_General_ClassColored(border, border.unit)
+	else
+		border:SetVertexColor(color.r, color.g, color.b, color.a)
+	end
+	b.border = border
 	--shadow
 	local back = CreateFrame("Frame", nil, b.parent)
 	back:SetPoint("TOPLEFT", b, "TOPLEFT", -4, 4)
@@ -104,8 +115,10 @@ local function applycastSkin(b)
 	b.styled = true
 end
 
+total = 0
+uui_Auras_Timer = CreateFrame("frame")
+uui_Auras_Timer:SetScript("OnEvent", UpdateTimer)
 -- setting timer for castbar icons
-
 function UpdateTimer(self, elapsed)
 	total = total + elapsed
 	if TargetFrameSpellBar.Icon then 
@@ -115,35 +128,30 @@ function UpdateTimer(self, elapsed)
 		applycastSkin(FocusFrameSpellBar.Icon)
 	end
 	if TargetFrameSpellBar.Icon.styled and FocusFrameSpellBar.Icon.styled then
-		cf:SetScript("OnUpdate", nil)
+		uui_Auras_Timer:SetScript("OnUpdate", nil)
 	end
 end
 
- ---------------------------------------
-  -- INIT
- ---------------------------------------
-
-hooksecurefunc("TargetFrame_UpdateAuras", function(self)
-	for i = 1, MAX_TARGET_BUFFS do
-		b = _G["TargetFrameBuff"..i]
-		applySkin(b)
+function uui_Auras_ReworkAllColors(color)
+	if not (color) then
+		color = uuidb.auras.color
 	end
-	for i = 1, MAX_TARGET_DEBUFFS do
-		b = _G["TargetFrameDebuff"..i]
-		applySkin(b)
-	end
-	for i = 1, MAX_TARGET_BUFFS do
-		b = _G["FocusFrameBuff"..i]
-		applySkin(b)
-	end
-	for i = 1, MAX_TARGET_DEBUFFS do
-		b = _G["FocusFrameDebuff"..i]
-		applySkin(b)
-	end
-end)
-
-
-	
-total = 0
-cf = CreateFrame("Frame")
-cf:SetScript("OnUpdate", UpdateTimer)
+	hooksecurefunc("TargetFrame_UpdateAuras", function(self)
+		for i = 1, MAX_TARGET_BUFFS do
+			b = _G["TargetFrameBuff"..i]
+			applySkin(b, color)
+		end
+		for i = 1, MAX_TARGET_DEBUFFS do
+			b = _G["TargetFrameDebuff"..i]
+			applySkin(b, color)
+		end
+		for i = 1, MAX_TARGET_BUFFS do
+			b = _G["FocusFrameBuff"..i]
+			applySkin(b, color)
+		end
+		for i = 1, MAX_TARGET_DEBUFFS do
+			b = _G["FocusFrameDebuff"..i]
+			applySkin(b, color)
+		end
+	end)
+end

@@ -5,12 +5,11 @@ uui_Minimap=CreateFrame("frame")
 uui_Minimap:RegisterEvent("ADDON_LOADED")
 uui_Minimap:SetScript("OnEvent", function(self, event)
 	if not (IsAddOnLoaded("SexyMap")) then
-		self:MinimapRework()
-		self:Other()
+		uui_Minimap_Other()
 	end
 end)
 
-function uui_Minimap:Color(color)
+function uui_Minimap_Color(color)
 	MinimapBorder:SetTexture(uuidb.minimap.texture)
 	for _,v in pairs({
 		MinimapBorder,
@@ -18,12 +17,12 @@ function uui_Minimap:Color(color)
 		QueueStatusMinimapButtonBorder,
 		select(1, TimeManagerClockButton:GetRegions()),
     }) do
-		v:SetVertexColor(color)
+		v:SetVertexColor(color.r, color.g, color.b, color.a)
 	end
 	select(2, TimeManagerClockButton:GetRegions()):SetVertexColor(1,1,1)
 end
 
-function uui_Minimap:GarrisonBtn(color)
+function uui_Minimap_GarrisonBtn(color)
 	hooksecurefunc("GarrisonLandingPageMinimapButton_UpdateIcon", function(self)
 		self:GetNormalTexture():SetTexture(nil)
 		self:GetPushedTexture():SetTexture(nil)
@@ -41,7 +40,7 @@ function uui_Minimap:GarrisonBtn(color)
 			gb.border:SetAllPoints()
 			gb.border.texture = gb.border:CreateTexture(nil, "ARTWORK")
 			gb.border.texture:SetTexture("Interface\\PlayerFrame\\UI-PlayerFrame-Deathknight-Ring")
-			gb.border.textuer:SetVertexColor(color)
+			gb.border.textuer:SetVertexColor(color.r, color.g, color.b, color.a)
 			gb.border.texture:SetPoint("CENTER", 1, -2)
 			gb.border.texture:SetSize(45,45)
 		end
@@ -59,7 +58,7 @@ function uui_Minimap:GarrisonBtn(color)
 	end)
 end
 
-function uui_Minimap:Other()
+function uui_Minimap_Other()
   	MinimapBorderTop:Hide()
 	MinimapZoomIn:Hide()
 	MinimapZoomOut:Hide()
@@ -91,12 +90,10 @@ function uui_Minimap:Other()
 	end)
 end
 
-function uui_Minimap:ReworkColorAll()
-	if uuidb.general.customcolor then
-		color = uuidb.general.customcolorval
-	else
+function uui_Minimap_ReworkAllColor(color)
+	if not (color) then
 		color = uuidb.minimap.color
 	end
-	self.Color(color)
-	self.MinimapBtn(color)
+	uui_Minimap_Color(color)
+	uui_Minimap_GarrisonBtn(color)
 end

@@ -8,13 +8,14 @@
 ## SavedVariables: UberuiDB
 
 config.lua
-options.lua
+#options.lua
 
-core\general.lua
-core\playerframe.lua
-core\targetframe.lua
-core\minimap.lua
-core\buffs.lua
-core\actionbars.lua
-core\auras.lua
-core\miscframes.lua
+#core\general.lua
+#core\playerframe.lua
+#core\targetframe.lua
+#core\minimap.lua
+#core\buffs.lua
+#core\actionbars.lua
+#core\auras.lua
+#core\miscframes.lua
+#core\arenaframes.lua

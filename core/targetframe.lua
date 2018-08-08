@@ -14,68 +14,73 @@ uui_TargetFrame:RegisterEvent("ADDON_LOADED")
 uui_TargetFrame:SetScript("OnEvent", function(self, event)
 	if not (IsAddOnLoaded("EasyFrames")) then
 		if uuidb.general.largehealth then
-			self:StyleTargetFrame()
+			hooksecurefunc("TargetFrame_CheckClassification", StyleTargetFrame)
 		end
 	end
 end)
 
-function uui_TargetFrame:StyleTargetFrame(self, forceNormalTexture)
-	self.deadText:ClearAllPoints()
-	self.deadText:SetPoint("CENTER", self.healthbar, "CENTER", 0, 0)
-	self.levelText:SetPoint("RIGHT", self.healthbar, "BOTTOMRIGHT", 63, 10)
-	self.nameBackground:Hide()
-	self.Background:SetSize(119, 42)
-	self.manabar.pauseUpdates = false
-	self.manabar:Show()
-	TextStatusBar_UpdateTextString(self.manabar)
-	self.threatIndicator:SetTexture("Interface\\TargetingFrame\\UI-TargetingFrame-Flash")
-	self.name:SetPoint("LEFT", self, 15, 36)
-	self.healthbar:SetSize(119, 29)
-	self.healthbar:ClearAllPoints()
-	self.healthbar:SetPoint("TOPLEFT", 5, -24)
-	self.healthbar.LeftText:ClearAllPoints()
-	self.healthbar.LeftText:SetPoint("LEFT", self.healthbar, "LEFT", 8, 0)
-	self.healthbar.RightText:ClearAllPoints()
-	self.healthbar.RightText:SetPoint("RIGHT", self.healthbar, "RIGHT", -5, 0)
-	self.healthbar.TextString:SetPoint("CENTER", self.healthbar, "CENTER", 0, 0)
-	self.manabar:ClearAllPoints()
-	self.manabar:SetPoint("TOPLEFT", 5, -52)
-	self.manabar:SetSize(119, 13)
-	self.manabar.LeftText:ClearAllPoints()
-	self.manabar.LeftText:SetPoint("LEFT", self.manabar, "LEFT", 8, 0)
-	self.manabar.RightText:ClearAllPoints()
-	self.manabar.RightText:SetPoint("RIGHT", self.manabar, "RIGHT", -5, 0)
-	self.manabar.TextString:SetPoint("CENTER", self.manabar, "CENTER", 0, 0)
-
-	--TargetOfTarget
-	TargetFrameToTHealthBar:ClearAllPoints()
-	TargetFrameToTHealthBar:SetPoint("TOPLEFT", 44, -15)
-	TargetFrameToTHealthBar:SetHeight(8)
-	TargetFrameToTManaBar:ClearAllPoints()
-	TargetFrameToTManaBar:SetPoint("TOPLEFT", 44, -24)
-	TargetFrameToTManaBar:SetHeight(5)
-	FocusFrameToTHealthBar:ClearAllPoints()
-	FocusFrameToTHealthBar:SetPoint("TOPLEFT", 45, -15)
-	FocusFrameToTHealthBar:SetHeight(8)
-	FocusFrameToTManaBar:ClearAllPoints()
-	FocusFrameToTManaBar:SetPoint("TOPLEFT", 45, -25)
-	FocusFrameToTManaBar:SetHeight(3)
-	FocusFrameToT.deadText:SetWidth(0.01)
-end
-
-function uui_TargetFrame_TargetType()
-	-- get frame style
+function uui_TargetFrame_StyleTargetFrame(self, forceNormalTexture)
 	if tar.largehealth then
-		frametexture = uuidb.textures.targetframebig
+		local frametexture = uuidb.textures.targetframebig
+		self.deadText:ClearAllPoints()
+		self.deadText:SetPoint("CENTER", self.healthbar, "CENTER", 0, 0)
+		self.levelText:SetPoint("RIGHT", self.healthbar, "BOTTOMRIGHT", 63, 10)
+		self.nameBackground:Hide()
+		self.Background:SetSize(119, 42)
+		self.manabar.pauseUpdates = false
+		self.manabar:Show()
+		self.name:Hide()
+		self.SetScale(tar.scale)
+		TextStatusBar_UpdateTextString(self.manabar)
+		self.threatIndicator:SetTexture("Interface\\TargetingFrame\\UI-TargetingFrame-Flash")
+		self.healthbar:SetSize(119, 29)
+		self.healthbar:ClearAllPoints()
+		self.healthbar:SetPoint("TOPLEFT", 5, -24)
+		self.healthbar.LeftText:ClearAllPoints()
+		self.healthbar.LeftText:SetPoint("LEFT", self.healthbar, "LEFT", 8, 0)
+		self.healthbar.RightText:ClearAllPoints()
+		self.healthbar.RightText:SetPoint("RIGHT", self.healthbar, "RIGHT", -5, 0)
+		self.healthbar.TextString:SetPoint("CENTER", self.healthbar, "CENTER", 0, 0)
+		self.manabar:ClearAllPoints()
+		self.manabar:SetPoint("TOPLEFT", 5, -52)
+		self.manabar:SetSize(119, 13)
+		self.manabar.LeftText:ClearAllPoints()
+		self.manabar.LeftText:SetPoint("LEFT", self.manabar, "LEFT", 8, 0)
+		self.manabar.RightText:ClearAllPoints()
+		self.manabar.RightText:SetPoint("RIGHT", self.manabar, "RIGHT", -5, 0)
+		self.manabar.TextString:SetPoint("CENTER", self.manabar, "CENTER", 0, 0)
+
+		--target frame options
+		--show/hide name
+		if tar.name then
+			self.name:ClearAllPoints()
+			self.name:SetPoint("LEFT", self, 15, 36)
+		end
+
+
+		--TargetOfTarget
+		TargetFrameToTHealthBar:ClearAllPoints()
+		TargetFrameToTHealthBar:SetPoint("TOPLEFT", 44, -15)
+		TargetFrameToTHealthBar:SetHeight(8)
+		TargetFrameToTManaBar:ClearAllPoints()
+		TargetFrameToTManaBar:SetPoint("TOPLEFT", 44, -24)
+		TargetFrameToTManaBar:SetHeight(5)
+		FocusFrameToTHealthBar:ClearAllPoints()
+		FocusFrameToTHealthBar:SetPoint("TOPLEFT", 45, -15)
+		FocusFrameToTHealthBar:SetHeight(8)
+		FocusFrameToTManaBar:ClearAllPoints()
+		FocusFrameToTManaBar:SetPoint("TOPLEFT", 45, -25)
+		FocusFrameToTManaBar:SetHeight(3)
+		FocusFrameToT.deadText:SetWidth(0.01)
 	else
-		frametexture = uuidb.textures.targetframe
+		local frametexture = uuidb.textures.targetframe
 	end
 
 	-- get color in use
 	if uuidb.general.customcolor then
-		color = uuidb.general.customcolorval
+		local color = uuidb.general.customcolorval
 	else
-		color = tar.color
+		local color = tar.color
 	end
 
 	-- style frames accordingly
@@ -103,4 +108,41 @@ function uui_TargetFrame_TargetType()
 		self.borderTexture:SetTexture(frametexture.targetingframe)
 		self.borderTexture:SetVertexColor(color)
 	end
+end
+
+function uui_TargetFrame_Frames(color)
+	local tarframes = {
+		TargetFrameToTTextureFrameTexture,
+		Boss1TargetFrameTextureFrameTexture,
+		Boss2TargetFrameTextureFrameTexture,
+		Boss3TargetFrameTextureFrameTexture,
+		Boss4TargetFrameTextureFrameTexture,
+		Boss5TargetFrameTextureFrameTexture,
+		Boss1TargetFrameSpellBar.Border,
+		Boss2TargetFrameSpellBar.Border,
+		Boss3TargetFrameSpellBar.Border,
+		Boss4TargetFrameSpellBar.Border,
+		Boss5TargetFrameSpellBar.Border,
+		TargetFrameSpellBar.Border,
+		FocusFrameSpellBar.Border,
+		FocusFrameTextureFrameTexture, 
+		FocusFrameToTTextureFrameTexture,
+	}
+	for _,v in pairs(tarframes) do
+		if (UnitIsConnected(v.unit)) and uuidb.targetframe.colortargett then
+			uui_General_ClassColored(v, v.unit)
+		else
+			v:SetVertexColor(color.r, color.g, color.b, color.a)
+		end
+	end
+	TargetFrameSpellBar.Border:SetTexture("Interface\\AddOns\\Uber UI\\textures\\castingbar-small")
+end
+
+function uui_TargetFrame_ReworkAllColor(color)
+	if not (color) then
+		color = tar.color
+	end
+
+	uui_TargetFrame_Frames(color)
+	uui_TargetFrame_StyleTargetFrame()
 end
