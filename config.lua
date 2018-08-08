@@ -91,23 +91,23 @@ local defaults = {
         padding         = -2,
       },
       border = {
-        texture         = defaults.texture.button.normal,
+        texture         = "Interface\\AddOns\\Uber UI\\textures\\gloss",
         color           = {.04,.35,.35},
       },
       background = {
         show            = true,
-        edgefile        = defaults.texture.button.outer_shadow,
+        edgefile        = "Interface\\AddOns\\Uber UI\\textures\\outer_shadow",
         color           = {0,0,.9},
         inset           = 6,
         padding         = 4,
       },
       duration = {
-        font            = defaults.general.font,
+        font            = STANDARD_TEXT_FONT,
         size            = 11,
         pos             = {"BOTTOM", 0, 0}
       },
       count = {
-        font            = defaults.general.font,
+        font            = STANDARD_TEXT_FONT,
         size            = 11,
         pos             = {"TOPRIGHT", 0, 0}
       },
@@ -126,30 +126,30 @@ local defaults = {
         padding         = -2,
       },
       border = {
-        texture         = defaults.texture.button.normal,
+        texture         = "Interface\\AddOns\\Uber UI\\textures\\gloss",
         color           = {.04,.35,.35},
       },
       background = {
         show            = true,
-        edgefile        = defaults.texture.button.outer_shadow,
+        edgefile        = "Interface\\AddOns\\Uber UI\\textures\\outer_shadow",
         color           = {0,0,.9},
         inset           = 6,
         padding         = 4,
       },
       duration = {
-        font            = defaults.general.font,
+        font            = STANDARD_TEXT_FONT,
         size            = 11,
         pos             = {"BOTTOM", 0, 0}
       },
       count = {
-        font            = defaults.general.font,
+        font            = STANDARD_TEXT_FONT,
         size            = 11,
         pos             = {"TOPRIGHT", 0, 0}
       },
     },
   },
   auras = {
-    edgefile            = defaults.texture.button.outer_shadow,
+    edgefile            = "Interface\\AddOns\\Uber UI\\textures\\outer_shadow",
     tile                = false,
     tilesize            = 32,
     edgesize            = 4,

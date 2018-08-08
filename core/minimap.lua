@@ -1,16 +1,16 @@
 local addon, ns = ...
-local uui_Minimap
+local uui_Minimap = {}
 
 uui_Minimap=CreateFrame("frame")
 uui_Minimap:RegisterEvent("ADDON_LOADED")
 uui_Minimap:SetScript("OnEvent", function(self, event)
 	if not (IsAddOnLoaded("SexyMap")) then
-		self:MinimapRework()
-		self:Other()
+		self:ReworkColorAll()
+		self.Other()
 	end
 end)
 
-function uui_Minimap:Color(color)
+function uui_Minimap_Color(color)
 	MinimapBorder:SetTexture(uuidb.minimap.texture)
 	for _,v in pairs({
 		MinimapBorder,
@@ -23,7 +23,7 @@ function uui_Minimap:Color(color)
 	select(2, TimeManagerClockButton:GetRegions()):SetVertexColor(1,1,1)
 end
 
-function uui_Minimap:GarrisonBtn(color)
+function uui_Minimap_GarrisonBtn(color)
 	hooksecurefunc("GarrisonLandingPageMinimapButton_UpdateIcon", function(self)
 		self:GetNormalTexture():SetTexture(nil)
 		self:GetPushedTexture():SetTexture(nil)
@@ -100,3 +100,5 @@ function uui_Minimap:ReworkColorAll()
 	self.Color(color)
 	self.MinimapBtn(color)
 end
+
+return uui_Minimap
