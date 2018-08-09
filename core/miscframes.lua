@@ -17,7 +17,7 @@ function uui_Misc_RaidColor(color)
 		if group then
 			for _, region in pairs({group:GetRegions()}) do
 				if region:IsObjectType("Texture") then
-					region:SetVertexColor(color)
+					region:SetVertexColor(color.r, color.b, color.g, color.a)
 				end
 			end
 		end
@@ -26,7 +26,7 @@ function uui_Misc_RaidColor(color)
 			if frame and uuidb.miscframes.raidgroupcolor then
 				for _, region in pairs({frame:GetRegions()}) do
 					if region:GetName():find("Border") then
-						region:SetVertexColor(color)
+						region:SetVertexColor(color.r, color.b, color.g, color.a)
 					end
 				end
 			end
@@ -34,7 +34,7 @@ function uui_Misc_RaidColor(color)
 			if frame and uuidb.miscframes.raidsinglecolor then
 				for _, region in pairs({frame:GetRegions()}) do
 					if region:GetName():find("Border") then
-						region:SetVertexColor(color)
+						region:SetVertexColor(color.r, color.b, color.g, color.a)
 					end
 				end
 			end
@@ -42,47 +42,47 @@ function uui_Misc_RaidColor(color)
 	end
 	for _, region in pairs({CompactRaidFrameContainerBorderFrame:GetRegions()}) do
 		if region:IsObjectType("Texture") then
-			region:SetVertexColor(color)
+			region:SetVertexColor(color.r, color.b, color.g, color.a)
 		end
 	end
 	for _, region in pairs({CompactRaidFrameManager:GetRegions()}) do
 		if region:IsObjectType("Texture") then
-			region:SetVertexColor(color)
+			region:SetVertexColor(color.r, color.b, color.g, color.a)
 		end
 	end
 	for _, region in pairs({CompactRaidFrameManagerContainerResizeFrame:GetRegions()}) do
 		if region:IsObjectType("Border") then
-			region:SetVertexColor(color)
+			region:SetVertexColor(color.r, color.b, color.g, color.a)
 		end
 	end
 	CompactRaidFrameManagerToggleButton:SetNormalTexture("Interface\\AddOns\\Uber UI\\textures\\raid\\RaidPanel-Toggle")
 end
 
 
-function uui_Misc_PartyColor(color)
-	local partyframes = {
-		PartyMemberFrame1Texture, 
-		PartyMemberFrame2Texture, 
-		PartyMemberFrame3Texture, 
-		PartyMemberFrame4Texture,
-		PartyMemberFrame1PetFrameTexture, 
-		PartyMemberFrame2PetFrameTexture, 
-		PartyMemberFrame3PetFrameTexture,
-		PartyMemberFrame4PetFrameTexture
-	}
-	for _,v in pairs(tarframes) do
-		if (UnitIsConnected(v.unit)) and uuidb.miscframes.partycolort then
-			uui_General_ClassColored(v, v.unit)
-		else
-			v:SetVertexColor(color)
-		end
-	end
-	for i=1,4 do 
-		_G["PartyMemberFrame"..i.."PVPIcon"]:SetAlpha(0)
-		_G["PartyMemberFrame"..i.."NotPresentIcon"]:Hide()
-		_G["PartyMemberFrame"..i.."NotPresentIcon"].Show = function() end
-	end
-end
+--function uui_Misc_PartyColor(color)
+--	local partyframes = {
+--		PartyMemberFrame1Texture, 
+--		PartyMemberFrame2Texture, 
+--		PartyMemberFrame3Texture, 
+--		PartyMemberFrame4Texture,
+--		PartyMemberFrame1PetFrameTexture, 
+--		PartyMemberFrame2PetFrameTexture, 
+--		PartyMemberFrame3PetFrameTexture,
+--		PartyMemberFrame4PetFrameTexture
+--	}
+--	for _,v in pairs(tarframes) do
+--		if (UnitIsConnected(v.unit)) and uuidb.miscframes.partycolort then
+--			uui_General_ClassColored(v, v.unit)
+--		else
+--			v:SetVertexColor(color.r, color.b, color.g, color.a)
+--		end
+--	end
+--	for i=1,4 do 
+--		_G["PartyMemberFrame"..i.."PVPIcon"]:SetAlpha(0)
+--		_G["PartyMemberFrame"..i.."NotPresentIcon"]:Hide()
+--		_G["PartyMemberFrame"..i.."NotPresentIcon"].Show = function() end
+--	end
+--end
 
 function uui_Misc_TooltipColor(color)
 	hooksecurefunc("GameTooltip_ShowCompareItem", function(self, anchorFrame)

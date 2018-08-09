@@ -59,26 +59,18 @@ uui_Buffs:SetScript("OnEvent", function(self)
   end
 
   --temp enchant stuff
-  applySkin(TempEnchant1)
-  applySkin(TempEnchant2)
-  applySkin(TempEnchant3)
+ -- applySkin(TempEnchant1)
+ -- applySkin(TempEnchant2)
+ -- applySkin(TempEnchant3)
 
   --position the temp enchant buttons
-  TempEnchant1:ClearAllPoints()
-  TempEnchant1:SetPoint("TOPRIGHT", rBFS_BuffDragFrame, "TOPRIGHT", 0, 0) --button will be repositioned later in case temp enchant and consolidated buffs are both available
-  TempEnchant2:ClearAllPoints()
-  TempEnchant2:SetPoint("TOPRIGHT", TempEnchant1, "TOPLEFT", -buff.colSpacing, 0)
-  TempEnchant3:ClearAllPoints()
-  TempEnchant3:SetPoint("TOPRIGHT", TempEnchant2, "TOPLEFT", -buff.colSpacing, 0)
-
-  --hook Blizzard functions
-  hooksecurefunc("BuffFrame_UpdateAllBuffAnchors", function()
-    updateAllBuffAnchors()
-    end)
-  hooksecurefunc("DebuffButton_UpdateAnchors", function()
-    updateDebuffAnchors()
-    end)
-
+  --TempEnchant1:ClearAllPoints()
+  --TempEnchant1:SetPoint("TOPRIGHT", rBFS_BuffDragFrame, "TOPRIGHT", 0, 0) --button will be repositioned later in case temp enchant and consolidated buffs are both available
+  --TempEnchant2:ClearAllPoints()
+  --TempEnchant2:SetPoint("TOPRIGHT", TempEnchant1, "TOPLEFT", -buff.colspacing, 0)
+  --TempEnchant3:ClearAllPoints()
+  --TempEnchant3:SetPoint("TOPRIGHT", TempEnchant2, "TOPLEFT", -buff.colspacing, 0)
+  uui_Buffs_ReworkAllColor()
 end)
 
 local ceil, min, max = ceil, min, max
@@ -109,10 +101,10 @@ local function applySkin(b)
   --get cfg and backdrop
   local backdrop
   if debuff then
-    uui = debuff
+    uui = uuidb.buffdebuff.debuff
     backdrop = backdropDebuff
   else
-    uui = buff
+    uui = uuidb.buffdebuff.buff
     backdrop = backdropBuff
   end
 
@@ -185,7 +177,6 @@ end
 
 --update debuff anchors
 local function updateDebuffAnchors(buttonName,index)
-  print(buttonName)
   local button = _G[buttonName..index]
   if not button then return end
   --apply skin
@@ -196,9 +187,9 @@ local function updateDebuffAnchors(buttonName,index)
     --debuffs and buffs are not combined anchor the debuffs to its own frame
     button:SetPoint("TOPRIGHT", rBFS_DebuffDragFrame, "TOPRIGHT", 0, 0)      
   elseif index > 1 and mod(index, debuff.buttonsPerRow) == 1 then
-    button:SetPoint("TOPRIGHT", _G[buttonName..(index-debuff.buttonsPerRow)], "BOTTOMRIGHT", 0, -debuff.rowSpacing)
+    button:SetPoint("TOPRIGHT", _G[buttonName..(index-debuff.buttonsperrow)], "BOTTOMRIGHT", 0, -debuff.rowSpacing)
   else
-    button:SetPoint("TOPRIGHT", _G[buttonName..(index-1)], "TOPLEFT", -debuff.colSpacing, 0)
+    button:SetPoint("TOPRIGHT", _G[buttonName..(index-1)], "TOPLEFT", -debuff.colspacing, 0)
   end
 end
 
@@ -211,8 +202,8 @@ local function updateAllBuffAnchors()
   local offset      = numEnchants
   local realIndex, previousButton, aboveButton
   --position the tempenchant button depending on the consolidated button status
-    TempEnchant1:ClearAllPoints()
-    TempEnchant1:SetPoint("TOPRIGHT", rBFS_BuffDragFrame, "TOPRIGHT", 0, 0)
+  -- TempEnchant1:ClearAllPoints()
+  -- TempEnchant1:SetPoint("TOPRIGHT", rBFS_BuffDragFrame, "TOPRIGHT", 0, 0)
 
   --calculate the previous button in case tempenchant or consolidated buff are loaded
   if BuffFrame.numEnchants > 0 then
@@ -239,24 +230,25 @@ local function updateAllBuffAnchors()
       if realIndex == 1 then
         button:SetPoint("TOPRIGHT", rBFS_BuffDragFrame, "TOPRIGHT", 0, 0)
         aboveButton = button
-      elseif realIndex > 1 and mod(realIndex, buff.buttonsPerRow) == 1 then
-        button:SetPoint("TOPRIGHT", aboveButton, "BOTTOMRIGHT", 0, -buff.rowSpacing)
+      elseif realIndex > 1 and mod(realIndex, uuidb.buffdebuff.buff.buttonsperrow) == 1 then
+        button:SetPoint("TOPRIGHT", aboveButton, "BOTTOMRIGHT", 0, -uuidb.buffdebuff.buff.rowspacing)
         aboveButton = button
       else
-        button:SetPoint("TOPRIGHT", previousButton, "TOPLEFT", -buff.colSpacing, 0)
+        button:SetPoint("TOPRIGHT", previousButton, "TOPLEFT", -uuidb.buffdebuff.buff.colspacing, 0)
       end
       previousButton = button
 
     end
   end
   --calculate the height of the buff rows for the debuff frame calculation later
-  local rows = ceil((buffCounter+offset)/buff.buttonsPerRow)
-  local height = buff.button.size*rows + buff.rowSpacing*rows + buff.gap*min(1,rows)
+  local rows = ceil((buffCounter+offset)/uuidb.buffdebuff.buff.buttonsperrow)
+  local height = uuidb.buffdebuff.buff.button.size*rows + uuidb.buffdebuff.buff.rowspacing*rows + uuidb.buffdebuff.buff.gap*min(1,rows)
   buffFrameHeight = height
-  --make sure the debuff frames update the position asap
 end
 
 function uui_Buffs_ReworkAllColor()
-  updateDebuffAnchors()
+  updateDebuffAnchors("DebuffButton", 1)
   updateAllBuffAnchors()
+  hooksecurefunc("BuffFrame_UpdateAllBuffAnchors", updateAllBuffAnchors)
+  hooksecurefunc("DebuffButton_UpdateAnchors", updateDebuffAnchors)
 end

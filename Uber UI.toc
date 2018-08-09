@@ -16,6 +16,6 @@ core\targetframe.lua
 core\minimap.lua
 core\buffs.lua
 #core\actionbars.lua
-#core\auras.lua
+core\auras.lua
 core\miscframes.lua
 

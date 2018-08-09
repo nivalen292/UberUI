@@ -5,11 +5,6 @@ uui_Auras = {}
 local uui_Auras = CreateFrame("frame")
 uui_Auras:RegisterEvent("ADDON_LOADED")
 uui_Auras:SetScript("OnEvent", function(self,event)
-	initlocals()
-	uui_Auras_ReworkAllColors()
-end)
-
-local function initlocals()
 	--backdrop
 	local backdrop = {
 		bgFile = nil,
@@ -24,7 +19,10 @@ local function initlocals()
 			bottom = 4,
 		},
 	}
-end
+
+	uui_Auras_ReworkAllColors()
+
+end)
 
  ---------------------------------------
   -- FUNCTIONS
@@ -51,11 +49,11 @@ local function applySkin(b, color)
 	border:SetTexCoord(0, 1, 0, 1)
 	border:SetDrawLayer("BACKGROUND",- 7)
 	if b.buff then
-		if (UnitIsConnected(border.unit)) and uuidb.targetframe.colortargett then
-			uui_General_ClassColored(border, border.unit)
-		else
+		--if (UnitIsConnected(border.unit)) and uuidb.targetframe.colortargett then
+		--	uui_General_ClassColored(border, border.unit)
+		--else
 			border:SetVertexColor(color.r, color.g, color.b, color.a)
-		end
+		--end
 	end
 	border:ClearAllPoints()
 	border:SetPoint("TOPLEFT", b, "TOPLEFT", -1, 1)

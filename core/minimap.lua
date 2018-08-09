@@ -11,6 +11,11 @@ uui_Minimap:SetScript("OnEvent", function(self, event)
 end)
 
 function uui_Minimap_Color(color)
+	if uuidb.general.customcolor then
+		color = uuidb.general.customcolorval
+	else
+		color = uuidb.minimap.color
+	end
 	MinimapBorder:SetTexture(uuidb.minimap.texture)
 	for _,v in pairs({
 		MinimapBorder,
@@ -24,6 +29,11 @@ function uui_Minimap_Color(color)
 end
 
 function uui_Minimap_GarrisonBtn(color)
+	if uuidb.general.customcolor then
+		color = uuidb.general.customcolorval
+	else
+		color = uuidb.minimap.color
+	end
 	hooksecurefunc("GarrisonLandingPageMinimapButton_UpdateIcon", function(self)
 		self:GetNormalTexture():SetTexture(nil)
 		self:GetPushedTexture():SetTexture(nil)

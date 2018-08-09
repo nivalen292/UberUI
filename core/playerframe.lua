@@ -7,11 +7,10 @@ uui_PlayerFrame = CreateFrame("frame")
 uui_PlayerFrame:RegisterEvent("ADDON_LOADED")
 uui_PlayerFrame:RegisterEvent("PLAYER_LOGIN")
 uui_PlayerFrame:SetScript("OnEvent", function(self,event)
-
-end)
-
 if not ((IsAddOnLoaded("EasyFrames")) or (IsAddOnLoaded("Shadowed Unit Frames")) or (IsAddOnLoaded("PitBull Unit Frames 4.0")) or (IsAddOnLoaded("X-Perl UnitFrames"))) then
 end
+
+end)
 
 local function uui_PlayerFrame_MiscFrames(color)
 	if uuidb.playerframe.largehealth then
@@ -52,15 +51,20 @@ local function uui_PlayerFrame_MiscFrames(color)
 			v:SetTexture(uuidb.textures.other.tot)
 		end
 
-		v:SetVertexColor(color)
+		v:SetVertexColor(color.r, color.g, color.g, color.a)
     end
     CastingBarFrame.Border:SetTexture("Interface\\AddOns\\Uber UI\\textures\\castingbarborder")
 end
 
 function uui_PlayerFrame_LargeHealth(color)
+	if uuidb.general.customcolor then
+		color = uuidb.general.customcolorval
+	else
+		color = uuidb.targetframe.color
+	end
 	if uuidb.playerframe.largehealth then
 		PlayerFrameTexture:SetTexture("Interface\\Addons\\Uber UI\\textures\\target\\targetingframebig")
-		PlayerFrameTexture:SetVertexColor(color)
+		PlayerFrameTexture:SetVertexColor(color.r, color.g, color.g, color.a)
 		PlayerFrame:SetScale(uuidb.playerframe.scale)
 		PlayerFrameGroupIndicatorText:ClearAllPoints()
 		PlayerFrameGroupIndicatorText:SetPoint("BOTTOMLEFT", PlayerFrame, "TOP", 0, -20)
@@ -148,14 +152,16 @@ function uui_PlayerFrame_PetFrame()
 end
 
 function uui_PlayerFrame_ReworkAllColor(color)
-	if not (color) then
-		local color = uuidb.playerframe.color
-	end
-
-	uui_PlayerFrame_MiscFrames(color)
-
-	--enable large health style
-	if uuidb.playerframe.largehealth then
-		uui_PlayerFrame_LargeHealth(pcolor)
+	if not ((IsAddOnLoaded("EasyFrames")) or (IsAddOnLoaded("Shadowed Unit Frames")) or (IsAddOnLoaded("PitBull Unit Frames 4.0")) or (IsAddOnLoaded("X-Perl UnitFrames"))) then
+		if not (color) then
+			local color = uuidb.playerframe.color
+		end
+	
+		uui_PlayerFrame_MiscFrames(color)
+	
+		--enable large health style
+		if uuidb.playerframe.largehealth then
+			uui_PlayerFrame_LargeHealth(color)
+		end
 	end
 end

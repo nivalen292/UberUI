@@ -29,11 +29,11 @@ function uui_ArenaFrames_Color(color)
 			ArenaPrepFrame4SpecBorder,
 			ArenaPrepFrame5SpecBorder,
 		}) do
-	        if (UnitIsConnected(v.unit)) and uuidb.targetframe.colortargett then
-				uui_General_ClassColored(v, v.unit)
-			else
+	        --if (UnitIsConnected(v.unit)) and uuidb.targetframe.colortargett then
+			--	uui_General_ClassColored(v, v.unit)
+			--else
 				v:SetVertexColor(color.r, color.g, color.b, color.a)
-			end
+			--end
 		end
 	end
 	if IsAddOnLoaded("Blizzard_ArenaUI") then
@@ -54,11 +54,11 @@ function uui_ArenaFrames_Color(color)
 			ArenaEnemyFrame4PetFrameTexture,
 			ArenaEnemyFrame5PetFrameTexture,
 	    }) do
-			if (UnitIsConnected(v.unit)) and uuidb.targetframe.colortargett then
-				uui_General_ClassColored(v, v.unit)
-			else
+			--if (UnitIsConnected(v.unit)) and uuidb.targetframe.colortargett then
+			--	uui_General_ClassColored(v, v.unit)
+			--else
 				v:SetVertexColor(color.r, color.g, color.b, color.a)
-			end
+			--end
 	    end
 	end
 end

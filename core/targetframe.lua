@@ -77,16 +77,16 @@ function uui_TargetFrameStyleTargetFrame(self, forceNormalTexture)
 
 	-- get color in use
 	if uuidb.general.customcolor then
-		local color = uuidb.general.customcolorval
+		color = uuidb.general.customcolorval
 	else
-		local color = uuidb.targetframe.color
+		color = uuidb.targetframe.color
 	end
 
 	-- style frames accordingly
 	local classification = UnitClassification(self.unit)
 	if ( classification == "minus" ) then
 		self.borderTexture:SetTexture("Interface\\TargetingFrame\\UI-TargetingFrame-Minus");
-		self.borderTexture:SetVertexColor(color)
+		self.borderTexture:SetVertexColor(color.r, color.g, color.b, color.a)
 		self.nameBackground:Hide();
 		self.manabar.pauseUpdates = true;
 		self.manabar:Hide();
@@ -96,16 +96,16 @@ function uui_TargetFrameStyleTargetFrame(self, forceNormalTexture)
 		forceNormalTexture = true;
 	elseif ( classification == "worldboss" or classification == "elite" ) then
 		self.borderTexture:SetTexture(frametexture.elite)
-		self.borderTexture:SetVertexColor(color)
+		self.borderTexture:SetVertexColor(color.r, color.g, color.b, color.a)
 	elseif ( classification == "rareelite" ) then
 		self.borderTexture:SetTexture(frametexture.rareelite)
-		self.borderTexture:SetVertexColor(color)
+		self.borderTexture:SetVertexColor(color.r, color.g, color.b, color.a)
 	elseif ( classification == "rare" ) then
 		self.borderTexture:SetTexture(frametexture.rare)
-		self.borderTexture:SetVertexColor(color)
+		self.borderTexture:SetVertexColor(color.r, color.g, color.b, color.a)
 	else
 		self.borderTexture:SetTexture(frametexture.targetingframe)
-		self.borderTexture:SetVertexColor(color)
+		self.borderTexture:SetVertexColor(color.r, color.g, color.b, color.a)
 	end
 end
 
