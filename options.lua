@@ -55,33 +55,13 @@ Options:SetScript("OnShow", function(self)
 	Gryphon:SetScript("OnClick", function(this)
 		local checked = not not this:GetChecked()
 		PlaySound(checked and SOUND_ON or SOUND_OFF)
-		UberuiDB.Gryphon = checked
-			if UberuiDB.Gryphon and UberuiDB.ClassColorFrames then
-				MainMenuBarArtFrame.LeftEndCap:Show()
-				MainMenuBarArtFrame.RightEndCap:Show()
-				if MainMenuBarArtFrame.LeftEndCap:GetAtlas() == nil then
-					MainMenuBarArtFrame.LeftEndCap:SetVertexColor(classcolor.r, classcolor.g, classcolor.b)
-					MainMenuBarArtFrame.RightEndCap:SetVertexColor(classcolor.r, classcolor.g, classcolor.b)
-				else
-					MainMenuBarArtFrame.LeftEndCap:Show()
-					MainMenuBarArtFrame.RightEndCap:Show()
-					local Atlas = MainMenuBarArtFrame.RightEndCap:GetAtlas()
-					local txl, txr, txt, txb = select(4, GetAtlasInfo(Atlas))
-					MainMenuBarArtFrame.LeftEndCap:SetTexture("Interface\\AddOns\\Uber UI\\Textures\\MainMenuBar")
-   					MainMenuBarArtFrame.LeftEndCap:SetTexCoord(txl, txr, txt, txb)
-   					MainMenuBarArtFrame.RightEndCap:SetTexture("Interface\\AddOns\\Uber UI\\Textures\\MainMenuBar")
-   					MainMenuBarArtFrame.RightEndCap:SetTexCoord(txr, txl, txt, txb)
-   				end
-   			elseif UberuiDB.Gryphon and not UberuiDB.ClassColorFrames then
-   				MainMenuBarArtFrame.LeftEndCap:SetVertexColor(.35,.35,.35)
-				MainMenuBarArtFrame.RightEndCap:SetVertexColor(.35,.35,.35)
-				MainMenuBarArtFrame.LeftEndCap:Show()
-				MainMenuBarArtFrame.RightEndCap:Show()
-			else
-				MainMenuBarArtFrame.LeftEndCap:Hide()
-				MainMenuBarArtFrame.RightEndCap:Hide()
-			end
-    	end)
+		uuidb.mainmenu.gryphon = checked
+		if uuidb.general.customcolor then
+			uui_General_MainMenuColor(uuidb.general.customcolorval)
+		else
+			uui_General_MainMenuColor()
+		end
+	end)
 
 	local Hotkey = CreateFrame("CheckButton", "$parentHotkey", self, "InterfaceOptionsCheckButtonTemplate")
 	Hotkey:SetPoint("TOPLEFT", Gryphon, "BOTTOMLEFT", 0, -12)
@@ -90,28 +70,8 @@ Options:SetScript("OnShow", function(self)
 	Hotkey:SetScript("OnClick", function(this)
 		local checked = not not this:GetChecked()
 		PlaySound(checked and SOUND_ON or SOUND_OFF)
-		UberuiDB.Hotkey = checked
-		for i = 1, NUM_ACTIONBAR_BUTTONS do
-			if UberuiDB.Hotkey then
-				_G["ActionButton"..i]["HotKey"]:Show()
-				_G["MultiBarBottomLeftButton"..i]["HotKey"]:Show()
-				_G["MultiBarBottomRightButton"..i]["HotKey"]:Show()
-				_G["MultiBarRightButton"..i]["HotKey"]:Show()
-				_G["MultiBarLeftButton"..i]["HotKey"]:Show()
-				if _G["PetactionButton"] then
-					_G["PetActionButton"..i]["HotKey"]:Show()
-				end
-			else
-				_G["ActionButton"..i]["HotKey"]:Hide()
-				_G["MultiBarBottomLeftButton"..i]["HotKey"]:Hide()
-				_G["MultiBarBottomRightButton"..i]["HotKey"]:Hide()
-				_G["MultiBarRightButton"..i]["HotKey"]:Hide()
-				_G["MultiBarLeftButton"..i]["HotKey"]:Hide()
-				if _G["PetactionButton"] then
-					_G["PetActionButton"..i]["HotKey"]:Hide()
-				end
-			end
-    	end
+		uuidb.actionbars.hotkey.show = checked
+		uui_ActionBars_ReworkAllColors()
 	end)
 
 	local Macroname = CreateFrame("CheckButton", "$parentMacroname", self, "InterfaceOptionsCheckButtonTemplate")
@@ -121,28 +81,8 @@ Options:SetScript("OnShow", function(self)
 	Macroname:SetScript("OnClick", function(this)
 		local checked = not not this:GetChecked()
 		PlaySound(checked and SOUND_ON or SOUND_OFF)
-		UberuiDB.Macroname = checked
-		for i = 1, NUM_ACTIONBAR_BUTTONS do
-			if UberuiDB.Macroname then
-				_G["ActionButton"..i]["Name"]:Show()
-				_G["MultiBarBottomLeftButton"..i]["Name"]:Show()
-				_G["MultiBarBottomRightButton"..i]["Name"]:Show()
-				_G["MultiBarRightButton"..i]["Name"]:Show()
-				_G["MultiBarLeftButton"..i]["Name"]:Show()
-				if _G["PetactionButton"] then
-					_G["PetActionButton"..i]["HotKey"]:Show()
-				end
-			else
-				_G["ActionButton"..i]["Name"]:Hide()
-				_G["MultiBarBottomLeftButton"..i]["Name"]:Hide()
-				_G["MultiBarBottomRightButton"..i]["Name"]:Hide()
-				_G["MultiBarRightButton"..i]["Name"]:Hide()
-				_G["MultiBarLeftButton"..i]["Name"]:Hide()
-				if _G["PetactionButton"] then
-					_G["PetActionButton"..i]["HotKey"]:Hide()
-				end
-			end
-    	end
+		uuidb.actionbars.macroname.show = checked
+		uui_ActionBars_ReworkAllColors()
 	end)
 
 	local BigFrames = CreateFrame("CheckButton", "$parentBigFrames", self, "InterfaceOptionsCheckButtonTemplate")
@@ -152,14 +92,16 @@ Options:SetScript("OnShow", function(self)
 	BigFrames:SetScript("OnClick", function(this)
 		local checked = not not this:GetChecked()
 		PlaySound(checked and SOUND_ON or SOUND_OFF)
-		UberuiDB.BigFrames = checked
-		if UberuiDB.BigFrames then
-			UUI_BigFrames()
-			cfg.BigFrames = true
+		uuidb.playerframe.scale = checked
+		if (uuidb.playerframe.scale == 1.2) then
+			uuidb.playerframe.scale = 1
+			uuidb.targetframe.scale = 1
+			uui_General_ColorAllFrames()
 		else
-			UUI_BigFrames()
-			cfg.BigFrames = false
-    	end
+			uuidb.playerframe.scale = 1.2
+			uuidb.targetframe.scale = 1.2
+			uui_General_ColorAllFrames()
+		end
 	end)
 
 	local LargeHealth = CreateFrame("CheckButton", "$parentLargeHealth", self, "InterfaceOptionsCheckButtonTemplate")
@@ -169,11 +111,12 @@ Options:SetScript("OnShow", function(self)
 	LargeHealth:SetScript("OnClick", function(this)
 		local checked = not not this:GetChecked()
 		PlaySound(checked and SOUND_ON or SOUND_OFF)
-		UberuiDB.LargeHealth = checked
-		if UberuiDB.LargeHealth then
-			PlayerFrameHealth()
-			--UberuiDB.LargeHealth = true
-    	end
+		uuidb.playerframe.largehealth = checked
+		if uuidb.general.customcolor then
+			uui_PlayerFrame_ReworkAllColor(uuidb.general.customcolorval)
+		else
+			uui_PlayerFrame_ReworkAllColor()
+		end
 	end)
 
 	local ClassColorFrames = CreateFrame("CheckButton", "$parentClassColorFrames", self, "InterfaceOptionsCheckButtonTemplate")
@@ -183,12 +126,13 @@ Options:SetScript("OnShow", function(self)
 	ClassColorFrames:SetScript("OnClick", function(this)
 		local checked = not not this:GetChecked()
 		PlaySound(checked and SOUND_ON or SOUND_OFF)
-		UberuiDB.ClassColorFrames = checked
+		uuidb.general.customcolor = checked
 		if UberuiDB.ClassColorFrames then
 			DEFAULT_CHAT_FRAME:AddMessage("Class Colors Enabled", 0, 1, 0)
 		else
 			DEFAULT_CHAT_FRAME:AddMessage("Class Colors Disabled", 1, 0, 0)
-    	end
+		end
+		uui_General_ColorAllFrames()
 	end)
 
 	local ClassColorHealth = CreateFrame("CheckButton", "$parentClassColorHealth", self, "InterfaceOptionsCheckButtonTemplate")
@@ -198,14 +142,13 @@ Options:SetScript("OnShow", function(self)
 	ClassColorHealth:SetScript("OnClick", function(this)
 		local checked = not not this:GetChecked()
 		PlaySound(checked and SOUND_ON or SOUND_OFF)
-		UberuiDB.ClassColorHealth = checked
-		if UberuiDB.ClassColorHealth then
-			UberuiDB.ClassColorHealth = true
+		uuidb.general.classcolorhealth = checked
+		if uuidb.general.classcolorhealth then
 			DEFAULT_CHAT_FRAME:AddMessage("Class Colors Enabled", 0, 1, 0)
 		else
-			UberuiDB.ClassColorHealth = false
 			DEFAULT_CHAT_FRAME:AddMessage("Class Colors Disabled", 1, 0, 0)
-    	end
+		end
+		uui_General_ColorAllFrames()
 	end)
 
 	local MicroButtonBagBar = CreateFrame("CheckButton", "$parentMicroButtonBagBar", self, "InterfaceOptionsCheckButtonTemplate")
@@ -215,12 +158,8 @@ Options:SetScript("OnShow", function(self)
 	MicroButtonBagBar:SetScript("OnClick", function(this)
 		local checked = not not this:GetChecked()
 		PlaySound(checked and SOUND_ON or SOUND_OFF)
-		UberuiDB.MBBB = checked
-		if checked then
-			MBBB_Toggle()
-		else
-			MBBB_Toggle()
-		end
+		uuidb.mainmenu.microbuttonbar = checked
+		uui_General_MicroBar()
 	end)
 
 	local Pvpicons = CreateFrame("CheckButton", "$parentPvpicons", self, "InterfaceOptionsCheckButtonTemplate")
@@ -230,27 +169,37 @@ Options:SetScript("OnShow", function(self)
 	Pvpicons:SetScript("OnClick", function(this)
 		local checked = not not this:GetChecked()
 		PlaySound(checked and SOUND_ON or SOUND_OFF)
-		UberuiDB.pvpicons = checked
-		if checked then
-			UberuiDB.pvpicons = true
-			uui_pvpicons()
+		uuidb.general.pvpicons = checked
+		uui_Misc_pvpicons()
+	end)
+
+	local TargetName = CreateFrame("CheckButton", "$parentTargetName", self, "InterfaceOptionsCheckButtonTemplate")
+	TargetName:SetPoint("TOPLEFT", Pvpicons, "BOTTOMLEFT", 0, -12)
+	TargetName.Text:SetText("Toggle Target Name")
+	TargetName.tooltipText = "Toggles showing of target name."
+	TargetName:SetScript("OnClick", function(this)
+		local checked = not not this:GetChecked()
+		PlaySound(checked and SOUND_ON or SOUND_OFF)
+		uuidb.targetframe.name = checked
+		if uuidb.general.customcolor then
+			uui_TargetFrame_ReworkAllColor(uuidb.customcolorval)
 		else
-			UberuiDB.pvpicons = false
-			uui_pvpicons()
+			uui_TargetFrame_ReworkAllColor()
 		end
 	end)
 
 
 	function self:refresh()
-		Gryphon:SetChecked(UberuiDB.Gryphon)
-		Hotkey:SetChecked(UberuiDB.Hotkey)
-		Macroname:SetChecked(UberuiDB.Macroname)
-		LargeHealth:SetChecked(UberuiDB.LargeHealth)
-		ClassColorFrames:SetChecked(UberuiDB.ClassColorFrames)
-		ClassColorHealth:SetChecked(UberuiDB.ClassColorHealth)
-		BigFrames:SetChecked(UberuiDB.BigFrames)
-		MicroButtonBagBar:SetChecked(UberuiDB.MBBB)
-		Pvpicons:SetChecked(UberuiDB.pvpicons)
+		Gryphon:SetChecked(uuidb.mainmenu.gryphon)
+		Hotkey:SetChecked(uuidb.actionbars.hotkey.show)
+		Macroname:SetChecked(uuidb.actionbars.macroname.show)
+		LargeHealth:SetChecked(uuidb.playerframe.largehealth)
+		ClassColorFrames:SetChecked((uuidb.general.customcolor and (uuidb.general.customcolorval == default.general.customcolorval)))
+		ClassColorHealth:SetChecked(uuidb.general.classcolorhealth)
+		BigFrames:SetChecked((uuidb.playerframe.scale == 1.2))
+		MicroButtonBagBar:SetChecked(uuidb.mainmenu.microbuttonbar)
+		Pvpicons:SetChecked(uuidb.general.pvpicons)
+		TargetName:SetChecked(uuidb.targetframe.name)
 	end
 
 	self:refresh()

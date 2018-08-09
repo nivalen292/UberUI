@@ -18,7 +18,9 @@ local classcolor = RAID_CLASS_COLORS[select(2, UnitClass("player"))]
 --generate a holder for the config data
 local UberUI = CreateFrame("Frame")
 UberUI:SetScript("OnEvent", function(self, event, ...) return self[event] and self[event](self, ...) end)
+UberUI:RegisterEvent("ADDON_LOADED")
 UberUI:RegisterEvent("PLAYER_LOGIN")
+UberUI:RegisterEvent("PLAYER_LOGOUT")
 
 local defaults = {
   textures = {
@@ -45,40 +47,51 @@ local defaults = {
       elite             = "Interface\\Addons\\Uber UI\\textures\\target\\elite",
       rareelite         = "Interface\\Addons\\Uber UI\\textures\\target\\rare-elite",
       rare              = "Interface\\AddOns\\Uber UI\\textures\\target\\rare",
-    }
+    },
+    other = {
+      smalltarget       = "Interface\\AddOns\\Uber UI\\textures\\target\\smalltargetingframe",
+      party             = "Interface\\AddOns\\Uber UI\\textures\\partyframe",
+      tot               = "Interface\\AddOns\\Uber UI\\textures\\target\\targetoftargetframe",
+    },
   },
   general = {
     classcolorhealth  = true,
     classcolorframes  = false,
-    customolor        = false,
-    customcolorval    = classcolor,
+    customcolor       = false,
+    customcolorval    = {r = classcolor.r, g = classcolor.g, b = classcolor.b, a = 1},
     font              = STANDARD_TEXT_FONT,
+    pvpicons          = false,
   },
   mainmenu = {
     gryphon           = true,
     microbuttonbar    = true,
-    gryphcolor        = {.35,.35,.35},
-    mainbarcolor      = {.2,.2,.2},
+    mainbarcolor      = {r = .1, g = .1, b =.1, a = 1},
+    gryphcolor        = {r = .15, g = .15, b = .15, a = 1}
   },
   playerframe = {
     largehealth       = true,
     scale             = 1.2,
-    color             = {.05,.05,.05},
+    color             = {r = .05, g = .05, b =.05, a = 1},
+    name              = false
   },
   targetframe = {
     largehealth       = true,
     scale             = 1.2,
-    color             = {.05,.05,.05},
+    color             = {r = .05, g = .05, b =.05, a = 1},
+    name              = true,
+    colortargett      = false,
+    colorfocust       = false,
+    colortott         = false,
   },
   minimap = {
-    color             = {.05,.05,.05}
+    color             = {r = .05, g = .05, b =.05, a = 1},
   },
   buffdebuff = {
     oneletterabbrev   = true,
     tooltipscale      = 1.2,
     buffsanddebuffs   = false,
     buff = {
-      pos               = {"TOPRIGHT", "Minimap", "TOPLEFT", -35, 0 },
+      pos               = {a1 = "TOPRIGHT", af = "Minimap", a2 = "TOPLEFT", x = -35, y = 0 },
       gap               = 30,
       locked            = true,
       rowspacing        = 10,
@@ -92,28 +105,28 @@ local defaults = {
       },
       border = {
         texture         = "Interface\\AddOns\\Uber UI\\textures\\gloss",
-        color           = {.04,.35,.35},
+        color           = {r = .04, g = .35, b = .35, a = 1},
       },
       background = {
         show            = true,
         edgefile        = "Interface\\AddOns\\Uber UI\\textures\\outer_shadow",
-        color           = {0,0,.9},
+        color           = {r = 0, g = 0, b = 0, a = .9},
         inset           = 6,
         padding         = 4,
       },
       duration = {
         font            = STANDARD_TEXT_FONT,
         size            = 11,
-        pos             = {"BOTTOM", 0, 0}
+        pos             = {a1 = "BOTTOM", x = 0, y = 0}
       },
       count = {
         font            = STANDARD_TEXT_FONT,
         size            = 11,
-        pos             = {"TOPRIGHT", 0, 0}
+        pos             = {a1 = "TOPRIGHT", x = 0, y = 0}
       },
     },
     debuff = {
-      pos               = {"TOPRIGHT", "Minimap", "TOPLEFT", -35, 0 },
+      pos               = {a1 = "TOPRIGHT", af = "Minimap", a2 = "TOPLEFT", x = -35, y = 0 },
       gap               = 30,
       locked            = true,
       rowspacing        = 10,
@@ -127,24 +140,24 @@ local defaults = {
       },
       border = {
         texture         = "Interface\\AddOns\\Uber UI\\textures\\gloss",
-        color           = {.04,.35,.35},
+        color           = {r = .04, g = .35, b = .35, a = 1},
       },
       background = {
         show            = true,
         edgefile        = "Interface\\AddOns\\Uber UI\\textures\\outer_shadow",
-        color           = {0,0,.9},
+        color           = {r = 0, g = 0, b = 0, a = .9},
         inset           = 6,
         padding         = 4,
       },
       duration = {
         font            = STANDARD_TEXT_FONT,
         size            = 11,
-        pos             = {"BOTTOM", 0, 0}
+        pos             = {a1 = "BOTTOM", x = 0, y = 0}
       },
       count = {
         font            = STANDARD_TEXT_FONT,
         size            = 11,
-        pos             = {"TOPRIGHT", 0, 0}
+        pos             = {a1 = "TOPRIGHT", x = 0, y = 0}
       },
     },
   },
@@ -153,76 +166,76 @@ local defaults = {
     tile                = false,
     tilesize            = 32,
     edgesize            = 4,
-    insets              = {l = 4, r = 4, t = 4, b = 4}       
+    insets              = {l = 4, r = 4, t = 4, b = 4},
+    color               = {r = .4, g = .35, b = .35, a = 1},
   },
   actionbars = {
     showbg              = true,
     showshadow          = true,
     useflatbackground   = false,
-    bgcolor             = {.2,.2,.2,.3},
-    shadowcolor         = {0,0,0,.9},
+    backgroundcolor     = {r = .2, g = .2, b = .2, a = .3},
+    shadowcolor         = {r = 0, g = 0, b = 0, a = .9},
+    bagiconcolor        = {r = 0.4, g = 0.35, b = 0.35, a = 1},
     inset               = 5,
     color = {
-      normal            = {.37,.3,.3},
-      equipped          = {.1,.5,.1},
+      normal            = {r = .37, g = .3, b = .3, a = 1},
+      equipped          = {r = .1, g = .5, b = .1, a = 1},
     },
     hotkeys = {
       show              = true,
       fontsize          = 12,
-      pos1              = {"TOPRIGHT", 0, 0},
-      pos2              = {"TOPLEFT", 0, 0},
+      pos1              = {a1 = "TOPRIGHT", x = 0, y = 0},
+      pos2              = {a1 = "TOPLEFT", x = 0, y = 0},
     },
     macroname = {
       show              = true,
       fontsize          = 12,
-      pos1              = {"BOTTOMLEFT", 0, 0},
-      pos2              = {"BOTTOMRIGHT", 0, 0},
+      pos1              = {a1 = "BOTTOMLEFT", x = 0, y = 0},
+      pos2              = {a1 = "BOTTOMRIGHT", x = 0, y = 0},
     },
     count = {
       show              = true,
       fontsize          = 12,
-      pos               = {"TOPRIGHT", 0, 0},
+      pos               = {a1 = "TOPRIGHT", x = 0, y = 0},
     },
     cooldown = {
       spacing           = 0,
     }
-  }
+  },
+  miscframes = {
+    partycolort         = false,
+    raidgroupcolor      = true,
+    raidsinglecolor     = true,
+    arenaframescolor    = {r = .05, g = .05, b = .05, a = 1},
+    misccolor           = {r = .05, g = .05, b = .05, a = 1},
+  },
 }
 
---local defaults = {
---    Gryphon = true,
---    Hotkey   = true,
---    Macroname = false, 
---    LargeHealth = true,
---    ClassColorHealth = true,
---    ClassColorFrames = false,
---    BigFrames = true,
---    MBBB = true,
---    pvpicons = false,
---}
-
 function UberUI:ADDON_LOADED()
-  local function initDB(def, tbl, saved)
-    if type(def) ~= "table" then return {} end
-    if type(tbl) ~= "table" then tbl = {} end
-    if type(saved) ~= "table" then return {} end
-    for k, v in pairs(def) do
-      if type(v) == "table" then
-        tbl[k] = initDB(v, tbl[k], saved[k])
-      elseif type(tbl[k]) ~= type(v) and saved[k] ~= nil then -- If saved value exists use it
-      tbl[k] = saved[k]
-      elseif type(tbl[k]) ~= type(v) and saved[k] == nil then -- If saved value does not exist use default
-        tbl[k] = v
+   local function initDB(def, tbl, saved)
+      if type(def) ~= "table" then return {} end
+      if type(tbl) ~= "table" then tbl = {} end
+      if type(saved) ~= "table" then saved = {} end
+      for k,v in pairs(def) do
+         if type(v) == "table" then
+            tbl[k] = initDB(v, tbl[k], saved[k])
+         elseif type(tbl[k]) ~= "table" and saved[k] ~= nil then -- If saved value exists use it
+            tbl[k] = saved[k]
+         elseif type(tbl[k]) ~= "table" and saved[k] == nil then -- If saved value does not exist use default
+            tbl[k] = v
+         end
       end
-    end
-    return tbl
-  end
-  uuidb = initDB(defaults, uuidb, UberuiDB)
-  self:UnregisterEvent("ADDON_LOADED")
+      return tbl
+   end
+   uuidb = initDB(defaults, uuidb, UberuiDB)
+   --self:UnregisterEvent("ADDON_LOADED")
 end
 
 function UberUI:PLAYER_LOGOUT()
   local function updateSave(def, tbl, saved)
+    if type(def) ~= "table" then return {} end
+    if type(tbl) ~= "table" then tbl = {} end
+    if type(saved) ~= "table" then saved = {} end
     for k,v in pairs(tbl) do
       if type(v) == "table" then
         saved[k] = updateSave(def[k], v, saved[k])
@@ -231,13 +244,6 @@ function UberUI:PLAYER_LOGOUT()
       elseif type(saved[k]) ~= "table" and v == def[k] and saved[k] ~= def[k] then -- Unset saved value if temp == default and saved value exists
         saved[k] = nil
       elseif type(saved[k]) ~= "table" and saved[k] == def[k] then -- Cleanup if save value happens to == default
-        saved[k] = nil
-      end
-    end
-    for k,v in pairs(saved) do
-      if type(v) == "table" then
-        saved[k] = updateSave(def[k], tbl[k], saved)
-      elseif type(saved[k]) ~= "table" and v ~= def[k] and v ~= tbl[k] then
         saved[k] = nil
       end
     end

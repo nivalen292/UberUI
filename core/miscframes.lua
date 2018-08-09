@@ -1,93 +1,122 @@
 local addon, ns = ...
-local uui_Misc
+local uui_PartyRaid
 
-	hooksecurefunc("PetFrame_Update", function(self, override)
-		  if ( (not PlayerFrame.animating or UnitInVehicle("player") or UnitisDead("player")) or (override) ) then
-  			  if ( UnitIsVisible(self.unit) and PetUsesPetFrame() and not PlayerFrame.vehicleHidesPet ) then
-  			    if ( self:IsShown() ) then
-  			      UnitFrame_Update(self);
-  			    else
-  			      self:Show();
-  			    end
-  			    --self.flashState = 1;
-  			    --self.flashTimer = PET_FLASH_ON_TIME;
-  			    if ( UnitPowerMax(self.unit) == 0 ) then
-  			      PetFrameTexture:SetTexture("Interface\\AddOns\\Uber UI\\textures\\target\\smalltargetingframe-nomana");
-  			      PetFrameManaBarText:Hide();
-  			    else
-  			      PetFrameTexture:SetTexture("Interface\\AddOns\\Uber UI\\textures\\target\\smalltargetingframe");
-  			    end
-  			    PetAttackModeTexture:Hide();
- 			
-  			    RefreshDebuffs(self, self.unit, nil, nil, true);
-  			  else
-  			    self:Hide();
-  			  end
-  			end
-		end)
 
-		function ColorRaid()
-		for g = 1, NUM_RAID_GROUPS do
-			local group = _G["CompactRaidGroup"..g.."BorderFrame"]
-			if group then
-				for _, region in pairs({group:GetRegions()}) do
-					if region:IsObjectType("Texture") then
-						if UberuiDB.ClassColorFrames then
-							region:SetVertexColor(classcolor.r, classcolor.g, classcolor.b)
-						else
-							region:SetVertexColor(.05, .05, .05)
-						end
-					end
-				end
-			end
-			for m = 1, 5 do
-				local frame = _G["CompactRaidGroup"..g.."Member"..m]
-				if frame then
-					groupcolored = true
-					for _, region in pairs({frame:GetRegions()}) do
-						if region:GetName():find("Border") then
-							if UberuiDB.ClassColorFrames then
-								region:SetVertexColor(classcolor.r, classcolor.g, classcolor.b)
-							else
-								region:SetVertexColor(.05, .05, .05)
-							end
-						end
-					end
-				end
-				local frame = _G["CompactRaidFrame"..m]
-				if frame then
-					singlecolored = true
-					for _, region in pairs({frame:GetRegions()}) do
-						if region:GetName():find("Border") then
-							if UberuiDB.ClassColorFrames then
-								region:SetVertexColor(classcolor.r, classcolor.g, classcolor.b)
-							else
-								region:SetVertexColor(.05, .05, .05)
-							end
-						end
-					end
+local uui_Misc = CreateFrame("frame")
+uui_Misc:RegisterEvent("ADDON_LOADED")
+uui_Misc:RegisterEvent("GROUP_ROSTER_UPDATE")
+uui_Misc:RegisterEvent("PLAYER_LEAVE_COMBAT")
+uui_Misc:SetScript("OnEvent", function(self,event)
+
+end)
+
+
+function uui_Misc_RaidColor(color)
+	for g = 1, NUM_RAID_GROUPS do
+		local group = _G["CompactRaidGroup"..g.."BorderFrame"]
+		if group then
+			for _, region in pairs({group:GetRegions()}) do
+				if region:IsObjectType("Texture") then
+					region:SetVertexColor(color)
 				end
 			end
 		end
-		for _, region in pairs({CompactRaidFrameContainerBorderFrame:GetRegions()}) do
-			if region:IsObjectType("Texture") then
-				if UberuiDB.ClassColorFrames then
-					region:SetVertexColor(classcolor.r, classcolor.g, classcolor.b)
-				else
-					region:SetVertexColor(.05, .05, .05)
+		for m = 1, 5 do
+			local frame = _G["CompactRaidGroup"..g.."Member"..m]
+			if frame and uuidb.miscframes.raidgroupcolor then
+				for _, region in pairs({frame:GetRegions()}) do
+					if region:GetName():find("Border") then
+						region:SetVertexColor(color)
+					end
+				end
+			end
+			local frame = _G["CompactRaidFrame"..m]
+			if frame and uuidb.miscframes.raidsinglecolor then
+				for _, region in pairs({frame:GetRegions()}) do
+					if region:GetName():find("Border") then
+						region:SetVertexColor(color)
+					end
 				end
 			end
 		end
 	end
-	
-	CF:SetScript("OnEvent", function(self, event)
-		ColorRaid()
-		CF:SetScript("OnUpdate", function()
-			if CompactRaidGroup1 and not groupcolored == true then
-				ColorRaid()
-			end
-			if CompactRaidFrame1 and not singlecolored == true then
-				ColorRaid()
-			end
-		end)
+	for _, region in pairs({CompactRaidFrameContainerBorderFrame:GetRegions()}) do
+		if region:IsObjectType("Texture") then
+			region:SetVertexColor(color)
+		end
+	end
+	for _, region in pairs({CompactRaidFrameManager:GetRegions()}) do
+		if region:IsObjectType("Texture") then
+			region:SetVertexColor(color)
+		end
+	end
+	for _, region in pairs({CompactRaidFrameManagerContainerResizeFrame:GetRegions()}) do
+		if region:IsObjectType("Border") then
+			region:SetVertexColor(color)
+		end
+	end
+	CompactRaidFrameManagerToggleButton:SetNormalTexture("Interface\\AddOns\\Uber UI\\textures\\raid\\RaidPanel-Toggle")
+end
+
+
+function uui_Misc_PartyColor(color)
+	local partyframes = {
+		PartyMemberFrame1Texture, 
+		PartyMemberFrame2Texture, 
+		PartyMemberFrame3Texture, 
+		PartyMemberFrame4Texture,
+		PartyMemberFrame1PetFrameTexture, 
+		PartyMemberFrame2PetFrameTexture, 
+		PartyMemberFrame3PetFrameTexture,
+		PartyMemberFrame4PetFrameTexture
+	}
+	for _,v in pairs(tarframes) do
+		if (UnitIsConnected(v.unit)) and uuidb.miscframes.partycolort then
+			uui_General_ClassColored(v, v.unit)
+		else
+			v:SetVertexColor(color)
+		end
+	end
+	for i=1,4 do 
+		_G["PartyMemberFrame"..i.."PVPIcon"]:SetAlpha(0)
+		_G["PartyMemberFrame"..i.."NotPresentIcon"]:Hide()
+		_G["PartyMemberFrame"..i.."NotPresentIcon"].Show = function() end
+	end
+end
+
+function uui_Misc_TooltipColor(color)
+	hooksecurefunc("GameTooltip_ShowCompareItem", function(self, anchorFrame)
+		if (self) then
+			local shoppingTooltip1, shoppingTooltip2 = unpack(self.shoppingTooltips)
+			shoppingTooltip1:SetBackdropBorderColor(color)
+			shoppingTooltip2:SetBackdropBorderColor(color)
+		end
 	end)
+	hooksecurefunc("GameTooltip_SetBackdropStyle", function(self, style)
+		self:SetBackdropBorderColor(color)
+	end)
+end
+
+function uui_Misc_pvpicons()
+	for i,v in pairs({
+		PlayerPVPIcon,
+		TargetFrameTextureFramePVPIcon,
+		FocusFrameTextureFramePVPIcon,
+	}) do
+		if not UberuiDB.pvpicons then
+			v:SetAlpha(0)
+		else
+			v:SetVertexColor(.75,.75,.75,1)
+		end
+	end
+end
+
+function uui_Misc_ReworkAllColor(color)
+	if not (color) then
+		color = uuidb.miscframes.misccolor
+	end
+
+	uui_Misc_RaidColor(color)
+	uui_Misc_PartyColor(color)
+	uui_Misc_TooltipColor(color)
+end
