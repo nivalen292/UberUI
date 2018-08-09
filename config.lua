@@ -85,6 +85,7 @@ local defaults = {
   },
   minimap = {
     color             = {r = .05, g = .05, b =.05, a = 1},
+    texture           = "Interface\\AddOns\\Uber UI\\textures\\minimap-border"
   },
   buffdebuff = {
     oneletterabbrev   = true,

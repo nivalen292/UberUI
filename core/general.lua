@@ -79,35 +79,34 @@ function uui_General_MainMenuColor(color)
 end
 
 --class color target frames / health
-local function uui_General_ClassColored(frame, unit)
+local function uui_General_ClassColored(statusbar, unit)
     if (UnitIsPlayer(unit) and UnitClass(unit)) then
         -- player
         if (uuidb.general.classcolorhealth) then
             local _, class, classColor
+
             _, class = UnitClass(unit)
             classColor = CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[class] or RAID_CLASS_COLORS[class]
-            if string.find(frame:GetName(), "HealthBar") then
-				frame:SetStatusBarColor(classColor.r, classColor.g, classColor.b)
-            else
-				frame:SetVertexColor(classColor.r, classColor.g, classColor.b)
-            end
+
+            statusbar:SetStatusBarColor(classColor.r, classColor.g, classColor.b)
         else
             local colors
+
             if (UnitIsFriend("player", unit)) then
                 colors = {0,1,0}
             else
                 colors = {1,0,0}
             end
-            if string.find(frame:GetName(), "HealthBar") then
-				frame:SetStatusBarColor(classColor.r, classColor.g, classColor.b)
-            else
-				frame:SetVertexColor(classColor.r, classColor.g, classColor.b)
-            end
+
+            statusbar:SetStatusBarColor(colors[1], colors[2], colors[3])
         end
     else
         -- non player
+
         local colors
+
         local red, green, _ = UnitSelectionColor(unit)
+
         if (red == 0) then
             colors = {0,1,0}
         elseif (green == 0) then
@@ -115,14 +114,12 @@ local function uui_General_ClassColored(frame, unit)
         else
             colors = {1,1,0}
         end
+
         if (not UnitPlayerControlled(unit) and UnitIsTapDenied(unit)) then
             colors = {0.5, 0.5, 0.5}
         end
-        if string.find(frame:GetName(), "HealthBar") then
-			frame:SetStatusBarColor(classColor.r, classColor.g, classColor.b)
-        else
-			frame:SetVertexColor(classColor.r, classColor.g, classColor.b)
-        end
+
+        statusbar:SetStatusBarColor(colors[1], colors[2], colors[3])
     end
 end
 
@@ -180,7 +177,7 @@ function uui_General_ColorAllFrames()
 		uui_Minimap_ReworkAllColor()
 		--uui_ActionBars_ReworkAllColors()
 	end
-	--uui_Buffs_ReworkAllColor()
+	uui_Buffs_ReworkAllColor()
 end
 
   -- REWORKING THE MINIMAP

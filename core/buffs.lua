@@ -4,59 +4,20 @@ local addon, ns = ...
 uui_Buffs = {}
 
 uui_Buffs = CreateFrame("frame")
-uui_Buffs:RegisterEvent("ADDON_LOADED")
+uui_Buffs:RegisterEvent("PLAYER_LOGIN")
 uui_Buffs:SetScript("OnEvent", function(self)
 
-  local buff = uuidb.buffdebuff.buff
-  local debuff = uuidb.buffdebuff.debuff
+  buff = uuidb.buffdebuff.buff
+  debuff = uuidb.buffdebuff.debuff
 
-  initlocals()
-
-  local bf = CreateFrame("Frame", "rBFS_BuffDragFrame", UIParent)
-  bf:SetSize(buff.button.size,buff.button.size)
-  bf:SetPoint(buff.pos.a1,buff.pos.af,buff.pos.a2,buff.pos.x,buff.pos.y)
-
-  if not uuidb.combineBuffsAndDebuffs then
-    local df = CreateFrame("Frame", "rBFS_DebuffDragFrame", UIParent)
-    df:SetSize(debuff.button.size,debuff.button.size)
-    df:SetPoint(debuff.pos.a1,debuff.pos.af,debuff.pos.a2,debuff.pos.x,debuff.pos.y)
+  --rewrite the oneletter shortcuts
+  if uuidb.buffdebuff.oneletterabrev then
+    HOUR_ONELETTER_ABBR = "%dh"
+    DAY_ONELETTER_ABBR = "%dd"
+    MINUTE_ONELETTER_ABBR = "%dm"
+    SECOND_ONELETTER_ABBR = "%ds"
   end
 
-  --temp enchant stuff
-  applySkin(TempEnchant1)
-  applySkin(TempEnchant2)
-  applySkin(TempEnchant3)
-
-  --position the temp enchant buttons
-  TempEnchant1:ClearAllPoints()
-  TempEnchant1:SetPoint("TOPRIGHT", rBFS_BuffDragFrame, "TOPRIGHT", 0, 0) --button will be repositioned later in case temp enchant and consolidated buffs are both available
-  TempEnchant2:ClearAllPoints()
-  TempEnchant2:SetPoint("TOPRIGHT", TempEnchant1, "TOPLEFT", -buff.colSpacing, 0)
-  TempEnchant3:ClearAllPoints()
-  TempEnchant3:SetPoint("TOPRIGHT", TempEnchant2, "TOPLEFT", -buff.colSpacing, 0)
-
-  --hook Blizzard functions
-  hooksecurefunc("BuffFrame_UpdateAllBuffAnchors", updateAllBuffAnchors)
-  hooksecurefunc("DebuffButton_UpdateAnchors", updateDebuffAnchors)
-
-end)
-
----------------------------------------
--- LOCALS
----------------------------------------
-
---rewrite the oneletter shortcuts
-if uuidb.buffdebuff.oneletterabrev then
-  HOUR_ONELETTER_ABBR = "%dh"
-  DAY_ONELETTER_ABBR = "%dd"
-  MINUTE_ONELETTER_ABBR = "%dm"
-  SECOND_ONELETTER_ABBR = "%ds"
-end
-
-----classcolor
---local classColor = RAID_CLASS_COLORS[select(2, UnitClass("player"))]
-
-local function initlocals()
   --backdrop debuff
   local backdropDebuff = {
     bgFile = nil,
@@ -86,7 +47,39 @@ local function initlocals()
       bottom = buff.background.inset,
     },
   }
-end
+
+  local bf = CreateFrame("Frame", "rBFS_BuffDragFrame", UIParent)
+  bf:SetSize(buff.button.size,buff.button.size)
+  bf:SetPoint(buff.pos.a1,buff.pos.af,buff.pos.a2,buff.pos.x,buff.pos.y)
+
+  if not uuidb.combineBuffsAndDebuffs then
+    local df = CreateFrame("Frame", "rBFS_DebuffDragFrame", UIParent)
+    df:SetSize(debuff.button.size,debuff.button.size)
+    df:SetPoint(debuff.pos.a1,debuff.pos.af,debuff.pos.a2,debuff.pos.x,debuff.pos.y)
+  end
+
+  --temp enchant stuff
+  applySkin(TempEnchant1)
+  applySkin(TempEnchant2)
+  applySkin(TempEnchant3)
+
+  --position the temp enchant buttons
+  TempEnchant1:ClearAllPoints()
+  TempEnchant1:SetPoint("TOPRIGHT", rBFS_BuffDragFrame, "TOPRIGHT", 0, 0) --button will be repositioned later in case temp enchant and consolidated buffs are both available
+  TempEnchant2:ClearAllPoints()
+  TempEnchant2:SetPoint("TOPRIGHT", TempEnchant1, "TOPLEFT", -buff.colSpacing, 0)
+  TempEnchant3:ClearAllPoints()
+  TempEnchant3:SetPoint("TOPRIGHT", TempEnchant2, "TOPLEFT", -buff.colSpacing, 0)
+
+  --hook Blizzard functions
+  hooksecurefunc("BuffFrame_UpdateAllBuffAnchors", function()
+    updateAllBuffAnchors()
+    end)
+  hooksecurefunc("DebuffButton_UpdateAnchors", function()
+    updateDebuffAnchors()
+    end)
+
+end)
 
 local ceil, min, max = ceil, min, max
 local ShouldShowConsolidatedBuffFrame = ShouldShowConsolidatedBuffFrame
@@ -125,11 +118,11 @@ local function applySkin(b)
 
   --check class coloring options
   if uuidb.general.customcolor then
-    local bordercolor = uuidb.general.customcolorval
-    local backgroundcolor = uuidb.general.customcolorval
+    bordercolor = uuidb.general.customcolorval
+    backgroundcolor = uuidb.general.customcolorval
   else
-    local bordercolor = uui.border.color
-    local backgroundcolor = uui.border.color
+    bordercolor = uui.border.color
+    backgroundcolor = uui.border.color
   end
 
   --button
@@ -192,6 +185,7 @@ end
 
 --update debuff anchors
 local function updateDebuffAnchors(buttonName,index)
+  print(buttonName)
   local button = _G[buttonName..index]
   if not button then return end
   --apply skin
