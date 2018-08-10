@@ -8,6 +8,7 @@
 
 --get the addon namespace
 local addon, ns = ...
+UberUI = {}
 uuidb = {}
 
 local classcolor = RAID_CLASS_COLORS[select(2, UnitClass("player"))]

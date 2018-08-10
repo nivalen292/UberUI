@@ -1,10 +1,10 @@
 --get the addon namespace
 local addon, ns = ...
-uui_Auras = {}
+auras = {}
 
-local uui_Auras = CreateFrame("frame")
-uui_Auras:RegisterEvent("ADDON_LOADED")
-uui_Auras:SetScript("OnEvent", function(self,event)
+local auras = CreateFrame("frame")
+auras:RegisterEvent("ADDON_LOADED")
+auras:SetScript("OnEvent", function(self,event)
 	--backdrop
 	local backdrop = {
 		bgFile = nil,
@@ -20,7 +20,7 @@ uui_Auras:SetScript("OnEvent", function(self,event)
 		},
 	}
 
-	uui_Auras_ReworkAllColors()
+	auras:ReworkAllColors()
 
 end)
 
@@ -65,7 +65,7 @@ local function applySkin(b, color)
 	back:SetPoint("BOTTOMRIGHT", b, "BOTTOMRIGHT", 4, -4)
 	back:SetFrameLevel(b:GetFrameLevel() - 1)
 	back:SetBackdrop(backdrop)
-	back:SetBackdropBorderColor(0, 0, 0, 0.9)
+	back:SetBackdropBorderColor(0, 1, 0, 0.9)
 	b.bg = back
 	--set button styled variable
 	b.styled = true
@@ -130,7 +130,7 @@ function UpdateTimer(self, elapsed)
 	end
 end
 
-function uui_Auras_ReworkAllColors(color)
+function auras:ReworkAllColors(color)
 	if not (color) then
 		color = uuidb.auras.color
 	end
@@ -153,3 +153,5 @@ function uui_Auras_ReworkAllColors(color)
 		end
 	end)
 end
+
+UberUI.auras = auras

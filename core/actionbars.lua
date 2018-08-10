@@ -4,7 +4,7 @@
 
 --get the addon namespace
 local addon, ns = ...
-uui_ActionBars = {}
+actionbars = {}
 
 local classcolor = RAID_CLASS_COLORS[select(2, UnitClass("player"))]
 local class = UnitClass("player")
@@ -12,9 +12,9 @@ local dominos = IsAddOnLoaded("Dominos")
 local bartender4 = IsAddOnLoaded("Bartender4")
 
 
-local uui_ActionBars = CreateFrame("frame")
-uui_ActionBars:RegisterEvent("ADDON_LOADED")
-uui_ActionBars:SetScript("OnEvent", function(self, event)
+local actionbars = CreateFrame("frame")
+actionbars:RegisterEvent("ADDON_LOADED")
+actionbars:SetScript("OnEvent", function(self, event)
 
     --backdrop settings
   local bgfile, edgefile = "", ""
@@ -48,38 +48,38 @@ end)
 
  local function applyBackground(bu, color)
     if (color) then
-      local backgroundcolor = uuidb.general.customcolorval
-      local shadowcolor = uuidb.general.customcolorval
+      backgroundcolor = uuidb.general.customcolorval
+      shadowcolor = uuidb.general.customcolorval
     else
-      local backgroundcolor = uuidb.actionbars.backgroundcolor
-      local shadowcolor = uuidb.general.shadowcolor
+      backgroundcolor = uuidb.actionbars.backgroundcolor
+      shadowcolor = uuidb.actionbars.shadowcolor
     end
 
 
    if not bu or (bu and bu.bg) then return end
    --shadows+background
    if bu:GetFrameLevel() < 1 then bu:SetFrameLevel(1) end
-   if uuidb.actionbars.showbg or uuidb.background.showshadow then
+   if uuidb.actionbars.showbg or uuidb.actionbars.showshadow then
      bu.bg = CreateFrame("Frame", nil, bu)
     -- bu.bg:SetAllPoints(bu)
      bu.bg:SetPoint("TOPLEFT", bu, "TOPLEFT", -4, 4)
      bu.bg:SetPoint("BOTTOMRIGHT", bu, "BOTTOMRIGHT", 4, -4)
      bu.bg:SetFrameLevel(bu:GetFrameLevel()-1)
      if uuidb.general.customcolor then
-       local backgroundcolor = uuidb.general.customcolorval
-       local shadowcolor = uuidb.general.customcolorval
+       backgroundcolor = uuidb.general.customcolorval
+       shadowcolor = uuidb.general.customcolorval
      end
-     if uuidb.background.showbg and not uuidb.background.useflatbackground then
+     if uuidb.actionbars.showbg and not uuidb.actionbars.useflatbackground then
        local t = bu.bg:CreateTexture(nil,"BACKGROUND",-8)
        t:SetTexture(uuidb.textures.buttons.buttonback)
        --t:SetAllPoints(bu)
        t:SetVertexColor(backgroundcolor.r,backgroundcolor.g,backgroundcolor.b,backgroundcolor.a)
      end
      bu.bg:SetBackdrop(backdrop)
-    if uuidb.background.useflatbackground then
+    if uuidb.actionbars.useflatbackground then
       bu.bg:SetBackdropColor(backgroundcolor.r,backgroundcolor.g,backgroundcolor.b,backgroundcolor.a)
     end
-    if uuidb.background.showshadow then
+    if uuidb.actionbars.showshadow then
       bu.bg:SetBackdropBorderColor(shadowcolor.r,shadowcolor.g,shadowcolor.b,shadowcolor.a)
     end
    end
@@ -89,11 +89,11 @@ end)
   --style extraactionbutton
   local function styleExtraActionButton(bu, color)
   if (color) then
-    local normal = color
-    local backdrop = color
+    color = color
+    backdropc = color
   else
-    local normal = uuidb.actionbars.color.normal
-    local backdrop = uuidb.actionbars.shadowcolor
+    color = uuidb.actionbars.color.normal
+    backdropc = uuidb.actionbars.shadowcolor
   end
 
     if not bu or (bu and bu.rabs_styled) then return end
@@ -124,7 +124,7 @@ end)
     --add button normaltexture
     bu:SetNormalTexture(uuidb.textures.buttons.normal)
     local nt = bu:GetNormalTexture()
-    nt:SetVertexColor(normal.r,normal.g,normal.b,normal.a)
+    nt:SetVertexColor(color.r, color.g, color.b, color.a)
     nt:SetAllPoints(bu)
     --apply background
     --if not bu.bg then applyBackground(bu) end
@@ -133,16 +133,14 @@ end)
 		bu.Back:SetPoint("BOTTOMRIGHT", bu, "BOTTOMRIGHT", 3, -3)
 		bu.Back:SetFrameLevel(bu:GetFrameLevel() - 1)
 		bu.Back:SetBackdrop(backdrop)
-		bu.Back:SetBackdropBorderColor(backdrop.r, backdrop.g, backdrop.b. backdrop.a)
+		bu.Back:SetBackdropBorderColor(backdropc.r, backdropc.g, backdropc.b, backdropc.a)
     bu.rabs_styled = true
   end
 
   --initial style func
   local function styleActionButton(bu, color)
-    if (color) then
-      local normal = color
-    else
-      local normal = uuidb.actionbars.color.normal
+    if not (color) then
+      color = uuidb.actionbars.color.normal
     end
 
     if not bu or (bu and bu.rabs_styled) then
@@ -171,7 +169,7 @@ end)
     ho:ClearAllPoints()
     ho:SetPoint(uuidb.actionbars.hotkeys.pos1.a1,bu,uuidb.actionbars.hotkeys.pos1.x,uuidb.actionbars.hotkeys.pos1.y)
     ho:SetPoint(uuidb.actionbars.hotkeys.pos2.a1,bu,uuidb.actionbars.hotkeys.pos2.x,uuidb.actionbars.hotkeys.pos2.y)
-    if not dominos and not bartender4 and not uuidb.actionbars.hotkey.show then
+    if not dominos and not bartender4 and not uuidb.actionbars.hotkeys.show then
       ho:Hide()
     end
     --macro name
@@ -185,7 +183,7 @@ end)
     --item stack count
     co:SetFont(uuidb.general.font, uuidb.actionbars.count.fontsize, "OUTLINE")
     co:ClearAllPoints()
-    co:SetPoint(uuidb.actionbars.count.pos1.a1,bu,uuidb.actionbars.count.pos1.x,uuidb.actionbars.count.pos1.y)
+    co:SetPoint(uuidb.actionbars.count.pos.a1,bu,uuidb.actionbars.count.pos.x,uuidb.actionbars.count.pos.y)
     if not dominos and not bartender4 and not uuidb.actionbars.count.show then
       co:Hide()
     end
@@ -204,24 +202,27 @@ end)
     ic:SetPoint("TOPLEFT", bu, "TOPLEFT", 2, -2)
     ic:SetPoint("BOTTOMRIGHT", bu, "BOTTOMRIGHT", -2, 2)
     --adjust the cooldown frame
-    cd:SetPoint("TOPLEFT", bu, "TOPLEFT", uuidb.actionbars.cooldown.cooldown.spacing, -uuidb.actionbars.cooldown.cooldown.spacing)
-    cd:SetPoint("BOTTOMRIGHT", bu, "BOTTOMRIGHT", -uuidb.actionbars.cooldown.cooldown.spacing, uuidb.actionbars.cooldown.cooldown.spacing)
+    cd:SetPoint("TOPLEFT", bu, "TOPLEFT", uuidb.actionbars.cooldown.spacing, -uuidb.actionbars.cooldown.spacing)
+    cd:SetPoint("BOTTOMRIGHT", bu, "BOTTOMRIGHT", -uuidb.actionbars.cooldown.spacing, uuidb.actionbars.cooldown.spacing)
     --apply the normaltexture
     if action and (IsEquippedAction(action)) then
       bu:SetNormalTexture(uuidb.textures.buttons.equipped)
       --nt:SetVertexColor(uuidb.actionbars.color.equipped.r,uuidb.actionbars.color.equipped.g,uuidb.actionbars.color.equipped.b,1)
     else
       bu:SetNormalTexture(uuidb.textures.buttons.normal)
-      nt:SetVertexColor(normal.r,normal.g,normal.b,1)
+      nt:SetVertexColor(color.r, color.g, color.b, color.a)
     end
     --make the normaltexture match the buttonsize
     nt:SetAllPoints(bu)
     --hook to prevent Blizzard from reseting our colors
     hooksecurefunc(nt, "SetVertexColor", function(nt, r, g, b, a)
+      if uuidb.customcolor then
+        color = uuidb.customcolorval
+      end
       local bu = nt:GetParent()
       local action = bu.action
       --print(bu:GetName(), IsEquippedAction(action))
-      --print("bu "..bu:GetName().." R"..r.." G"..g.." B"..b)
+      print("bu "..bu:GetName().." R"..r.." G"..g.." B"..b)
       if r==1 and g==1 and b==1 and action and (IsEquippedAction(action)) then
         if uuidb.actionbars.color.equipped.r == 1 and  uuidb.actionbars.color.equipped.g == 1 and  uuidb.actionbars.color.equipped.b == 1 then
           nt:SetVertexColor(0.999,0.999,0.999,1)
@@ -231,19 +232,19 @@ end)
         end
       elseif r==0.5 and g==0.5 and b==1 then
         --blizzard oom color
-        if normal.r == 0.5 and  normal.g == 0.5 and  normal.b == 1 then
+        if color.r == 0.5 and  color.g == 0.5 and  color.b == 1 then
           nt:SetVertexColor(0.499,0.499,0.999,1)
         else
           bu:SetNormalTexture(uuidb.textures.buttons.normal)
-          nt:SetVertexColor(normal.r, normal.b, normal.g, normal.a)
+          nt:SetVertexColor(color.r, color.g, color.b, color.a)
         end
       elseif r==1 and g==1 and b==1 then
-        if normal.r == 1 and  normal.g == 1 and  normal.b == 1 then
+        if color.r == 1 and  color.g == 1 and  color.b == 1 then
           bu:SetNormalTexture(uuidb.textures.buttons.normal)
           nt:SetVertexColor(0.999,0.999,0.999,1)
         else
           bu:SetNormalTexture(uuidb.textures.buttons.normal)
-          nt:SetVertexColor(normal.r, normal.b, normal.g, normal.a)
+          nt:SetVertexColor(color.r, color.g, color.b, color.a)
         end
       end
     end)
@@ -258,10 +259,8 @@ end)
   end
   -- style leave button
   local function styleLeaveButton(bu, color)
-    if (color) then
-      local normal = color
-    else
-      local normal = uuidb.actionbars.color.normal
+    if not (color) then
+      color = uuidb.actionbars.color.normal
     end
 
     if not bu or (bu and bu.rabs_styled) then return end
@@ -292,7 +291,7 @@ end)
     local nt  = _G[name.."NormalTexture2"]
     nt:SetAllPoints(bu)
     --applying color
-    nt:SetVertexColor(normal.r,normal.g,normal.b,normal.a)
+    nt:SetVertexColor(color.r, color.g, color.b, color.a)
     --setting the textures
     fl:SetTexture(uuidb.textures.buttons.flash)
     --bu:SetHighlightTexture(uuidb.textures.buttons.hover)
@@ -316,11 +315,10 @@ end)
 
   --style stance buttons
   local function styleStanceButton(bu, color)
-    if (color) then
-      local normal = color
-    else
-      local normal = uuidb.actionbars.color.normal
+    if not (color) then
+      color = uuidb.actionbars.color.normal
     end
+
     if not bu or (bu and bu.rabs_styled) then return end
     local name = bu:GetName()
     local ic  = _G[name.."Icon"]
@@ -328,7 +326,7 @@ end)
     local nt  = _G[name.."NormalTexture2"]
     nt:SetAllPoints(bu)
     --applying color
-    nt:SetVertexColor(normal.r,normal.g,normal.b,normal.a)
+    nt:SetVertexColor(color.r, color.g, color.b, color.a)
     --setting the textures
     fl:SetTexture(uuidb.textures.buttons.flash)
     --bu:SetHighlightTexture(uuidb.textures.buttons.hover)
@@ -346,11 +344,10 @@ end)
 
   --style possess buttons
   local function stylePossessButton(bu, color)
-    if (color) then
-      local normal = color
-    else
-      local normal = uuidb.actionbars.color.normal
+    if not (color) then
+      color = uuidb.actionbars.color.normal
     end
+
     if not bu or (bu and bu.rabs_styled) then return end
     local name = bu:GetName()
     local ic  = _G[name.."Icon"]
@@ -358,7 +355,7 @@ end)
     local nt  = _G[name.."NormalTexture"]
     nt:SetAllPoints(bu)
     --applying color
-    nt:SetVertexColor(normal.r,normal.g,normal.b,normal.a)
+    nt:SetVertexColor(color.r, color.g, color.b, color.a)
     --setting the textures
     fl:SetTexture(uuidb.textures.buttons.flash)
     --bu:SetHighlightTexture(uuidb.textures.buttons.hover)
@@ -376,18 +373,17 @@ end)
 
 -- style bags
 local function styleBag(bu, color)
-  if (color) then
-    local normal = color
-  else
-    local normal = uuidb.actionbars.bagiconcolor
-  end
+  if not (color) then
+      color = uuidb.actionbars.bagiconcolor
+    end
+
 	if not bu or (bu and bu.rabs_styled) then return end
 	local name = bu:GetName()
 	local ic  = _G[name.."IconTexture"]
 	local nt  = _G[name.."NormalTexture"]
 	nt:SetTexCoord(0,1,0,1)
 	nt:SetDrawLayer("BACKGROUND", -7)
-	nt:SetVertexColor(normal.r, normal.g, normal.b, normal.a)
+	nt:SetVertexColor(color.r, color.g, color.b, color.a)
 	nt:SetAllPoints(bu)
 	local bo = bu.IconBorder
 	bo:Hide()
@@ -426,7 +422,7 @@ end
   -- INIT
   ---------------------------------------
 
-function uui_ActionBars_ReworkAllColors(color)
+function actionbars:ReworkAllColors(color)
   if not (color) then
     local color = nil
   end
@@ -499,3 +495,5 @@ function uui_ActionBars_ReworkAllColors(color)
     hooksecurefunc("ActionButton_UpdateHotkeys",  updateHotkey)
   end
 end
+
+UberUI.actionbars = actionbars

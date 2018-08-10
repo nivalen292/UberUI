@@ -4,6 +4,7 @@
 
 --get the addon namespace
 local addon, ns = ...
+local general = {}
 --get the config values
 local cfg = ns.cfg
 local dragFrameList = ns.dragFrameList
@@ -17,28 +18,25 @@ local class = UnitClass("player")
 
 -- REMOVING UGLY PARTS OF UI
 
-local uui_General = CreateFrame("frame")
-uui_General:RegisterEvent("PLAYER_LOGIN")
-uui_General:SetScript("OnEvent", function(self, event)
+local general = CreateFrame("frame")
+general:RegisterEvent("PLAYER_LOGIN")
+general:SetScript("OnEvent", function(self, event)
 	if uuidb.general.classcolorhealth then
 		hooksecurefunc("UnitFrameHealthBar_Update", function()
-			uui_General:HealthColor()
+			general:HealthColor()
 		end)
 		hooksecurefunc("HealthBar_OnValueChanged", function()
-			uui_General:HealthColor()
+			general:HealthColor()
 		end)
-	uui_General_ColorAllFrames(color)
+		self:ColorAllFrames()
+		self:MicroBar()
 	end
 end)
 
  -- COLORING THE MAIN BAR
-function uui_General_MainMenuColor(color)
+function general:MainMenuColor(color)
 	if not (color) then
-		gryph = uuidb.mainmenu.gryphcolor
-		mainbarcolor = uuidb.mainmenu.mainbarcolor
-	else
-		gryph = color
-		mainbarcolor = color
+		color = uuidb.mainmenu.mainbarcolor
 	end
 
 	for _,v in pairs({
@@ -51,35 +49,50 @@ function uui_General_MainMenuColor(color)
 		StatusTrackingBarManager.SingleBarSmall,
 		StatusTrackingBarManager.SingleBarSmallUpper,
 		MicroButtonAndBagsBar.MicroBagBar,
-		MainMenuBarArtFrame.LeftEndCap,
-		MainMenuBarArtFrame.RightEndCap,
-	}) do
+		}) do
 		local frameAtlas = v:GetAtlas()
 		if frameAtlas ~= nil then
 			local txl, txr, txt, txb = select(4, GetAtlasInfo(frameAtlas))
 			v:SetTexture("Interface\\AddOns\\Uber UI\\Textures\\MainMenuBar")
 			v:SetTexCoord(txl, txr, txt, txb)
-			if v == MainMenuBarArtFrame.RightEndCap then
-				v:SetTexCoord(txr, txl, txt, txb)
-			end
-			v:SetVertexColor(mainbarcolor.r, mainbarcolor.b, mainbarcolor.g, mainbarcolor.a)
+			v:SetVertexColor(color.r, color.b, color.g, color.a)
 		else
-			v:SetVertexColor(mainbarcolor.r, mainbarcolor.b, mainbarcolor.g, mainbarcolor.a)
+			v:SetVertexColor(color.r, color.b, color.g, color.a)
 		end
+	end
+end
 
-		if v == MainMenuBarArtFrame.RightEndCap or v == MainMenuBarArtFrame.LeftEndCap then
-			if uuidb.mainmenu.gryphon then
+function general:Gryphons(color)
+	if not (color) then
+		color = uuidb.mainmenu.gryphcolor
+	end
+	for _,v in pairs({
+		MainMenuBarArtFrame.LeftEndCap,
+		MainMenuBarArtFrame.RightEndCap,
+		}) do
+		if uuidb.mainmenu.gryphon then
+			local frameAtlas = v:GetAtlas()
+			if frameAtlas ~= nil then
+				local txl, txr, txt, txb = select(4, GetAtlasInfo(frameAtlas))
+				v:SetTexture("Interface\\AddOns\\Uber UI\\Textures\\MainMenuBar")
+				v:SetTexCoord(txl, txr, txt, txb)
+				if v == MainMenuBarArtFrame.RightEndCap then
+					v:SetTexCoord(txr, txl, txt, txb)
+				end
+				v:SetVertexColor(color.r, color.b, color.g, color.a)
 				v:Show()
-				v:SetVertexColor(gryph.r, gryph.b, gryph.g, gryph.a)
 			else
-				v:Hide()
+				v:SetVertexColor(color.r, color.b, color.g, color.a)
+				v:Show()
 			end
+		else
+			v:Hide()
 		end
 	end
 end
 
 --class color target frames / health
-local function uui_General_ClassColored(statusbar, unit)
+local function ClassColored(statusbar, unit)
     if (UnitIsPlayer(unit) and UnitClass(unit)) then
         -- player
         if (uuidb.general.classcolorhealth) then
@@ -123,7 +136,7 @@ local function uui_General_ClassColored(statusbar, unit)
     end
 end
 
-function uui_General:HealthColor()
+function general:HealthColor()
 	local healthbars = {
         PlayerFrameHealthBar,
         TargetFrameHealthBar,
@@ -135,16 +148,16 @@ function uui_General:HealthColor()
 
     for _, statusbar in pairs(healthbars) do
 		if (UnitIsConnected(statusbar.unit)) then
-			uui_General_ClassColored(statusbar, statusbar.unit)
+			ClassColored(statusbar, statusbar.unit)
 		end
     end
 end
 
-function uui_General_MicroBar()
+function general:MicroBar()
 	for _,v in pairs({
 		MicroButtonAndBagsBar,
 	}) do
-		if not UberuiDB.MBBB then
+		if not uuidb.mainmenu.microbuttonbar then
 			local point, rf, rp, ofsx, ofxy = v:GetPoint()
 			v:ClearAllPoints()
 			v:SetPoint(point, rf, rp, ofsx, ofxy-100)
@@ -158,28 +171,49 @@ function uui_General_MicroBar()
 	end
 end
 
-function uui_General_ColorAllFrames()
+function general:MicroBar()
+	for _,v in pairs({
+		MicroButtonAndBagsBar,
+	}) do
+		if not uuidb.mainmenu.microbuttonbar then
+			local point, rf, rp, ofsx, ofxy = v:GetPoint()
+			v:ClearAllPoints()
+			v:SetPoint(point, rf, rp, ofsx, ofxy-100)
+		else
+			local point, rf, rp, ofsx, ofxy = v:GetPoint()
+			if ofxy ~= 0 then
+				v:ClearAllPoints()
+				v:SetPoint(point, rf, rp, ofsx, ofxy+100)
+			end
+		end
+	end
+end	
+
+function general:ColorAllFrames()
 	if uuidb.general.customcolor then
 		color = uuidb.general.customcolorval
+		self:MainMenuColor(color)
+		self:Gryphons(color)
 		uui_PlayerFrame_ReworkAllColor(color)
 		uui_TargetFrame_ReworkAllColor(color)
-		--uui_Misc_ReworkAllColor(color)
-		uui_General_MainMenuColor(color)
-		--uui_Auras_ReworkAllColors(color)
-		uui_Minimap_ReworkAllColor(color)
-		--uui_ActionBars_ReworkAllColors(color)
+		UberUI.misc:ReworkAllColor(color)
+		UberUI.auras:ReworkAllColors(color)
+		UberUI.minimap:ReworkAllColor(color)
+		UberUI.actionbars:ReworkAllColors(color)
 	else
+		self:MainMenuColor()
+		self:Gryphons()
 		uui_PlayerFrame_ReworkAllColor()
 		uui_TargetFrame_ReworkAllColor()
-		--uui_Misc_ReworkAllColor()
-		uui_General_MainMenuColor()
-		--uui_Auras_ReworkAllColors()
-		uui_Minimap_ReworkAllColor()
-		--uui_ActionBars_ReworkAllColors()
+		UberUI.misc:ReworkAllColor()
+		UberUI.auras:ReworkAllColors()
+		UberUI.minimap:ReworkAllColor()
+		UberUI.actionbars:ReworkAllColors()
 	end
-	uui_Buffs_ReworkAllColor()
+	UberUI.buffs:ReworkAllColor()
 end
 
+UberUI.general = general
   -- REWORKING THE MINIMAP
 --  function minimaprework()
 --		if not (IsAddOnLoaded("SexyMap")) then
@@ -791,27 +825,27 @@ end
 	--	end
 	--end
 
-local CF = CreateFrame("Frame")
-local _, instanceType = IsInInstance()
-CF:RegisterEvent("ADDON_LOADED")
-CF:RegisterEvent("PLAYER_ENTERING_WORLD")
-CF:SetScript("OnEvent", function(self, event, addon)
-
-	function uui_General_MicroBar()
-		for _,v in pairs({
-			MicroButtonAndBagsBar,
-		}) do
-			if not UberuiDB.MBBB then
-				local point, rf, rp, ofsx, ofxy = v:GetPoint()
-				v:ClearAllPoints()
-				v:SetPoint(point, rf, rp, ofsx, ofxy-100)
-			else
-				local point, rf, rp, ofsx, ofxy = v:GetPoint()
-				if ofxy ~= 0 then
-					v:ClearAllPoints()
-					v:SetPoint(point, rf, rp, ofsx, ofxy+100)
-				end
-			end
-		end
-	end	
-end)
+--local CF = CreateFrame("Frame")
+--local _, instanceType = IsInInstance()
+--CF:RegisterEvent("ADDON_LOADED")
+--CF:RegisterEvent("PLAYER_ENTERING_WORLD")
+--CF:SetScript("OnEvent", function(self, event, addon)
+--
+--	function general:MicroBar()
+--		for _,v in pairs({
+--			MicroButtonAndBagsBar,
+--		}) do
+--			if not UberuiDB.MBBB then
+--				local point, rf, rp, ofsx, ofxy = v:GetPoint()
+--				v:ClearAllPoints()
+--				v:SetPoint(point, rf, rp, ofsx, ofxy-100)
+--			else
+--				local point, rf, rp, ofsx, ofxy = v:GetPoint()
+--				if ofxy ~= 0 then
+--					v:ClearAllPoints()
+--					v:SetPoint(point, rf, rp, ofsx, ofxy+100)
+--				end
+--			end
+--		end
+--	end	
+--end)

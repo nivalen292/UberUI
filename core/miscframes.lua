@@ -1,17 +1,17 @@
 local addon, ns = ...
-local uui_PartyRaid
+local misc = {}
 
 
-local uui_Misc = CreateFrame("frame")
-uui_Misc:RegisterEvent("ADDON_LOADED")
-uui_Misc:RegisterEvent("GROUP_ROSTER_UPDATE")
-uui_Misc:RegisterEvent("PLAYER_LEAVE_COMBAT")
-uui_Misc:SetScript("OnEvent", function(self,event)
+local misc = CreateFrame("frame")
+misc:RegisterEvent("ADDON_LOADED")
+misc:RegisterEvent("GROUP_ROSTER_UPDATE")
+misc:RegisterEvent("PLAYER_LEAVE_COMBAT")
+misc:SetScript("OnEvent", function(self,event)
 
 end)
 
 
-function uui_Misc_RaidColor(color)
+function misc:RaidColor(color)
 	for g = 1, NUM_RAID_GROUPS do
 		local group = _G["CompactRaidGroup"..g.."BorderFrame"]
 		if group then
@@ -39,6 +39,11 @@ function uui_Misc_RaidColor(color)
 				end
 			end
 		end
+		if CompactPartyFrameBorderFrame then
+   			for _,region in pairs({CompactPartyFrameBorderFrame:GetRegions()}) do
+   			   region:SetVertexColor(color.r,color.b,color.g,color.a)
+   			end
+		end
 	end
 	for _, region in pairs({CompactRaidFrameContainerBorderFrame:GetRegions()}) do
 		if region:IsObjectType("Texture") then
@@ -59,45 +64,45 @@ function uui_Misc_RaidColor(color)
 end
 
 
---function uui_Misc_PartyColor(color)
---	local partyframes = {
---		PartyMemberFrame1Texture, 
---		PartyMemberFrame2Texture, 
---		PartyMemberFrame3Texture, 
---		PartyMemberFrame4Texture,
---		PartyMemberFrame1PetFrameTexture, 
---		PartyMemberFrame2PetFrameTexture, 
---		PartyMemberFrame3PetFrameTexture,
---		PartyMemberFrame4PetFrameTexture
---	}
---	for _,v in pairs(tarframes) do
---		if (UnitIsConnected(v.unit)) and uuidb.miscframes.partycolort then
---			uui_General_ClassColored(v, v.unit)
---		else
---			v:SetVertexColor(color.r, color.b, color.g, color.a)
---		end
---	end
---	for i=1,4 do 
---		_G["PartyMemberFrame"..i.."PVPIcon"]:SetAlpha(0)
---		_G["PartyMemberFrame"..i.."NotPresentIcon"]:Hide()
---		_G["PartyMemberFrame"..i.."NotPresentIcon"].Show = function() end
---	end
---end
+function misc:PartyColor(color)
+	local partyframes = {
+		PartyMemberFrame1Texture, 
+		PartyMemberFrame2Texture, 
+		PartyMemberFrame3Texture, 
+		PartyMemberFrame4Texture,
+		PartyMemberFrame1PetFrameTexture, 
+		PartyMemberFrame2PetFrameTexture, 
+		PartyMemberFrame3PetFrameTexture,
+		PartyMemberFrame4PetFrameTexture,
+	}
+	for _,v in pairs(partyframes) do
+		--if (UnitIsConnected(v.unit)) and uuidb.miscframes.partycolort then
+		--	uui_General_ClassColored(v, v.unit)
+		--else
+			v:SetVertexColor(color.r, color.b, color.g, color.a)
+		--end
+	end
+	for i=1,4 do 
+		_G["PartyMemberFrame"..i.."PVPIcon"]:SetAlpha(0)
+		_G["PartyMemberFrame"..i.."NotPresentIcon"]:Hide()
+		_G["PartyMemberFrame"..i.."NotPresentIcon"].Show = function() end
+	end
+end
 
-function uui_Misc_TooltipColor(color)
+function misc:TooltipColor(color)
 	hooksecurefunc("GameTooltip_ShowCompareItem", function(self, anchorFrame)
 		if (self) then
 			local shoppingTooltip1, shoppingTooltip2 = unpack(self.shoppingTooltips)
-			shoppingTooltip1:SetBackdropBorderColor(color)
-			shoppingTooltip2:SetBackdropBorderColor(color)
+			shoppingTooltip1:SetBackdropBorderColor(color.r, color.b, color.g, color.a)
+			shoppingTooltip2:SetBackdropBorderColor(color.r, color.b, color.g, color.a)
 		end
 	end)
 	hooksecurefunc("GameTooltip_SetBackdropStyle", function(self, style)
-		self:SetBackdropBorderColor(color)
+		self:SetBackdropBorderColor(color.r, color.b, color.g, color.a)
 	end)
 end
 
-function uui_Misc_pvpicons()
+function misc:pvpicons()
 	for i,v in pairs({
 		PlayerPVPIcon,
 		TargetFrameTextureFramePVPIcon,
@@ -111,12 +116,14 @@ function uui_Misc_pvpicons()
 	end
 end
 
-function uui_Misc_ReworkAllColor(color)
+function misc:ReworkAllColor(color)
 	if not (color) then
 		color = uuidb.miscframes.misccolor
 	end
 
-	uui_Misc_RaidColor(color)
-	uui_Misc_PartyColor(color)
-	uui_Misc_TooltipColor(color)
+	self:RaidColor(color)
+	self:PartyColor(color)
+	self:TooltipColor(color)
 end
+
+UberUI.misc = misc

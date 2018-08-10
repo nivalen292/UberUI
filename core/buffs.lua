@@ -1,11 +1,11 @@
 
 --get the addon namespace
 local addon, ns = ...
-uui_Buffs = {}
+buffs = {}
 
-uui_Buffs = CreateFrame("frame")
-uui_Buffs:RegisterEvent("PLAYER_LOGIN")
-uui_Buffs:SetScript("OnEvent", function(self)
+buffs = CreateFrame("frame")
+buffs:RegisterEvent("PLAYER_LOGIN")
+buffs:SetScript("OnEvent", function(self)
 
   buff = uuidb.buffdebuff.buff
   debuff = uuidb.buffdebuff.debuff
@@ -70,7 +70,7 @@ uui_Buffs:SetScript("OnEvent", function(self)
   --TempEnchant2:SetPoint("TOPRIGHT", TempEnchant1, "TOPLEFT", -buff.colspacing, 0)
   --TempEnchant3:ClearAllPoints()
   --TempEnchant3:SetPoint("TOPRIGHT", TempEnchant2, "TOPLEFT", -buff.colspacing, 0)
-  uui_Buffs_ReworkAllColor()
+  buffs:ReworkAllColor()
 end)
 
 local ceil, min, max = ceil, min, max
@@ -113,8 +113,8 @@ local function applySkin(b)
     bordercolor = uuidb.general.customcolorval
     backgroundcolor = uuidb.general.customcolorval
   else
-    bordercolor = uui.border.color
-    backgroundcolor = uui.border.color
+    bordercolor = uuidb.border.color
+    backgroundcolor = uuidb.border.color
   end
 
   --button
@@ -167,7 +167,7 @@ local function applySkin(b)
     back:SetPoint("BOTTOMRIGHT", b, "BOTTOMRIGHT", uui.background.padding, -uui.background.padding)
     back:SetFrameLevel(b:GetFrameLevel() - 1)
     back:SetBackdrop(backdrop)
-    back:SetBackdropBorderColor(backgroundcolor)
+    back:SetBackdropBorderColor(backgroundcolor.r, backgroundcolor.g, backgroundcolor.b, backgroundcolor.a)
     b.bg = back
   end
 
@@ -246,9 +246,11 @@ local function updateAllBuffAnchors()
   buffFrameHeight = height
 end
 
-function uui_Buffs_ReworkAllColor()
+function buffs:ReworkAllColor()
   updateDebuffAnchors("DebuffButton", 1)
   updateAllBuffAnchors()
   hooksecurefunc("BuffFrame_UpdateAllBuffAnchors", updateAllBuffAnchors)
   hooksecurefunc("DebuffButton_UpdateAnchors", updateDebuffAnchors)
 end
+
+UberUI.buffs = buffs

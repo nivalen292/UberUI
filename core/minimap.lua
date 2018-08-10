@@ -1,16 +1,16 @@
 local addon, ns = ...
-local uui_Minimap = {}
+local minimap = {}
 
-uui_Minimap=CreateFrame("frame")
-uui_Minimap:RegisterEvent("PLAYER_LOGIN")
-uui_Minimap:SetScript("OnEvent", function(self, event)
+minimap=CreateFrame("frame")
+minimap:RegisterEvent("PLAYER_LOGIN")
+minimap:SetScript("OnEvent", function(self, event)
 	if not (IsAddOnLoaded("SexyMap")) then
-		uui_Minimap_ReworkAllColor()
-		uui_Minimap_Other()
+		self:ReworkAllColor()
+		self:Other()
 	end
 end)
 
-function uui_Minimap_Color(color)
+function minimap:Color(color)
 	if uuidb.general.customcolor then
 		color = uuidb.general.customcolorval
 	else
@@ -28,7 +28,7 @@ function uui_Minimap_Color(color)
 	select(2, TimeManagerClockButton:GetRegions()):SetVertexColor(1,1,1)
 end
 
-function uui_Minimap_GarrisonBtn(color)
+function minimap:GarrisonBtn(color)
 	if uuidb.general.customcolor then
 		color = uuidb.general.customcolorval
 	else
@@ -69,7 +69,7 @@ function uui_Minimap_GarrisonBtn(color)
 	end)
 end
 
-function uui_Minimap_Other()
+function minimap:Other()
   	MinimapBorderTop:Hide()
 	MinimapZoomIn:Hide()
 	MinimapZoomOut:Hide()
@@ -101,12 +101,12 @@ function uui_Minimap_Other()
 	end)
 end
 
-function uui_Minimap_ReworkAllColor(color)
+function minimap:ReworkAllColor(color)
 	if not (color) then
 		color = uuidb.minimap.color
 	end
-	uui_Minimap_Color(color)
-	uui_Minimap_GarrisonBtn(color)
+	self:Color(color)
+	self:GarrisonBtn(color)
 end
 
-
+UberUI.minimap = minimap
