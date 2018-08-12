@@ -1,18 +1,23 @@
 local addon, ns = ...
-local uui_PlayerFrame
+local playerframes = {}
 
-player = uuidb.playerframe
-
-uui_PlayerFrame = CreateFrame("frame")
-uui_PlayerFrame:RegisterEvent("ADDON_LOADED")
-uui_PlayerFrame:RegisterEvent("PLAYER_LOGIN")
-uui_PlayerFrame:SetScript("OnEvent", function(self,event)
+playerframes = CreateFrame("frame")
+playerframes:RegisterEvent("ADDON_LOADED")
+playerframes:RegisterEvent("PLAYER_LOGIN")
+playerframes:RegisterEvent("PLAYER_ENTERING_WORLD")
+playerframes:SetScript("OnEvent", function(self,event)
 if not ((IsAddOnLoaded("EasyFrames")) or (IsAddOnLoaded("Shadowed Unit Frames")) or (IsAddOnLoaded("PitBull Unit Frames 4.0")) or (IsAddOnLoaded("X-Perl UnitFrames"))) then
 end
 
+player = uuidb.playerframe
+
 end)
 
-local function uui_PlayerFrame_MiscFrames(color)
+local function MiscFrames(color)
+	if not (color) then
+		color = uuidb.playerframe.color
+	end
+
 	if uuidb.playerframe.largehealth then
 		frametexture = uuidb.textures.targetframebig
 	else
@@ -39,9 +44,8 @@ local function uui_PlayerFrame_MiscFrames(color)
 		PaladinPowerBarFrameBG,
 		PaladinPowerBarFrameBankBG
 	}) do
-
 		--texture frames to appropriately color
-		if v:GetTexture() == "Interface\\TargetingFrame\\UI-TargetingFrame" and not UberuiDB.LargeHealth then
+		if v:GetTexture() == "Interface\\TargetingFrame\\UI-TargetingFrame" and not uuidb.playerframe.LargeHealth then
 			v:SetTexture(frametexture.targetingframe)
         elseif v:GetTexture() == "Interface\\TargetingFrame\\UI-SmallTargetingFrame" then
 			v:SetTexture(uuidb.textures.other.smalltarget) 
@@ -50,28 +54,26 @@ local function uui_PlayerFrame_MiscFrames(color)
         elseif v:GetTexture() == "Interface\\TargetingFrame\\UI-TargetofTargetFrame" then
 			v:SetTexture(uuidb.textures.other.tot)
 		end
-
 		v:SetVertexColor(color.r, color.g, color.g, color.a)
     end
     CastingBarFrame.Border:SetTexture("Interface\\AddOns\\Uber UI\\textures\\castingbarborder")
 end
 
-function uui_PlayerFrame_LargeHealth(color)
+function uui_playerframes_LargeHealth(color)
 	if uuidb.general.customcolor then
 		color = uuidb.general.customcolorval
 	else
-		color = uuidb.targetframe.color
+		color = uuidb.playerframe.color
 	end
+
 	if uuidb.playerframe.largehealth then
 		PlayerFrameTexture:SetTexture("Interface\\Addons\\Uber UI\\textures\\target\\targetingframebig")
-		PlayerFrameTexture:SetVertexColor(color.r, color.g, color.g, color.a)
-		PlayerFrame:SetScale(uuidb.playerframe.scale)
+		PlayerFrameTexture:SetVertexColor(color.r, color.g, color.b, color.a)
 		PlayerFrameGroupIndicatorText:ClearAllPoints()
 		PlayerFrameGroupIndicatorText:SetPoint("BOTTOMLEFT", PlayerFrame, "TOP", 0, -20)
 		PlayerFrameGroupIndicatorLeft:Hide()
 		PlayerFrameGroupIndicatorMiddle:Hide()
 		PlayerFrameGroupIndicatorRight:Hide()
-		PlayerName:Hide()
 		PlayerFrameHealthBar:SetPoint("TOPLEFT", 106, -24)
 		PlayerFrameHealthBar:SetHeight(29)
 		PlayerFrameHealthBar.LeftText:ClearAllPoints()
@@ -98,12 +100,6 @@ function uui_PlayerFrame_LargeHealth(color)
 		PlayerFrameManaBar.FullPowerFrame.SpikeFrame.BigSpikeGlow:SetPoint("CENTER",PlayerFrameManaBar.FullPowerFrame,"RIGHT",5,-4)
 		PlayerFrameManaBar.FullPowerFrame.SpikeFrame.BigSpikeGlow:SetSize(30, 50)
 
-		--player frame options
-		if uuidb.playerframe.name then
-			PlayerName:ClearAllPoints()
-			PlayerName:SetPoint("LEFT", PlayerFrameTexture, 15, 36)
-		end
-
 		hooksecurefunc("PlayerFrame_UpdateStatus",function()
 			PlayerStatusTexture:Hide()
 			PlayerRestGlow:Hide()
@@ -116,14 +112,34 @@ function uui_PlayerFrame_LargeHealth(color)
 			FocusFrameTextureFramePrestigePortrait:SetAlpha(0)
 		end)
 
-		hooksecurefunc("PlayerFrame_ToPlayerArt", uui_PlayerFrame_LargeHealth)
+		hooksecurefunc("PlayerFrame_ToPlayerArt", uui_playerframes_LargeHealth)
 	end
 	PlayerFrameGroupIndicator:SetAlpha(0)
 	PlayerHitIndicator:SetText(nil) 
 	PlayerHitIndicator.SetText = function() end
 end
 
-function uui_PlayerFrame_PetFrame()
+function playerframes:Name()
+	--print(uuidb.playerframe.name)
+	--print(uuidb.playerframe.largehealth)
+	--print(PlayerName:GetPoint())
+	--if uuidb.playerframe.name and not uuidb.playerframe.largehealth then
+	--	PlayerName:ClearAllPoints()
+	--	PlayerName:SetPoint("CENTER", PlayerFrameTexture, "CENTER", 50, 19.000001907349)
+	--elseif uuidb.playerframe.name then
+	--	PlayerName:ClearAllPoints()
+	--	PlayerName:SetPoint("CENTER", PlayerFrameTexture, "CENTER", 50, 39)
+	--else
+		PlayerName:Hide()
+
+end
+
+function playerframes:Scale(value)
+	PlayerFrame:SetScale(value)
+end
+
+
+function playerframes:PetFrame()
 	hooksecurefunc("PetFrame_Update", function(self, override)
 		  if ( (not PlayerFrame.animating or UnitInVehicle("player") or UnitisDead("player")) or (override) ) then
 			if ( UnitIsVisible(self.unit) and PetUsesPetFrame() and not PlayerFrame.vehicleHidesPet ) then
@@ -151,17 +167,24 @@ function uui_PlayerFrame_PetFrame()
 	PetHitIndicator.SetText = function() end
 end
 
-function uui_PlayerFrame_ReworkAllColor(color)
+function playerframes:ReworkAllColor(color)
 	if not ((IsAddOnLoaded("EasyFrames")) or (IsAddOnLoaded("Shadowed Unit Frames")) or (IsAddOnLoaded("PitBull Unit Frames 4.0")) or (IsAddOnLoaded("X-Perl UnitFrames"))) then
-		if not (color) then
-			local color = uuidb.playerframe.color
+		if not (self) then
+			self = playerframes
 		end
-	
-		uui_PlayerFrame_MiscFrames(color)
-	
+		if not (color) then
+			color = uuidb.playerframe.color
+		end
+
+		MiscFrames(color)
+
 		--enable large health style
 		if uuidb.playerframe.largehealth then
-			uui_PlayerFrame_LargeHealth(color)
+			uui_playerframes_LargeHealth(color)
 		end
+		self:Name()
+		self:Scale(uuidb.playerframe.scale)
 	end
 end
+
+UberUI.playerframes = playerframes

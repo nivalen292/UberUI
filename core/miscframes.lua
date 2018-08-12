@@ -17,7 +17,7 @@ function misc:RaidColor(color)
 		if group then
 			for _, region in pairs({group:GetRegions()}) do
 				if region:IsObjectType("Texture") then
-					region:SetVertexColor(color.r, color.b, color.g, color.a)
+					region:SetVertexColor(color.r, color.g, color.b, color.a)
 				end
 			end
 		end
@@ -26,7 +26,7 @@ function misc:RaidColor(color)
 			if frame and uuidb.miscframes.raidgroupcolor then
 				for _, region in pairs({frame:GetRegions()}) do
 					if region:GetName():find("Border") then
-						region:SetVertexColor(color.r, color.b, color.g, color.a)
+						region:SetVertexColor(color.r, color.g, color.b, color.a)
 					end
 				end
 			end
@@ -34,30 +34,30 @@ function misc:RaidColor(color)
 			if frame and uuidb.miscframes.raidsinglecolor then
 				for _, region in pairs({frame:GetRegions()}) do
 					if region:GetName():find("Border") then
-						region:SetVertexColor(color.r, color.b, color.g, color.a)
+						region:SetVertexColor(color.r, color.g, color.b, color.a)
 					end
 				end
 			end
 		end
 		if CompactPartyFrameBorderFrame then
    			for _,region in pairs({CompactPartyFrameBorderFrame:GetRegions()}) do
-   			   region:SetVertexColor(color.r,color.b,color.g,color.a)
+   			   region:SetVertexColor(color.r, color.g, color.b, color.a)
    			end
 		end
 	end
 	for _, region in pairs({CompactRaidFrameContainerBorderFrame:GetRegions()}) do
 		if region:IsObjectType("Texture") then
-			region:SetVertexColor(color.r, color.b, color.g, color.a)
+			region:SetVertexColor(color.r, color.g, color.b, color.a)
 		end
 	end
 	for _, region in pairs({CompactRaidFrameManager:GetRegions()}) do
 		if region:IsObjectType("Texture") then
-			region:SetVertexColor(color.r, color.b, color.g, color.a)
+			region:SetVertexColor(color.r, color.g, color.b, color.a)
 		end
 	end
 	for _, region in pairs({CompactRaidFrameManagerContainerResizeFrame:GetRegions()}) do
 		if region:IsObjectType("Border") then
-			region:SetVertexColor(color.r, color.b, color.g, color.a)
+			region:SetVertexColor(color.r, color.g, color.b, color.a)
 		end
 	end
 	CompactRaidFrameManagerToggleButton:SetNormalTexture("Interface\\AddOns\\Uber UI\\textures\\raid\\RaidPanel-Toggle")
@@ -79,7 +79,7 @@ function misc:PartyColor(color)
 		--if (UnitIsConnected(v.unit)) and uuidb.miscframes.partycolort then
 		--	uui_General_ClassColored(v, v.unit)
 		--else
-			v:SetVertexColor(color.r, color.b, color.g, color.a)
+			v:SetVertexColor(color.r, color.g, color.b, color.a)
 		--end
 	end
 	for i=1,4 do 
@@ -93,12 +93,12 @@ function misc:TooltipColor(color)
 	hooksecurefunc("GameTooltip_ShowCompareItem", function(self, anchorFrame)
 		if (self) then
 			local shoppingTooltip1, shoppingTooltip2 = unpack(self.shoppingTooltips)
-			shoppingTooltip1:SetBackdropBorderColor(color.r, color.b, color.g, color.a)
-			shoppingTooltip2:SetBackdropBorderColor(color.r, color.b, color.g, color.a)
+			shoppingTooltip1:SetBackdropBorderColor(color.r, color.g, color.b, color.a)
+			shoppingTooltip2:SetBackdropBorderColor(color.r, color.g, color.b, color.a)
 		end
 	end)
 	hooksecurefunc("GameTooltip_SetBackdropStyle", function(self, style)
-		self:SetBackdropBorderColor(color.r, color.b, color.g, color.a)
+		self:SetBackdropBorderColor(color.r, color.g, color.b, color.a)
 	end)
 end
 
@@ -108,7 +108,7 @@ function misc:pvpicons()
 		TargetFrameTextureFramePVPIcon,
 		FocusFrameTextureFramePVPIcon,
 	}) do
-		if not UberuiDB.pvpicons then
+		if not uuidb.miscframes.pvpicons then
 			v:SetAlpha(0)
 		else
 			v:SetVertexColor(.75,.75,.75,1)
@@ -124,6 +124,7 @@ function misc:ReworkAllColor(color)
 	self:RaidColor(color)
 	self:PartyColor(color)
 	self:TooltipColor(color)
+	self:pvpicons()
 end
 
 UberUI.misc = misc

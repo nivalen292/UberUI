@@ -1,5 +1,5 @@
 local addon, ns = ...
-local uui_TargetFrame
+local targetframes = {}
 
 --[[
 	Local Variables
@@ -8,13 +8,16 @@ local class = UnitClass("player")
 local classcolor = RAID_CLASS_COLORS[select(2, UnitClass("player"))]
 
 
-local uui_TargetFrame = CreateFrame("frame")
-uui_TargetFrame:RegisterEvent("ADDON_LOADED")
-uui_TargetFrame:SetScript("OnEvent", function(self, event)
+local targetframes = CreateFrame("frame")
+targetframes:RegisterEvent("ADDON_LOADED")
+targetframes:SetScript("OnEvent", function(self, event)
 	if not (IsAddOnLoaded("EasyFrames")) then
 		if uuidb.targetframe.largehealth then
 			hooksecurefunc("TargetFrame_CheckClassification", uui_TargetFrameStyleTargetFrame)
 		end
+	end
+	if uuidb.targetframe.colortargett then
+		self:ClassColorTargetEnable()
 	end
 end)
 
@@ -28,8 +31,6 @@ function uui_TargetFrameStyleTargetFrame(self, forceNormalTexture)
 		self.Background:SetSize(119, 42)
 		self.manabar.pauseUpdates = false
 		self.manabar:Show()
-		self.name:Hide()
-		TargetFrame:SetScale(uuidb.targetframe.scale)
 		TextStatusBar_UpdateTextString(self.manabar)
 		self.threatIndicator:SetTexture("Interface\\TargetingFrame\\UI-TargetingFrame-Flash")
 		self.healthbar:SetSize(119, 29)
@@ -48,14 +49,6 @@ function uui_TargetFrameStyleTargetFrame(self, forceNormalTexture)
 		self.manabar.RightText:ClearAllPoints()
 		self.manabar.RightText:SetPoint("RIGHT", self.manabar, "RIGHT", -5, 0)
 		self.manabar.TextString:SetPoint("CENTER", self.manabar, "CENTER", 0, 0)
-
-		--target frame options
-		--show/hide name
-		if uuidb.targetframe.name then
-			self.name:ClearAllPoints()
-			self.name:SetPoint("LEFT", self, 15, 36)
-		end
-
 
 		--TargetOfTarget
 		TargetFrameToTHealthBar:ClearAllPoints()
@@ -77,12 +70,13 @@ function uui_TargetFrameStyleTargetFrame(self, forceNormalTexture)
 
 	-- get color in use
 	if uuidb.general.customcolor then
-		color = uuidb.general.customcolorval
+		colors = uuidb.general.customcolorval
 	else
-		color = uuidb.targetframe.color
+		colors = uuidb.targetframe.color
 	end
 
 	-- style frames accordingly
+	local colors = color
 	local classification = UnitClassification(self.unit)
 	if ( classification == "minus" ) then
 		self.borderTexture:SetTexture("Interface\\TargetingFrame\\UI-TargetingFrame-Minus");
@@ -96,20 +90,79 @@ function uui_TargetFrameStyleTargetFrame(self, forceNormalTexture)
 		forceNormalTexture = true;
 	elseif ( classification == "worldboss" or classification == "elite" ) then
 		self.borderTexture:SetTexture(frametexture.elite)
-		self.borderTexture:SetVertexColor(color.r, color.g, color.b, color.a)
+		if uuidb.targetframe.colortargett then
+			colors = {r = 164/255, g = 143/255, b = 57/255}
+		end
+		self.borderTexture:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 	elseif ( classification == "rareelite" ) then
 		self.borderTexture:SetTexture(frametexture.rareelite)
-		self.borderTexture:SetVertexColor(color.r, color.g, color.b, color.a)
+		if uuidb.targetframe.colortargett then
+			colors = {r = 65/255, g = 66/255, b = 73/255}
+		end
+		self.borderTexture:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 	elseif ( classification == "rare" ) then
 		self.borderTexture:SetTexture(frametexture.rare)
-		self.borderTexture:SetVertexColor(color.r, color.g, color.b, color.a)
+		if uuidb.targetframe.colortargett then
+			colors = {r = 173/255, g = 166/255, b = 156/255}
+		end
+		self.borderTexture:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 	else
 		self.borderTexture:SetTexture(frametexture.targetingframe)
-		self.borderTexture:SetVertexColor(color.r, color.g, color.b, color.a)
+		if UnitIsPlayer(self.unit) and uuidb.targetframe.colortargett then
+			colors = RAID_CLASS_COLORS[select(2, UnitClass(self.unit))]
+		elseif uuidb.targetframe.colortargett then
+			local red,green,_ = UnitSelectionColor(self.unit)
+			if (red == 0) then
+        	    colors = { r = 0, g = 1, b = 0}
+        	elseif (green == 0) then
+        	    colors = { r = 1, g = 0, b = 0}
+        	else
+        	    colors = { r = 1, g = 1, b = 0}
+        	end
+		end
+		self.borderTexture:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 	end
 end
 
-function uui_TargetFrame_Frames(color)
+function targetframes:ClassColorTargetEnable()
+	hooksecurefunc("TargetofTarget_Update", self.PLAYER_TARGET_CHANGED)
+
+end
+
+function targetframes:PLAYER_TARGET_CHANGED()
+	local colors
+	if UnitIsConnected("targettarget") and uuidb.targetframe.colortargett then
+		if UnitIsPlayer("targettarget") then
+			colors = RAID_CLASS_COLORS[select(2, UnitClass("targettarget"))]
+		else
+			local red,green,_ = UnitSelectionColor("targettarget")
+			if (red == 0) then
+        	    colors = { r = 0, g = 1, b = 0}
+        	elseif (green == 0) then
+        	    colors = { r = 1, g = 0, b = 0}
+        	else
+        	    colors = { r = 1, g = 1, b = 0}
+        	end
+		end
+		TargetFrameToTTextureFrameTexture:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
+	end
+end
+
+function targetframes:Name()
+	if uuidb.targetframe.name then
+		TargetFrameTextureFrameName:ClearAllPoints()
+		TargetFrameTextureFrameName:SetPoint("CENTER", TargetFrameTextureFrame, "CENTER", -50, 36)
+		TargetFrameTextureFrameName:Show()
+	else
+		TargetFrameTextureFrameName:Hide()
+	end
+end
+
+function targetframes:Scale(value)
+	TargetFrame:SetScale(value)
+end
+
+function targetframes:Frames(color)
 	for _,v in pairs({
 		TargetFrameToTTextureFrameTexture,
 		Boss1TargetFrameTextureFrameTexture,
@@ -132,16 +185,21 @@ function uui_TargetFrame_Frames(color)
 	TargetFrameSpellBar.Border:SetTexture("Interface\\AddOns\\Uber UI\\textures\\castingbar-small")
 end
 
-function uui_TargetFrame_ReworkAllColor(color)
+function targetframes:ReworkAllColor(color)
 	if not (IsAddOnLoaded("EasyFrames")) then
 		if not (color) then
 			color = uuidb.targetframe.color
 		end
-	
-		uui_TargetFrame_Frames(color)
+		self:Name()
+		self:Scale(uuidb.targetframe.scale)
+		self:Frames(color)
+		uui_TargetFrameStyleTargetFrame(TargetFrame, color
+			)
 	
 		if uuidb.targetframe.largehealth then
 			hooksecurefunc("TargetFrame_CheckClassification", uui_TargetFrameStyleTargetFrame)
 		end
 	end
 end
+
+UberUI.targetframes = targetframes

@@ -5,8 +5,6 @@ minimap=CreateFrame("frame")
 minimap:RegisterEvent("PLAYER_LOGIN")
 minimap:SetScript("OnEvent", function(self, event)
 	if not (IsAddOnLoaded("SexyMap")) then
-		self:ReworkAllColor()
-		self:Other()
 	end
 end)
 
@@ -29,11 +27,10 @@ function minimap:Color(color)
 end
 
 function minimap:GarrisonBtn(color)
-	if uuidb.general.customcolor then
-		color = uuidb.general.customcolorval
-	else
-		color = uuidb.minimap.color
+	if not (color) then
+		local color = uuidb.minimap.color
 	end
+	
 	hooksecurefunc("GarrisonLandingPageMinimapButton_UpdateIcon", function(self)
 		self:GetNormalTexture():SetTexture(nil)
 		self:GetPushedTexture():SetTexture(nil)
@@ -51,7 +48,7 @@ function minimap:GarrisonBtn(color)
 			gb.border:SetAllPoints()
 			gb.border.texture = gb.border:CreateTexture(nil, "ARTWORK")
 			gb.border.texture:SetTexture("Interface\\PlayerFrame\\UI-PlayerFrame-Deathknight-Ring")
-			gb.border.textuer:SetVertexColor(color.r, color.g, color.b, color.a)
+			gb.border.texture:SetVertexColor(color.r, color.g, color.b, color.a)
 			gb.border.texture:SetPoint("CENTER", 1, -2)
 			gb.border.texture:SetSize(45,45)
 		end
@@ -107,6 +104,7 @@ function minimap:ReworkAllColor(color)
 	end
 	self:Color(color)
 	self:GarrisonBtn(color)
+	self:Other()
 end
 
 UberUI.minimap = minimap

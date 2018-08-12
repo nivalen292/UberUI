@@ -6,7 +6,9 @@ local auras = CreateFrame("frame")
 auras:RegisterEvent("ADDON_LOADED")
 auras:SetScript("OnEvent", function(self,event)
 	--backdrop
-	local backdrop = {
+end)
+
+local backdrop = {
 		bgFile = nil,
 		edgeFile = "Interface\\AddOns\\Uber UI\\textures\\outer_shadow",
 		tile = false,
@@ -20,24 +22,47 @@ auras:SetScript("OnEvent", function(self,event)
 		},
 	}
 
-	auras:ReworkAllColors()
-
-end)
-
  ---------------------------------------
   -- FUNCTIONS
  ---------------------------------------
 
 --apply aura frame texture func
 local function applySkin(b, color)
-	if not b or (b and b.styled) then return end
+	if not b then return end
 	--button name
+	local u = b.unit
 	local name = b:GetName()
 	if (name:match("Debuff")) then
 		b.debuff = true
 	else
 		b.buff = true
 	end
+
+	local colors = color
+	if uuidb.targetframe.colortargett then
+		if UnitIsConnected(u) and UnitIsPlayer(u) then
+			colors = RAID_CLASS_COLORS[select(2, UnitClass(u))]
+		else
+			local red,green,_ = UnitSelectionColor(u)
+			if (red == 0) then
+        	    colors = { r = 0, g = 1, b = 0}
+        	elseif (green == 0) then
+        	    colors = { r = 1, g = 0, b = 0}
+        	else
+        	    colors = { r = 1, g = 1, b = 0}
+        	end
+		end
+	elseif uuidb.general.customcolor then
+		colors = uuidb.general.customcolorval
+	else
+		colors = uuidb.auras.color
+	end
+
+	if b and b.styled then
+		b.bg:SetBackdropBorderColor(colors.r, colors.g, colors.b, colors.a)
+	end
+
+	if not b or (b and b.styled) then return end
 	--icon
 	local icon = _G[name.."Icon"]
 	icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
@@ -48,13 +73,6 @@ local function applySkin(b, color)
 	border:SetTexture("Interface\\AddOns\\Uber UI\\textures\\gloss")
 	border:SetTexCoord(0, 1, 0, 1)
 	border:SetDrawLayer("BACKGROUND",- 7)
-	if b.buff then
-		--if (UnitIsConnected(border.unit)) and uuidb.targetframe.colortargett then
-		--	uui_General_ClassColored(border, border.unit)
-		--else
-			border:SetVertexColor(color.r, color.g, color.b, color.a)
-		--end
-	end
 	border:ClearAllPoints()
 	border:SetPoint("TOPLEFT", b, "TOPLEFT", -1, 1)
 	border:SetPoint("BOTTOMRIGHT", b, "BOTTOMRIGHT", 1, -1)
@@ -65,7 +83,7 @@ local function applySkin(b, color)
 	back:SetPoint("BOTTOMRIGHT", b, "BOTTOMRIGHT", 4, -4)
 	back:SetFrameLevel(b:GetFrameLevel() - 1)
 	back:SetBackdrop(backdrop)
-	back:SetBackdropBorderColor(0, 1, 0, 0.9)
+	back:SetBackdropBorderColor(colors.r, colors.g, colors.b, colors.a)
 	b.bg = back
 	--set button styled variable
 	b.styled = true
@@ -95,11 +113,11 @@ local function applycastSkin(b, color)
 	border:SetPoint("TOPLEFT", b, "TOPLEFT", -1, 1)
 	border:SetPoint("BOTTOMRIGHT", b, "BOTTOMRIGHT", 1, -1)
 	--border color
-	if (UnitIsConnected(border.unit)) and uuidb.targetframe.colortargett then
-		uui_General_ClassColored(border, border.unit)
-	else
+	--if (UnitIsConnected(border.unit)) and uuidb.targetframe.colortargett then
+	--	UberUI.general:ClassColored(border, border.unit)
+	--else
 		border:SetVertexColor(color.r, color.g, color.b, color.a)
-	end
+	--end
 	b.border = border
 	--shadow
 	local back = CreateFrame("Frame", nil, b.parent)

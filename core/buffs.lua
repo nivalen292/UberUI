@@ -4,7 +4,7 @@ local addon, ns = ...
 buffs = {}
 
 buffs = CreateFrame("frame")
-buffs:RegisterEvent("PLAYER_LOGIN")
+buffs:RegisterEvent("ADDON_LOADED")
 buffs:SetScript("OnEvent", function(self)
 
   buff = uuidb.buffdebuff.buff
@@ -19,34 +19,36 @@ buffs:SetScript("OnEvent", function(self)
   end
 
   --backdrop debuff
-  local backdropDebuff = {
+  backdropDebuff = {
     bgFile = nil,
-    edgeFile = debuff.background.edgeFile,
+    edgeFile = "Interface\\AddOns\\Uber UI\\textures\\outer_shadow",
     tile = false,
     tileSize = 32,
-    edgeSize = debuff.background.inset,
+    edgeSize = 6,
     insets = {
-      left = debuff.background.inset,
-      right = debuff.background.inset,
-      top = debuff.background.inset,
-      bottom = debuff.background.inset,
+      left = 6,
+      right = 6,
+      top = 6,
+      bottom = 6,
     },
   }
 
   --backdrop buff
-  local backdropBuff = {
+  backdropBuff = {
     bgFile = nil,
-    edgeFile = buff.background.edgeFile,
+    edgeFile = "Interface\\AddOns\\Uber UI\\textures\\outer_shadow",
     tile = false,
     tileSize = 32,
-    edgeSize = buff.background.inset,
+    edgeSize = 6,
     insets = {
-      left = buff.background.inset,
-      right = buff.background.inset,
-      top = buff.background.inset,
-      bottom = buff.background.inset,
+      left = 6,
+      right = 6,
+      top = 6,
+      bottom = 6,
     },
   }
+
+  print("Buff Border")
 
   local bf = CreateFrame("Frame", "rBFS_BuffDragFrame", UIParent)
   bf:SetSize(buff.button.size,buff.button.size)
@@ -57,20 +59,6 @@ buffs:SetScript("OnEvent", function(self)
     df:SetSize(debuff.button.size,debuff.button.size)
     df:SetPoint(debuff.pos.a1,debuff.pos.af,debuff.pos.a2,debuff.pos.x,debuff.pos.y)
   end
-
-  --temp enchant stuff
- -- applySkin(TempEnchant1)
- -- applySkin(TempEnchant2)
- -- applySkin(TempEnchant3)
-
-  --position the temp enchant buttons
-  --TempEnchant1:ClearAllPoints()
-  --TempEnchant1:SetPoint("TOPRIGHT", rBFS_BuffDragFrame, "TOPRIGHT", 0, 0) --button will be repositioned later in case temp enchant and consolidated buffs are both available
-  --TempEnchant2:ClearAllPoints()
-  --TempEnchant2:SetPoint("TOPRIGHT", TempEnchant1, "TOPLEFT", -buff.colspacing, 0)
-  --TempEnchant3:ClearAllPoints()
-  --TempEnchant3:SetPoint("TOPRIGHT", TempEnchant2, "TOPLEFT", -buff.colspacing, 0)
-  buffs:ReworkAllColor()
 end)
 
 local ceil, min, max = ceil, min, max
@@ -99,7 +87,6 @@ local function applySkin(b)
     buff = true
   end
   --get cfg and backdrop
-  local backdrop
   if debuff then
     uui = uuidb.buffdebuff.debuff
     backdrop = backdropDebuff
@@ -107,14 +94,15 @@ local function applySkin(b)
     uui = uuidb.buffdebuff.buff
     backdrop = backdropBuff
   end
-
+  print(backdrop.edgeFile)
+  print(backdropDebuff.edgeFile)
   --check class coloring options
   if uuidb.general.customcolor then
     bordercolor = uuidb.general.customcolorval
     backgroundcolor = uuidb.general.customcolorval
   else
-    bordercolor = uuidb.border.color
-    backgroundcolor = uuidb.border.color
+    bordercolor = uui.border.color
+    backgroundcolor = uui.border.color
   end
 
   --button
@@ -167,6 +155,7 @@ local function applySkin(b)
     back:SetPoint("BOTTOMRIGHT", b, "BOTTOMRIGHT", uui.background.padding, -uui.background.padding)
     back:SetFrameLevel(b:GetFrameLevel() - 1)
     back:SetBackdrop(backdrop)
+    --print(backdrop.edgeFile)
     back:SetBackdropBorderColor(backgroundcolor.r, backgroundcolor.g, backgroundcolor.b, backgroundcolor.a)
     b.bg = back
   end
@@ -201,9 +190,6 @@ local function updateAllBuffAnchors()
   local numBuffs    = BUFF_ACTUAL_DISPLAY
   local offset      = numEnchants
   local realIndex, previousButton, aboveButton
-  --position the tempenchant button depending on the consolidated button status
-  -- TempEnchant1:ClearAllPoints()
-  -- TempEnchant1:SetPoint("TOPRIGHT", rBFS_BuffDragFrame, "TOPRIGHT", 0, 0)
 
   --calculate the previous button in case tempenchant or consolidated buff are loaded
   if BuffFrame.numEnchants > 0 then
