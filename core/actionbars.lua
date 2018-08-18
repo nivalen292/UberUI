@@ -90,7 +90,10 @@ end
     }
   }
 
-  if uuidb.general.customcolor then
+  --print(uuidb.general.customcolor)
+  --print(uuidb.general.classcolorframes)
+
+  if uuidb.general.customcolor or uuidb.general.classcolorframes then
        backgroundcolor = uuidb.general.customcolorval
        shadowcolor = uuidb.general.customcolorval
     else
@@ -99,7 +102,6 @@ end
     end
   --print(backdrop.edgeFile)
   if bu and bu.bg then
-    print("hit")
       bu.bg:SetBackdropBorderColor(shadowcolor.r,shadowcolor.g,shadowcolor.b,.9)
   end
    if not bu or (bu and bu.bg) then return end
@@ -128,7 +130,6 @@ end
       bu.bg:SetBackdropColor(backgroundcolor.r,backgroundcolor.g,backgroundcolor.b,backgroundcolor.a)
     end
     if uuidb.actionbars.showshadow then
-      --print("hit")
       bu.bg:SetBackdropBorderColor(shadowcolor.r,shadowcolor.g,shadowcolor.b,.9)
     end
  end
@@ -263,7 +264,7 @@ end
     nt:SetAllPoints(bu)
     --hook to prevent Blizzard from reseting our colors
     hooksecurefunc(nt, "SetVertexColor", function(nt, r, g, b, a)
-      if uuidb.general.customcolor then
+      if uuidb.general.customcolor or uuidb.general.classcolorframes then
         color = uuidb.general.customcolorval
       end
       local bu = nt:GetParent()
@@ -496,11 +497,11 @@ local function styleBag(bu, color)
         --bu:SetCheckedTexture(uuidb.textures.buttons.checked)
 
       --make sure the normaltexture stays the way we want it
-	hooksecurefunc(bu, "SetNormalTexture", function(self, texture)
-    if texture and texture ~= uuidb.textures.buttons.normal then
-      self:SetNormalTexture(uuidb.textures.buttons.normal)
-    end
-  end)
+	--hooksecurefunc(bu, "SetNormalTexture", function(self, texture)
+ --   if texture and texture ~= uuidb.textures.buttons.normal then
+ --     self:SetNormalTexture(uuidb.textures.buttons.normal)
+ --   end
+ -- end)
 	--bu.Back = CreateFrame("Frame", nil, bu)
 	--	bu.Back:SetPoint("TOPLEFT", bu, "TOPLEFT", -4, 4)
 	--	bu.Back:SetPoint("BOTTOMRIGHT", bu, "BOTTOMRIGHT", 4, -4)

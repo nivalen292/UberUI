@@ -48,17 +48,13 @@ buffs:SetScript("OnEvent", function(self)
     },
   }
 
-  print("Buff Border")
-
   local bf = CreateFrame("Frame", "rBFS_BuffDragFrame", UIParent)
   bf:SetSize(buff.button.size,buff.button.size)
   bf:SetPoint(buff.pos.a1,buff.pos.af,buff.pos.a2,buff.pos.x,buff.pos.y)
 
-  if not uuidb.combineBuffsAndDebuffs then
-    local df = CreateFrame("Frame", "rBFS_DebuffDragFrame", UIParent)
-    df:SetSize(debuff.button.size,debuff.button.size)
-    df:SetPoint(debuff.pos.a1,debuff.pos.af,debuff.pos.a2,debuff.pos.x,debuff.pos.y)
-  end
+  local df = CreateFrame("Frame", "rBFS_DebuffDragFrame", UIParent)
+  df:SetSize(debuff.button.size,debuff.button.size)
+  df:SetPoint(debuff.pos.a1,debuff.pos.af,debuff.pos.a2,debuff.pos.x,debuff.pos.y)
 end)
 
 local ceil, min, max = ceil, min, max
@@ -72,7 +68,7 @@ local buffFrameHeight = 0
 
 --apply aura frame texture func
 local function applySkin(b)
-  if not b or (b and b.styled) then return end
+  if not b then return end
   --button name
   local name = b:GetName()
   --check the button type
@@ -94,10 +90,9 @@ local function applySkin(b)
     uui = uuidb.buffdebuff.buff
     backdrop = backdropBuff
   end
-  print(backdrop.edgeFile)
-  print(backdropDebuff.edgeFile)
+
   --check class coloring options
-  if uuidb.general.customcolor then
+  if uuidb.general.customcolor or uuidb.general.classcolorframes then
     bordercolor = uuidb.general.customcolorval
     backgroundcolor = uuidb.general.customcolorval
   else
@@ -105,6 +100,11 @@ local function applySkin(b)
     backgroundcolor = uui.border.color
   end
 
+  if b and b.styled then 
+    b.border:SetVertexColor(bordercolor.r, bordercolor.g, bordercolor.b, bordercolor.a)
+    b.bg:SetBackdropBorderColor(backgroundcolor.r, backgroundcolor.g, backgroundcolor.b, backgroundcolor.a)
+  end
+  if not b or (b and b.styled) then return end
   --button
   b:SetSize(uui.button.size, uui.button.size)
 
@@ -155,7 +155,6 @@ local function applySkin(b)
     back:SetPoint("BOTTOMRIGHT", b, "BOTTOMRIGHT", uui.background.padding, -uui.background.padding)
     back:SetFrameLevel(b:GetFrameLevel() - 1)
     back:SetBackdrop(backdrop)
-    --print(backdrop.edgeFile)
     back:SetBackdropBorderColor(backgroundcolor.r, backgroundcolor.g, backgroundcolor.b, backgroundcolor.a)
     b.bg = back
   end
@@ -175,10 +174,10 @@ local function updateDebuffAnchors(buttonName,index)
   if index == 1 then
     --debuffs and buffs are not combined anchor the debuffs to its own frame
     button:SetPoint("TOPRIGHT", rBFS_DebuffDragFrame, "TOPRIGHT", 0, 0)      
-  elseif index > 1 and mod(index, debuff.buttonsPerRow) == 1 then
-    button:SetPoint("TOPRIGHT", _G[buttonName..(index-debuff.buttonsperrow)], "BOTTOMRIGHT", 0, -debuff.rowSpacing)
+  elseif index > 1 and mod(index, uuidb.buffdebuff.debuff.buttonsperrow) == 1 then
+    button:SetPoint("TOPRIGHT", _G[buttonName..(index-uuidb.buffdebuff.debuff.buttonsperrow)], "BOTTOMRIGHT", 0, -uuidb.buffdebuff.debuff.rowspacing)
   else
-    button:SetPoint("TOPRIGHT", _G[buttonName..(index-1)], "TOPLEFT", -debuff.colspacing, 0)
+    button:SetPoint("TOPRIGHT", _G[buttonName..(index-1)], "TOPLEFT", -uuidb.buffdebuff.debuff.colspacing, 0)
   end
 end
 
@@ -237,6 +236,16 @@ function buffs:ReworkAllColor()
   updateAllBuffAnchors()
   hooksecurefunc("BuffFrame_UpdateAllBuffAnchors", updateAllBuffAnchors)
   hooksecurefunc("DebuffButton_UpdateAnchors", updateDebuffAnchors)
+end
+
+function buffs:UpdateColors(color)
+  if not (color) then
+    color = uuidb.buffdebuff.buff.border.color
+  end
+
+  for i = 1, BUFF_ACTUAL_DISPLAY do
+    _G["BuffButton"..i].bg:SetBackdropBorderColor(color.r, color.g, color.b, color.a)
+  end
 end
 
 UberUI.buffs = buffs

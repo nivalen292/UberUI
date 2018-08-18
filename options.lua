@@ -57,7 +57,6 @@ Options:SetScript("OnShow", function(self)
 	)
 
 	local function ColorPicker(r,g,b,a,callback)
-		print("colors")
 		ColorPickerFrame:SetColorRGB(r,g,b)
 		ColorPickerFrame.hasOpacity, ColorPickerFrame.opacity = true, 1
 		ColorPickerFrame.previousValues = {r,g,b,a}
@@ -74,15 +73,34 @@ Options:SetScript("OnShow", function(self)
 		local checked = not not this:GetChecked()
 		PlaySound(checked and SOUND_ON or SOUND_OFF)
 		uuidb.mainmenu.gryphon = checked
-		if uuidb.general.customcolor then
+		if uuidb.general.customcolor or uuidb.general.classcolorframes then
 			UberUI.general:Gryphons(uuidb.general.customcolorval)
 		else
 			UberUI.general:Gryphons()
 		end
 	end)
 
+	local MicroButtonBagBar = CreateFrame("CheckButton", "$parentMicroButtonBagBar", self, "InterfaceOptionsCheckButtonTemplate")
+	MicroButtonBagBar:SetPoint("LEFT", Gryphon, "RIGHT", 200, 0)
+	MicroButtonBagBar.Text:SetText("MicroButtonBagBar")
+	MicroButtonBagBar.tooltipText = "Enable / Disable the Bag Bar Menu in the lower right corner."
+	MicroButtonBagBar:SetScript("OnClick", function(this)
+		local checked = not not this:GetChecked()
+		PlaySound(checked and SOUND_ON or SOUND_OFF)
+		uuidb.mainmenu.microbuttonbar = checked
+		UberUI.general.MicroBar()
+	end)
+
+	local ABCat = self:CreateFontString("$parentABCat", "ARTWORK", "GameFontNormalLarge")
+	ABCat:SetPoint("TOPLEFT", GeneralCat, "BOTTOMLEFT", 0, -36)
+	ABCat:SetPoint("RIGHT", -32, 0)
+	ABCat:SetHeight(32)
+	ABCat:SetJustifyH("LEFT")
+	ABCat:SetJustifyV("TOP")
+	ABCat:SetText("Actionbars")
+
 	local Hotkey = CreateFrame("CheckButton", "$parentHotkey", self, "InterfaceOptionsCheckButtonTemplate")
-	Hotkey:SetPoint("TOPLEFT", Gryphon, "BOTTOMLEFT", 0, -12)
+	Hotkey:SetPoint("TOPLEFT", ABCat, "BOTTOMLEFT", 0, 2)
 	Hotkey.Text:SetText("Show Hotkeys")
 	Hotkey.tooltipText = "Shows the Hotkeys on the actionbar buttons."
 	Hotkey:SetScript("OnClick", function(this)
@@ -93,7 +111,7 @@ Options:SetScript("OnShow", function(self)
 	end)
 
 	local Macroname = CreateFrame("CheckButton", "$parentMacroname", self, "InterfaceOptionsCheckButtonTemplate")
-	Macroname:SetPoint("TOPLEFT", Hotkey, "BOTTOMLEFT", 0, -12)
+	Macroname:SetPoint("LEFT", Hotkey, "RIGHT", 200, 0)
 	Macroname.Text:SetText("Show Macronames")
 	Macroname.tooltipText = "Shows the Macronames on the actionbar buttons."
 	Macroname:SetScript("OnClick", function(this)
@@ -103,8 +121,16 @@ Options:SetScript("OnShow", function(self)
 		UberUI.actionbars:Macroname()
 	end)
 
+	local UnitFrames = self:CreateFontString("$parentUnitFrames", "ARTWORK", "GameFontNormalLarge")
+	UnitFrames:SetPoint("TOPLEFT", ABCat, "BOTTOMLEFT", 0, -36)
+	UnitFrames:SetPoint("RIGHT", -32, 0)
+	UnitFrames:SetHeight(32)
+	UnitFrames:SetJustifyH("LEFT")
+	UnitFrames:SetJustifyV("TOP")
+	UnitFrames:SetText("Unit Frames")
+
 	local BigFrames = CreateFrame("CheckButton", "$parentBigFrames", self, "InterfaceOptionsCheckButtonTemplate")
-	BigFrames:SetPoint("TOPLEFT", Macroname, "BOTTOMLEFT", 0, -12)
+	BigFrames:SetPoint("TOPLEFT", UnitFrames, "BOTTOMLEFT", 0, 2)
 	BigFrames.Text:SetText("Big Player / Target Frame")
 	BigFrames.tooltipText = "Makes UI Health Bars Larger"
 	BigFrames:SetScript("OnClick", function(this)
@@ -125,7 +151,7 @@ Options:SetScript("OnShow", function(self)
 	end)
 
 	local LargeHealth = CreateFrame("CheckButton", "$parentLargeHealth", self, "InterfaceOptionsCheckButtonTemplate")
-	LargeHealth:SetPoint("TOPLEFT", BigFrames, "BOTTOMLEFT", 0, -12)
+	LargeHealth:SetPoint("LEFT", BigFrames, "RIGHT", 200, 0)
 	LargeHealth.Text:SetText("Enlarge Health Bars")
 	LargeHealth.tooltipText = "Makes UI Health Bars Larger"
 	LargeHealth:SetScript("OnClick", function(this)
@@ -135,21 +161,52 @@ Options:SetScript("OnShow", function(self)
 		UberUI.general:ColorAllFrames()
 	end)
 
-	local ClassColorFrames = CreateFrame("CheckButton", "$parentClassColorFrames", self, "InterfaceOptionsCheckButtonTemplate")
-	ClassColorFrames:SetPoint("TOPLEFT", LargeHealth, "BOTTOMLEFT", 0, -12)
-	ClassColorFrames.Text:SetText("Class Color Unitframes")
-	ClassColorFrames.tooltipText = "Changes UI from dark to your class color. (requires reload)"
-	ClassColorFrames:SetScript("OnClick", function(this)
-		local checked = not not this:GetChecked()
-		PlaySound(checked and SOUND_ON or SOUND_OFF)
-		uuidb.general.customcolor = checked
-		uuidb.general.customcolorval = RAID_CLASS_COLORS[select(2, UnitClass("player"))]
-		uuidb.actionbars.overridecol = true
-		UberUI.general:ColorAllFrames()
+	--Health Texture Option
+	local HealthTexture = CreateFrame("frame", "$parentHealthTexture", self, "UIDropDownMenuTemplate")
+	HealthTexture:SetPoint("LEFT", LargeHealth, "RIGHT", 180, 0)
+	HealthTexture.text = HealthTexture:CreateFontString(nil, nil, "GameFontHighlight")
+	HealthTexture.text:SetPoint("LEFT", HealthTexture, "RIGHT", 0, 24)
+	HealthTexture.text:SetText("Health Texture")
+	function HealthTexture:SetValue(value)
+		local texture = value
+		uuidb.general.bartexture = texture
+		UIDropDownMenu_SetText(HealthTexture, uuidb.general.bartexture)
+		UberUI.general:BarTexture(texture)
+	end
+	UIDropDownMenu_SetText(HealthTexture, uuidb.general.bartexture)
+	UIDropDownMenu_Initialize(HealthTexture, function(self,tex)
+		local info = UIDropDownMenu_CreateInfo()
+		info.func = self.SetValue
+		info.text, info.arg1 = "Blizzard", "Blizzard"
+		UIDropDownMenu_AddButton(info)
+		info.text, info.arg1 = "Minimalist", "Minimalist"
+		UIDropDownMenu_AddButton(info)
+		info.text, info.arg1 = "Ace", "Ace"
+		UIDropDownMenu_AddButton(info)
+		info.text, info.arg1 = "Aluminum", "Aluminum"
+		UIDropDownMenu_AddButton(info)
+		info.text, info.arg1 = "Banto", "Banto"
+		UIDropDownMenu_AddButton(info)
+		info.text, info.arg1 = "Charcoal", "Charcoal"
+		UIDropDownMenu_AddButton(info)
+		info.text, info.arg1 = "Glaze", "Glaze"
+		UIDropDownMenu_AddButton(info)
+		info.text, info.arg1 = "Litestep", "Litestep"
+		UIDropDownMenu_AddButton(info)
+		info.text, info.arg1 = "Otravi", "Otravi"
+		UIDropDownMenu_AddButton(info)
+		info.text, info.arg1 = "Perl", "Perl"
+		UIDropDownMenu_AddButton(info)
+		info.text, info.arg1 = "Smooth", "Smooth"
+		UIDropDownMenu_AddButton(info)
+		info.text, info.arg1 = "Striped", "Striped"
+		UIDropDownMenu_AddButton(info)
+		info.text, info.arg1 = "Swag", "Swag"
+		UIDropDownMenu_AddButton(info)
 	end)
 
 	local ClassColorHealth = CreateFrame("CheckButton", "$parentClassColorHealth", self, "InterfaceOptionsCheckButtonTemplate")
-	ClassColorHealth:SetPoint("TOPLEFT", ClassColorFrames, "BOTTOMLEFT", 0, -12)
+	ClassColorHealth:SetPoint("TOPLEFT", BigFrames, "BOTTOMLEFT", 0, -12)
 	ClassColorHealth.Text:SetText("Class Color Unit Health")
 	ClassColorHealth.tooltipText = "Changes Frame Health to units class color. (disable requires reload)"
 	ClassColorHealth:SetScript("OnClick", function(this)
@@ -165,53 +222,32 @@ Options:SetScript("OnShow", function(self)
 		end
 	end)
 
-	local MicroButtonBagBar = CreateFrame("CheckButton", "$parentMicroButtonBagBar", self, "InterfaceOptionsCheckButtonTemplate")
-	MicroButtonBagBar:SetPoint("TOPLEFT", ClassColorHealth, "BOTTOMLEFT", 0, -12)
-	MicroButtonBagBar.Text:SetText("MicroButtonBagBar")
-	MicroButtonBagBar.tooltipText = "Enable / Disable the Bag Bar Menu in the lower right corner."
-	MicroButtonBagBar:SetScript("OnClick", function(this)
+	local ClassColorFrames = CreateFrame("CheckButton", "$parentClassColorFrames", self, "InterfaceOptionsCheckButtonTemplate")
+	ClassColorFrames:SetPoint("LEFT", ClassColorHealth, "RIGHT", 200, 0)
+	ClassColorFrames.Text:SetText("Class Color Unitframes")
+	ClassColorFrames.tooltipText = "Changes UI from dark to your class color. (requires reload)"
+	ClassColorFrames:SetScript("OnClick", function(this)
 		local checked = not not this:GetChecked()
 		PlaySound(checked and SOUND_ON or SOUND_OFF)
-		uuidb.mainmenu.microbuttonbar = checked
-		UberUI.general.MicroBar()
+		uuidb.general.classcolorframes = checked
+		uuidb.general.customcolor = false
+		uuidb.general.customcolorval = RAID_CLASS_COLORS[select(2, UnitClass("player"))]
+		uuidb.actionbars.overridecol = true
+		UberUI.general:ReworkColors(uuidb.general.customcolorval)
 	end)
 
-	local Pvpicons = CreateFrame("CheckButton", "$parentPvpicons", self, "InterfaceOptionsCheckButtonTemplate")
-	Pvpicons:SetPoint("TOPLEFT", MicroButtonBagBar, "BOTTOMLEFT", 0, -12)
-	Pvpicons.Text:SetText("Toggle PVP Icons")
-	Pvpicons.tooltipText = "Toggles showing of the Player / Target PVP icons. (will not be colored)"
-	Pvpicons:SetScript("OnClick", function(this)
-		local checked = not not this:GetChecked()
-		PlaySound(checked and SOUND_ON or SOUND_OFF)
-		uuidb.miscframes.pvpicons = checked
-		UberUI.misc:pvpicons()
-	end)
-
-	local TargetName = CreateFrame("CheckButton", "$parentTargetName", self, "InterfaceOptionsCheckButtonTemplate")
-	TargetName:SetPoint("TOPLEFT", Pvpicons, "BOTTOMLEFT", 0, -12)
-	TargetName.Text:SetText("Toggle Target Name")
-	TargetName.tooltipText = "Toggles showing of target name."
-	TargetName:SetScript("OnClick", function(this)
-		local checked = not not this:GetChecked()
-		PlaySound(checked and SOUND_ON or SOUND_OFF)
-		uuidb.targetframe.name = checked
-		UberUI.targetframes.Name()
-	end)
-
+	--Color Picker Option
 	local colpick = uuidb.general.customcolorval
 	local CustomColor = CreateFrame("Frame", "$parentCustomColor", self)
-	CustomColor:SetPoint("TOPLEFT", TargetName, "BOTTOMLEFT", 5, -12)
+	CustomColor:SetPoint("LEFT", ClassColorFrames, "RIGHT", 210, 0)
 	CustomColor:SetSize(16,16)
-
+	CustomColor.icon = CustomColor:CreateTexture(nil,"OVERLAY",nil,-7)
+	CustomColor.icon:SetAllPoints(CustomColor)
+	CustomColor.icon:SetTexture("Interface\\AddOns\\Uber UI\\textures\\statusbars\\smooth")
+	CustomColor.icon:SetVertexColor(colpick.r,colpick.g,colpick.b)
 	CustomColor.text = CustomColor:CreateFontString(nil, nil, "GameFontHighlight")
 	CustomColor.text:SetPoint("LEFT", CustomColor, "RIGHT", 5, 0)
-	CustomColor.text:SetText("Color Select")
-
-	CustomColor.tex = CustomColor:CreateTexture(nil,"BACKGROUND",nil,-7)
-	CustomColor.tex:SetAllPoints(CustomColor)
-	CustomColor.tex:SetTexture(uuidb.textures.statusbars.smooth)
-	CustomColor.tex:SetVertexColor(colpick.r,colpick.g,colpick.b)
-
+	CustomColor.text:SetText("Custom Color")
 	CustomColor.recolorTexture = function(color)
 			local nr,ng,nb,na
 			if color then
@@ -221,9 +257,17 @@ Options:SetScript("OnShow", function(self)
 				a = OpacitySliderFrame:GetValue()
 			end
 			uuidb.general.customcolorval = {r = nr, g = ng, b = nb, a = na}
-			uuidb.actionbars.overridecol = true
-			UberUI.general:ColorAllFrames()
-			self.tex:SetVertexColor(nr,ng,nb)
+			UberUI.general:MainMenuColor(uuidb.general.customcolorval)
+			UberUI.general:Gryphons(uuidb.general.customcolorval)
+			UberUI.playerframes:ReworkAllColor(uuidb.general.customcolorval)
+			UberUI.targetframes:ReworkAllColor(uuidb.general.customcolorval)
+			UberUI.misc:ReworkAllColor(uuidb.general.customcolorval)
+			UberUI.auras:ReworkAllColors(uuidb.general.customcolorval)
+			UberUI.minimap:ReworkAllColor(uuidb.general.customcolorval)
+			UberUI.actionbars.EditColors(uuidb.general.customcolorval)
+			UberUI.buffs:UpdateColors(uuidb.general.customcolorval)
+			CustomColor.icon:SetVertexColor(nr,ng,nb)
+			uuidb.general.classcolorframes = false
 		end
 	CustomColor:EnableMouse(true)
 	CustomColor:SetScript("OnMouseDown", function(this,button,...)
@@ -232,25 +276,53 @@ Options:SetScript("OnShow", function(self)
 			ColorPicker(colpick.r,colpick.g,colpick.b,1,CustomColor.recolorTexture)
 		end
 	end)
+	CustomColor:SetScript("OnEnter", function(self)
+		GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+		GameTooltip:AddLine("Select custom color. Note: MUST RELOAD AFTER PICKING COLOR!")
+		GameTooltip:Show()
+	end)
+	CustomColor:SetScript("OnLeave", function(self) GameTooltip:Hide() end)
 
 	local ColorTarget = CreateFrame("CheckButton", "$parentColorTarget", self, "InterfaceOptionsCheckButtonTemplate")
-	ColorTarget:SetPoint("TOPLEFT", CustomColor, "BOTTOMLEFT", -5, -12)
-	ColorTarget.Text:SetText("Colors target by class / rarity")
-	ColorTarget.tooltipText = "Toggles showing of target name."
+	ColorTarget:SetPoint("TOPLEFT", ClassColorHealth, "BOTTOMLEFT", 0, -12)
+	ColorTarget.Text:SetText("Colors target by class")
+	ColorTarget.tooltipText = "Colors target frames by class and or rarity."
 	ColorTarget:SetScript("OnClick", function(this)
 		local checked = not not this:GetChecked()
 		PlaySound(checked and SOUND_ON or SOUND_OFF)
 		uuidb.targetframe.colortargett = checked
 		
 	end)
+	
+	local TargetName = CreateFrame("CheckButton", "$parentTargetName", self, "InterfaceOptionsCheckButtonTemplate")
+	TargetName:SetPoint("LEFT", ColorTarget, "RIGHT", 200, 0)
+	TargetName.Text:SetText("Toggle Target Name")
+	TargetName.tooltipText = "Toggles showing of target name."
+	TargetName:SetScript("OnClick", function(this)
+		local checked = not not this:GetChecked()
+		PlaySound(checked and SOUND_ON or SOUND_OFF)
+		uuidb.targetframe.name = checked
+		UberUI.targetframes.Name()
+	end)
 
+
+	local Pvpicons = CreateFrame("CheckButton", "$parentPvpicons", self, "InterfaceOptionsCheckButtonTemplate")
+	Pvpicons:SetPoint("LEFT", TargetName, "RIGHT", 200, 0)
+	Pvpicons.Text:SetText("Toggle PVP Icons")
+	Pvpicons.tooltipText = "Toggles showing of the Player / Target PVP icons. (will not be colored)"
+	Pvpicons:SetScript("OnClick", function(this)
+		local checked = not not this:GetChecked()
+		PlaySound(checked and SOUND_ON or SOUND_OFF)
+		uuidb.miscframes.pvpicons = checked
+		UberUI.misc:pvpicons()
+	end)
 
 	function self:refresh()
 		Gryphon:SetChecked(uuidb.mainmenu.gryphon)
 		Hotkey:SetChecked(uuidb.actionbars.hotkeys.show)
 		Macroname:SetChecked(uuidb.actionbars.macroname.show)
 		LargeHealth:SetChecked(uuidb.playerframe.largehealth)
-		ClassColorFrames:SetChecked(uuidb.general.customcolor)
+		ClassColorFrames:SetChecked(uuidb.general.classcolorframes)
 		ClassColorHealth:SetChecked(uuidb.general.classcolorhealth)
 		BigFrames:SetChecked(uuidb.playerframe.scaleframe)
 		MicroButtonBagBar:SetChecked(uuidb.mainmenu.microbuttonbar)

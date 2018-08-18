@@ -52,7 +52,7 @@ local function applySkin(b, color)
         	    colors = { r = 1, g = 1, b = 0}
         	end
 		end
-	elseif uuidb.general.customcolor then
+	elseif uuidb.general.customcolor or uuidb.general.classcolorframesor then
 		colors = uuidb.general.customcolorval
 	else
 		colors = uuidb.auras.color

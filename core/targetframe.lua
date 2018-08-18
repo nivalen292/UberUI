@@ -22,7 +22,8 @@ targetframes:SetScript("OnEvent", function(self, event)
 end)
 
 function uui_TargetFrameStyleTargetFrame(self, forceNormalTexture)
-	if uuidb.targetframe.largehealth then
+	local classification = UnitClassification(self.unit)
+	if uuidb.targetframe.largehealth and (classification ~= "minus") then
 		local frametexture = uuidb.textures.targetframebig
 		self.deadText:ClearAllPoints()
 		self.deadText:SetPoint("CENTER", self.healthbar, "CENTER", 0, 0)
@@ -50,6 +51,16 @@ function uui_TargetFrameStyleTargetFrame(self, forceNormalTexture)
 		self.manabar.RightText:SetPoint("RIGHT", self.manabar, "RIGHT", -5, 0)
 		self.manabar.TextString:SetPoint("CENTER", self.manabar, "CENTER", 0, 0)
 
+		if uuidb.miscframes.pvpicons and UnitIsPVP("target") then
+			TargetFrameTextureFramePVPIcon:SetAlpha(1)
+			TargetFrameTextureFramePVPIcon:Show()
+			if select(2, UnitFactionGroup("target")) == "Horde" then
+				TargetFrameTextureFramePVPIcon:SetTexture(uuidb.textures.other.pvphorde)
+			else
+				TargetFrameTextureFramePVPIcon:SetTexture(uuidb.textures.other.pvpally)
+			end
+		end
+
 		--TargetOfTarget
 		TargetFrameToTHealthBar:ClearAllPoints()
 		TargetFrameToTHealthBar:SetPoint("TOPLEFT", 44, -15)
@@ -69,7 +80,7 @@ function uui_TargetFrameStyleTargetFrame(self, forceNormalTexture)
 	end
 
 	-- get color in use
-	if uuidb.general.customcolor then
+	if uuidb.general.customcolor or uuidb.general.classcolorframes then
 		colors = uuidb.general.customcolorval
 	else
 		colors = uuidb.targetframe.color
@@ -79,8 +90,18 @@ function uui_TargetFrameStyleTargetFrame(self, forceNormalTexture)
 	local colors = color
 	local classification = UnitClassification(self.unit)
 	if ( classification == "minus" ) then
-		self.borderTexture:SetTexture("Interface\\TargetingFrame\\UI-TargetingFrame-Minus");
-		self.borderTexture:SetVertexColor(color.r, color.g, color.b, color.a)
+		if uuidb.targetframe.colortargett and not UnitIsPlayer(self.unit) then
+			local red,green,_ = UnitSelectionColor(self.unit)
+			if (red == 0) then
+        	    colors = { r = 0, g = 1, b = 0}
+        	elseif (green == 0) then
+        	    colors = { r = 1, g = 0, b = 0}
+        	else
+        	    colors = { r = 1, g = 1, b = 0}
+        	end
+        end
+		self.borderTexture:SetTexture(frametexture.targetingframe);
+		self.borderTexture:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 		self.nameBackground:Hide();
 		self.manabar.pauseUpdates = true;
 		self.manabar:Hide();
@@ -92,25 +113,29 @@ function uui_TargetFrameStyleTargetFrame(self, forceNormalTexture)
 		self.borderTexture:SetTexture(frametexture.elite)
 		if uuidb.targetframe.colortargett then
 			colors = {r = 164/255, g = 143/255, b = 57/255}
+			TargetFrameSpellBar.Border:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 		end
 		self.borderTexture:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 	elseif ( classification == "rareelite" ) then
 		self.borderTexture:SetTexture(frametexture.rareelite)
 		if uuidb.targetframe.colortargett then
 			colors = {r = 65/255, g = 66/255, b = 73/255}
+			TargetFrameSpellBar.Border:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 		end
 		self.borderTexture:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 	elseif ( classification == "rare" ) then
 		self.borderTexture:SetTexture(frametexture.rare)
 		if uuidb.targetframe.colortargett then
 			colors = {r = 173/255, g = 166/255, b = 156/255}
+			TargetFrameSpellBar.Border:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 		end
 		self.borderTexture:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 	else
 		self.borderTexture:SetTexture(frametexture.targetingframe)
 		if UnitIsPlayer(self.unit) and uuidb.targetframe.colortargett then
 			colors = RAID_CLASS_COLORS[select(2, UnitClass(self.unit))]
-		elseif uuidb.targetframe.colortargett then
+			TargetFrameSpellBar.Border:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
+		elseif uuidb.targetframe.colortargett and not UnitIsPlayer(self.unit) then
 			local red,green,_ = UnitSelectionColor(self.unit)
 			if (red == 0) then
         	    colors = { r = 0, g = 1, b = 0}
@@ -119,6 +144,7 @@ function uui_TargetFrameStyleTargetFrame(self, forceNormalTexture)
         	else
         	    colors = { r = 1, g = 1, b = 0}
         	end
+           	TargetFrameSpellBar.Border:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 		end
 		self.borderTexture:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 	end

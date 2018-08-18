@@ -9,9 +9,7 @@ minimap:SetScript("OnEvent", function(self, event)
 end)
 
 function minimap:Color(color)
-	if uuidb.general.customcolor then
-		color = uuidb.general.customcolorval
-	else
+	if not (color) then
 		color = uuidb.minimap.color
 	end
 	MinimapBorder:SetTexture(uuidb.minimap.texture)
@@ -23,6 +21,8 @@ function minimap:Color(color)
     }) do
 		v:SetVertexColor(color.r, color.g, color.b, color.a)
 	end
+	--TimeManagerClockButton:SetTexture(uuidb.textures.other.clockbutton)
+	--TimeManagerClockButton:SetTexCoord(0.015625,0.8125,0.015625,0.390625)
 	select(2, TimeManagerClockButton:GetRegions()):SetVertexColor(1,1,1)
 end
 
@@ -30,7 +30,7 @@ function minimap:GarrisonBtn(color)
 	if not (color) then
 		local color = uuidb.minimap.color
 	end
-	
+
 	hooksecurefunc("GarrisonLandingPageMinimapButton_UpdateIcon", function(self)
 		self:GetNormalTexture():SetTexture(nil)
 		self:GetPushedTexture():SetTexture(nil)

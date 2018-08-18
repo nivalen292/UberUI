@@ -8,7 +8,9 @@ playerframes:RegisterEvent("PLAYER_ENTERING_WORLD")
 playerframes:SetScript("OnEvent", function(self,event)
 if not ((IsAddOnLoaded("EasyFrames")) or (IsAddOnLoaded("Shadowed Unit Frames")) or (IsAddOnLoaded("PitBull Unit Frames 4.0")) or (IsAddOnLoaded("X-Perl UnitFrames"))) then
 end
-
+if uuidb.general.customcolor or uuidb.general.classcolorframes then
+	playerframes:ReworkAllColor(color)
+end
 player = uuidb.playerframe
 
 end)
@@ -26,6 +28,7 @@ local function MiscFrames(color)
 
 	for _,v in pairs({
 		PlayerFrameTexture,
+		CastingBarFrame.Border,
 		PlayerFrameAlternateManaBarBorder, 
 		PlayerFrameAlternateManaBarRightBorder, 
 		PlayerFrameAlternateManaBarLeftBorder,
@@ -40,7 +43,6 @@ local function MiscFrames(color)
 		AlternatePowerBarLeftBorder,
 		AlternatePowerBarRightBorder,
 		PetFrameTexture,
-		CastingBarFrame.Border,
 		PaladinPowerBarFrameBG,
 		PaladinPowerBarFrameBankBG
 	}) do
@@ -54,15 +56,13 @@ local function MiscFrames(color)
         elseif v:GetTexture() == "Interface\\TargetingFrame\\UI-TargetofTargetFrame" then
 			v:SetTexture(uuidb.textures.other.tot)
 		end
-		v:SetVertexColor(color.r, color.g, color.g, color.a)
+		v:SetVertexColor(color.r, color.g, color.b, color.a)
     end
     CastingBarFrame.Border:SetTexture("Interface\\AddOns\\Uber UI\\textures\\castingbarborder")
 end
 
 function uui_playerframes_LargeHealth(color)
-	if uuidb.general.customcolor then
-		color = uuidb.general.customcolorval
-	else
+	if not (color) then
 		color = uuidb.playerframe.color
 	end
 
@@ -120,18 +120,9 @@ function uui_playerframes_LargeHealth(color)
 end
 
 function playerframes:Name()
-	--print(uuidb.playerframe.name)
-	--print(uuidb.playerframe.largehealth)
-	--print(PlayerName:GetPoint())
-	--if uuidb.playerframe.name and not uuidb.playerframe.largehealth then
-	--	PlayerName:ClearAllPoints()
-	--	PlayerName:SetPoint("CENTER", PlayerFrameTexture, "CENTER", 50, 19.000001907349)
-	--elseif uuidb.playerframe.name then
-	--	PlayerName:ClearAllPoints()
-	--	PlayerName:SetPoint("CENTER", PlayerFrameTexture, "CENTER", 50, 39)
-	--else
+	if uuidb.playerframe.largehealth then
 		PlayerName:Hide()
-
+	end
 end
 
 function playerframes:Scale(value)
@@ -173,7 +164,7 @@ function playerframes:ReworkAllColor(color)
 			self = playerframes
 		end
 		if not (color) then
-			color = uuidb.playerframe.color
+			local colors = uuidb.playerframe.color
 		end
 
 		MiscFrames(color)

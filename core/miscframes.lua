@@ -3,11 +3,13 @@ local misc = {}
 
 
 local misc = CreateFrame("frame")
-misc:RegisterEvent("ADDON_LOADED")
+misc:RegisterEvent("PLAYER_ENTERING_WORLD")
 misc:RegisterEvent("GROUP_ROSTER_UPDATE")
 misc:RegisterEvent("PLAYER_LEAVE_COMBAT")
 misc:SetScript("OnEvent", function(self,event)
-
+	if (event == "PLAYER_ENTERING_WORLD") then
+		self:pvpicons()
+	end
 end)
 
 
@@ -108,10 +110,20 @@ function misc:pvpicons()
 		TargetFrameTextureFramePVPIcon,
 		FocusFrameTextureFramePVPIcon,
 	}) do
-		if not uuidb.miscframes.pvpicons then
-			v:SetAlpha(0)
+		if uuidb.miscframes.pvpicons and string.find(v:GetName(), "Player") then
+			v:Show()
+			hooksecurefunc("PlayerFrame_UpdatePvPStatus", function()
+				if uuidb.miscframes.pvpicons then
+					local factionGroup, factionName = UnitFactionGroup("player");
+   					if ( factionGroup == "Horde" ) then
+   						PlayerPVPIcon:SetTexture(uuidb.textures.other.pvphorde);
+   					elseif ( factionGroup == "Alliance" ) then
+   					   	PlayerPVPIcon:SetTexture(uuidb.textures.other.pvpally);
+   					end
+   				end
+   			end)
 		else
-			v:SetVertexColor(.75,.75,.75,1)
+			v:Hide()
 		end
 	end
 end

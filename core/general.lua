@@ -22,7 +22,7 @@ local general = CreateFrame("frame")
 general:RegisterEvent("PLAYER_LOGIN")
 general:SetScript("OnEvent", function(self, event)
 	uuidb.actionbars.overridecol = false
-	if uuidb.general.bartexture ~= "blizzard" then
+	if uuidb.general.bartexture ~= "Blizzard" then
 		self:BarTexture(uuidb.general.bartexture)
 	end
 	if uuidb.general.classcolorhealth then
@@ -256,7 +256,7 @@ function general:MicroBar()
 end	
 
 function general:ColorAllFrames()
-	if uuidb.general.customcolor then
+	if uuidb.general.customcolor or uuidb.general.classcolorframes then
 		color = uuidb.general.customcolorval
 		self:MainMenuColor(color)
 		self:Gryphons(color)
@@ -265,11 +265,7 @@ function general:ColorAllFrames()
 		UberUI.misc:ReworkAllColor(color)
 		UberUI.auras:ReworkAllColors(color)
 		UberUI.minimap:ReworkAllColor(color)
-		if not uuidb.actionbars.overridecol then
-			UberUI.actionbars:ReworkAllColors(color)
-		else
-			UberUI.actionbars.EditColors(color)
-		end
+		UberUI.actionbars:ReworkAllColors(color)
 	else
 		self:MainMenuColor()
 		self:Gryphons()
@@ -278,13 +274,34 @@ function general:ColorAllFrames()
 		UberUI.misc:ReworkAllColor()
 		UberUI.auras:ReworkAllColors()
 		UberUI.minimap:ReworkAllColor()
-		if not uuidb.actionbars.overridecol then
-			UberUI.actionbars:ReworkAllColors()
-		else
-			UberUI.actionbars.EditColors()
-		end
+		UberUI.actionbars:ReworkAllColors()
 	end
 	UberUI.buffs:ReworkAllColor()
+end
+
+function general:ReworkColors()
+	if uuidb.general.customcolor or uuidb.general.classcolorframes then
+		color = uuidb.general.customcolorval
+		self:MainMenuColor(color)
+		self:Gryphons(color)
+		UberUI.playerframes:ReworkAllColor(color)
+		UberUI.targetframes:ReworkAllColor(color)
+		UberUI.misc:ReworkAllColor(color)
+		UberUI.auras:ReworkAllColors(color)
+		UberUI.minimap:ReworkAllColor(color)
+		UberUI.actionbars.EditColors(color)
+		UberUI.buffs:UpdateColors(color)
+	else
+		self:MainMenuColor()
+		self:Gryphons()
+		UberUI.playerframes:ReworkAllColor()
+		UberUI.targetframes:ReworkAllColor()
+		UberUI.misc:ReworkAllColor()
+		UberUI.auras:ReworkAllColors()
+		UberUI.minimap:ReworkAllColor()
+		UberUI.actionbars.EditColors()
+		UberUI.buffs:UpdateColors()
+	end
 end
 
 UberUI.general = general

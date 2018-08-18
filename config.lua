@@ -39,19 +39,19 @@ local defaults = {
       outer_shadow      = "Interface\\AddOns\\Uber UI\\textures\\outer_shadow",
     },
     statusbars = {
-      minimalist        = "Interface\\AddOns\\Uber UI\\textures\\statusbars\\Minimalist",
-      ace               = "Interface\\AddOns\\Uber UI\\textures\\statusbars\\Ace",
-      aluminum          = "Interface\\AddOns\\Uber UI\\textures\\statusbars\\Aluminum",
-      banto             = "Interface\\AddOns\\Uber UI\\textures\\statusbars\\banto",
-      blizzard          = "Interface\\AddOns\\Uber UI\\textures\\statusbars\\blizzard",
-      charcoal          = "Interface\\AddOns\\Uber UI\\textures\\statusbars\\Charcoal",
-      glaze             = "Interface\\AddOns\\Uber UI\\textures\\statusbars\\glaze",
-      litestep          = "Interface\\AddOns\\Uber UI\\textures\\statusbars\\LiteStep",
-      otravi            = "Interface\\AddOns\\Uber UI\\textures\\statusbars\\otravi",
-      perl              = "Interface\\AddOns\\Uber UI\\textures\\statusbars\\perl",
-      smooth            = "Interface\\AddOns\\Uber UI\\textures\\statusbars\\smooth",
-      striped           = "Interface\\AddOns\\Uber UI\\textures\\statusbars\\striped",
-      swag              = "Interface\\AddOns\\Uber UI\\textures\\statusbars\\swag",
+      Minimalist        = "Interface\\AddOns\\Uber UI\\textures\\statusbars\\Minimalist",
+      Ace               = "Interface\\AddOns\\Uber UI\\textures\\statusbars\\Ace",
+      Aluminum          = "Interface\\AddOns\\Uber UI\\textures\\statusbars\\Aluminum",
+      Banto             = "Interface\\AddOns\\Uber UI\\textures\\statusbars\\banto",
+      Blizzard          = "Interface\\AddOns\\Uber UI\\textures\\statusbars\\blizzard",
+      Charcoal          = "Interface\\AddOns\\Uber UI\\textures\\statusbars\\Charcoal",
+      Glaze             = "Interface\\AddOns\\Uber UI\\textures\\statusbars\\glaze",
+      Litestep          = "Interface\\AddOns\\Uber UI\\textures\\statusbars\\LiteStep",
+      Otravi            = "Interface\\AddOns\\Uber UI\\textures\\statusbars\\otravi",
+      Perl              = "Interface\\AddOns\\Uber UI\\textures\\statusbars\\perl",
+      Smooth            = "Interface\\AddOns\\Uber UI\\textures\\statusbars\\smooth",
+      Striped           = "Interface\\AddOns\\Uber UI\\textures\\statusbars\\striped",
+      Swag              = "Interface\\AddOns\\Uber UI\\textures\\statusbars\\swag",
     },
     targetframebig = {
       targetingframe    = "Interface\\AddOns\\Uber UI\\textures\\target\\targetingframebig",
@@ -69,6 +69,9 @@ local defaults = {
       smalltarget       = "Interface\\AddOns\\Uber UI\\textures\\target\\smalltargetingframe",
       party             = "Interface\\AddOns\\Uber UI\\textures\\partyframe",
       tot               = "Interface\\AddOns\\Uber UI\\textures\\target\\targetoftargetframe",
+      pvphorde          = "Interface\\AddOns\\Uber UI\\textures\\pvp-horde",
+      pvpally           = "Interface\\AddOns\\Uber UI\\textures\\pvp-alliance",
+      clockbutton       = "Interface\\AddOns\\Uber UI\\textures\\clockbackground"
     },
   },
   general = {
@@ -77,7 +80,7 @@ local defaults = {
     customcolor       = false,
     customcolorval    = RAID_CLASS_COLORS[select(2, UnitClass("player"))],
     font              = STANDARD_TEXT_FONT,
-    bartexture        = "blizzard",
+    bartexture        = "Blizzard",
     forcemanabar      = false,
   },
   mainmenu = {
@@ -126,7 +129,7 @@ local defaults = {
       },
       border = {
         texture         = "Interface\\AddOns\\Uber UI\\textures\\gloss",
-        color           = {r = .04, g = .35, b = .35, a = 1},
+        color           = {r = 0, g = 0, b = 0, a = .9},
       },
       background = {
         show            = true,
@@ -147,7 +150,7 @@ local defaults = {
       },
     },
     debuff = {
-      pos               = {a1 = "TOPRIGHT", af = "Minimap", a2 = "TOPLEFT", x = -35, y = 0 },
+      pos               = {a1 = "TOPRIGHT", af = "Minimap", a2 = "TOPLEFT", x = -35, y = -85 },
       gap               = 30,
       locked            = true,
       rowspacing        = 10,
@@ -161,7 +164,7 @@ local defaults = {
       },
       border = {
         texture         = "Interface\\AddOns\\Uber UI\\textures\\gloss",
-        color           = {r = .04, g = .35, b = .35, a = 1},
+        color           = {r = 0, g = 0, b = 0, a = .9},
       },
       background = {
         show            = true,
@@ -218,7 +221,7 @@ local defaults = {
     count = {
       show              = true,
       fontsize          = 12,
-      pos               = {a1 = "TOPRIGHT", x = 0, y = 0},
+      pos               = {a1 = "BOTTOMRIGHT", x = 0, y = 0},
     },
     cooldown = {
       spacing           = 0,
@@ -273,6 +276,18 @@ function UberUI:PLAYER_LOGOUT()
     return saved
   end
   UberuiDB = updateSave(defaults, uuidb, UberuiDB)
+
+  local function cleanupSave(saved)
+    for k,v in pairs(saved) do
+      if type(v) == "table" and next(v) then
+        cleanupSave(v)
+      elseif type(v) == "table" and not next(v) then
+       saved[k] = nil
+      end
+    end
+    return saved
+  end
+  UberuiDB = cleanupSave(UberuiDB)
 end
 
   -----------------------------
