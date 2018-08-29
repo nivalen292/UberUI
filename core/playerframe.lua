@@ -13,6 +13,10 @@ if uuidb.general.customcolor or uuidb.general.classcolorframes then
 end
 player = uuidb.playerframe
 
+
+if uuidb.playerframe.largehealth then
+	hooksecurefunc("PlayerFrame_ToPlayerArt", uui_playerframes_LargeHealth)
+end
 end)
 
 local function MiscFrames(color)
@@ -111,8 +115,6 @@ function uui_playerframes_LargeHealth(color)
 			FocusFrameTextureFramePrestigeBadge:SetAlpha(0)
 			FocusFrameTextureFramePrestigePortrait:SetAlpha(0)
 		end)
-
-		hooksecurefunc("PlayerFrame_ToPlayerArt", uui_playerframes_LargeHealth)
 	end
 	PlayerFrameGroupIndicator:SetAlpha(0)
 	PlayerHitIndicator:SetText(nil) 
