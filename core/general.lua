@@ -255,6 +255,8 @@ function general:MicroBar()
 	end
 end	
 
+count = 0
+
 function general:ColorAllFrames()
 	if uuidb.general.customcolor or uuidb.general.classcolorframes then
 		color = uuidb.general.customcolorval
@@ -265,7 +267,9 @@ function general:ColorAllFrames()
 		UberUI.misc:ReworkAllColor(color)
 		UberUI.auras:ReworkAllColors(color)
 		UberUI.minimap:ReworkAllColor(color)
-		UberUI.actionbars:ReworkAllColors(color)
+		if count == 0 then
+			UberUI.actionbars:ReworkAllColors(color)
+		end
 	else
 		self:MainMenuColor()
 		self:Gryphons()
@@ -274,9 +278,12 @@ function general:ColorAllFrames()
 		UberUI.misc:ReworkAllColor()
 		UberUI.auras:ReworkAllColors()
 		UberUI.minimap:ReworkAllColor()
-		UberUI.actionbars:ReworkAllColors()
+		if count == 0 then
+			UberUI.actionbars:ReworkAllColors()
+		end
 	end
 	UberUI.buffs:ReworkAllColor()
+	count = count + 1
 end
 
 function general:ReworkColors()

@@ -87,7 +87,6 @@ function uui_TargetFrameStyleTargetFrame(self, forceNormalTexture)
 	end
 
 	-- style frames accordingly
-	local colors = color
 	local classification = UnitClassification(self.unit)
 	if ( classification == "minus" ) then
 		if uuidb.targetframe.colortargett and not UnitIsPlayer(self.unit) then

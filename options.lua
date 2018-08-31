@@ -320,8 +320,8 @@ Options:SetScript("OnShow", function(self)
 
 	local ArenaFrameCol = CreateFrame("CheckButton", "$parentArenaFrameCol", self, "InterfaceOptionsCheckButtonTemplate")
 	ArenaFrameCol:SetPoint("TOPLEFT", ColorTarget, "BOTTOMLEFT", 0, -12)
-	ArenaFrameCol.Text:SetText("Colors target by class")
-	ArenaFrameCol.tooltipText = "Colors target frames by class and or rarity."
+	ArenaFrameCol.Text:SetText("Colors Arena Frames")
+	ArenaFrameCol.tooltipText = "Colors arena frames by class."
 	ArenaFrameCol:SetScript("OnClick", function(this)
 		local checked = not not this:GetChecked()
 		PlaySound(checked and SOUND_ON or SOUND_OFF)
