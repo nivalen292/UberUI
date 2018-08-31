@@ -101,6 +101,9 @@ function uui_TargetFrameStyleTargetFrame(self, forceNormalTexture)
         	end
         end
 		self.borderTexture:SetTexture(frametexture.targetingframe);
+		self.threatIndicator:SetTexture("Interface\\TargetingFrame\\UI-TargetingFrame-Flash")
+		self.threatIndicator:SetSize(242.00001525879, 93.00022888184)
+		self.threatIndicator:SetTexCoord(0,0,0,0.181640625,0.9453125,0,0.9453125,0.181640625)
 		self.borderTexture:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 		self.nameBackground:Hide();
 		self.manabar.pauseUpdates = true;

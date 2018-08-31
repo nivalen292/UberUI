@@ -251,10 +251,12 @@ Options:SetScript("OnShow", function(self)
 	CustomColor.recolorTexture = function(color)
 			local nr,ng,nb,na
 			if color then
-				nr,ng,nb,na = unpack(color)
+				uuidb.general.customcolor = false
+				uuidb.general.classcolorframes = false
 			else
 				nr,ng,nb = ColorPickerFrame:GetColorRGB()
 				a = OpacitySliderFrame:GetValue()
+				uuidb.general.customcolor = true
 			end
 			uuidb.general.customcolorval = {r = nr, g = ng, b = nb, a = na}
 			UberUI.general:MainMenuColor(uuidb.general.customcolorval)
@@ -291,7 +293,6 @@ Options:SetScript("OnShow", function(self)
 		local checked = not not this:GetChecked()
 		PlaySound(checked and SOUND_ON or SOUND_OFF)
 		uuidb.targetframe.colortargett = checked
-		
 	end)
 	
 	local TargetName = CreateFrame("CheckButton", "$parentTargetName", self, "InterfaceOptionsCheckButtonTemplate")
@@ -317,6 +318,16 @@ Options:SetScript("OnShow", function(self)
 		UberUI.misc:pvpicons()
 	end)
 
+	local ArenaFrameCol = CreateFrame("CheckButton", "$parentArenaFrameCol", self, "InterfaceOptionsCheckButtonTemplate")
+	ArenaFrameCol:SetPoint("TOPLEFT", ColorTarget, "BOTTOMLEFT", 0, -12)
+	ArenaFrameCol.Text:SetText("Colors target by class")
+	ArenaFrameCol.tooltipText = "Colors target frames by class and or rarity."
+	ArenaFrameCol:SetScript("OnClick", function(this)
+		local checked = not not this:GetChecked()
+		PlaySound(checked and SOUND_ON or SOUND_OFF)
+		uuidb.general.colorarenat = checked
+	end)
+
 	function self:refresh()
 		Gryphon:SetChecked(uuidb.mainmenu.gryphon)
 		Hotkey:SetChecked(uuidb.actionbars.hotkeys.show)
@@ -329,6 +340,7 @@ Options:SetScript("OnShow", function(self)
 		Pvpicons:SetChecked(uuidb.miscframes.pvpicons)
 		TargetName:SetChecked(uuidb.targetframe.name)
 		ColorTarget:SetChecked(uuidb.targetframe.colortargett)
+		ArenaFrameCol:SetChecked(uuidb.general.colorarenat)
 	end
 
 	self:refresh()

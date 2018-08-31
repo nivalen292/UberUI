@@ -5,6 +5,7 @@ local arenaframes = CreateFrame("Frame")
 arenaframes:RegisterEvent("ADDON_LOADED")
 arenaframes:RegisterEvent("PLAYER_ENTERING_WORLD")
 arenaframes:RegisterEvent("ARENA_PREP_OPPONENT_SPECIALIZATIONS")
+arenaframes:RegisterEvent("ARENA_OPPONENT_UPDATE")
 arenaframes:SetScript("OnEvent", function(self, event, addon)
 	if not (IsAddOnLoaded("Shadowed Unit Frames")) then
 		if uuidb.general.customcolor or uuidb.general.classcolorframes then
@@ -33,7 +34,7 @@ function arenaframes:Color(color)
 			ArenaEnemyFrame3SpecBorder,
 			ArenaEnemyFrame4SpecBorder
         }) do
-        	if uuidb.targetframe.colortargett then
+        	if uuidb.general.colorarenat then
         		if string.find(v:GetName(), "EnemyFrame1") and UnitIsConnected("arena1") then
         			local colors = RAID_CLASS_COLORS[select(2, UnitClass("arena1"))]
         			v:SetVertexColor(colors.r, colors.g, colors.b)
@@ -88,7 +89,7 @@ function arenaframes:Prep(color)
 			ArenaPrepFrame2SpecBorder,
 			ArenaPrepFrame3SpecBorder,
 		}) do
-			if uuidb.targetframe.colortargett then
+			if uuidb.general.colorarenat then
         		if string.find(v:GetName(), "PrepFrame1") and UnitIsConnected("arena1") then
         			local colors = RAID_CLASS_COLORS[select(2, UnitClass("arena1"))]
         			v:SetVertexColor(colors.r, colors.g, colors.b)
