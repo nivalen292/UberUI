@@ -1,5 +1,6 @@
 Additions:
-	Class Color Health and Frames
-	Bigger Player / Target frames
-	Larger Health Bar Size
-	MicroMenu Toggle
+	Custom Color Picker for all frames
+	Class Color targets
+	Class Color Arena Frames
+	Change Health Bar Textures
+	Dark PvP icons
