@@ -66,7 +66,9 @@ local function MiscFrames(color)
 end
 
 function uui_playerframes_LargeHealth(color)
-	if not (color) then
+	if not (color) and uuidb.general.customcolor or uuidb.general.classcolorframes then
+		color = uuidb.general.customcolorval
+	else
 		color = uuidb.playerframe.color
 	end
 
@@ -128,7 +130,9 @@ function playerframes:Name()
 end
 
 function playerframes:Scale(value)
-	PlayerFrame:SetScale(value)
+	if (PlayerFrame:GetScale() ~= value) then
+		PlayerFrame:SetScale(value)
+	end
 end
 
 

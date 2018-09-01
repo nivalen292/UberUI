@@ -158,6 +158,7 @@ Options:SetScript("OnShow", function(self)
 		local checked = not not this:GetChecked()
 		PlaySound(checked and SOUND_ON or SOUND_OFF)
 		uuidb.playerframe.largehealth = checked
+		uuidb.targetframe.largehealth = checked
 		UberUI.general:ColorAllFrames()
 	end)
 

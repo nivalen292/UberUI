@@ -12,6 +12,14 @@ misc:SetScript("OnEvent", function(self,event)
 	end
 end)
 
+function misc:NameplateTexture()
+	hooksecurefunc("CompactUnitFrame_UpdateHealthColor", function(frame)
+		if uuidb.general.bartexture ~= "Blizzard" then
+			local texture = uuidb.textures.statusbars[uuidb.general.bartexture]
+			frame.healthBar:SetStatusBarTexture(texture)
+		end
+	end)
+end
 
 function misc:RaidColor(color)
 	for g = 1, NUM_RAID_GROUPS do
@@ -65,7 +73,6 @@ function misc:RaidColor(color)
 	CompactRaidFrameManagerToggleButton:SetNormalTexture("Interface\\AddOns\\Uber UI\\textures\\raid\\RaidPanel-Toggle")
 end
 
-
 function misc:PartyColor(color)
 	local partyframes = {
 		PartyMemberFrame1Texture, 
@@ -112,6 +119,7 @@ function misc:pvpicons()
 	}) do
 		if uuidb.miscframes.pvpicons and string.find(v:GetName(), "Player") then
 			v:Show()
+			v:SetAlpha(1)
 			hooksecurefunc("PlayerFrame_UpdatePvPStatus", function()
 				if uuidb.miscframes.pvpicons then
 					local factionGroup, factionName = UnitFactionGroup("player");
@@ -123,7 +131,7 @@ function misc:pvpicons()
    				end
    			end)
 		else
-			v:Hide()
+			v:SetAlpha(0)
 		end
 	end
 end
@@ -132,7 +140,7 @@ function misc:ReworkAllColor(color)
 	if not (color) then
 		color = uuidb.miscframes.misccolor
 	end
-
+	self:NameplateTexture()
 	self:RaidColor(color)
 	self:PartyColor(color)
 	self:TooltipColor(color)

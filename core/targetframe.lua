@@ -23,7 +23,7 @@ end)
 
 function uui_TargetFrameStyleTargetFrame(self, forceNormalTexture)
 	local classification = UnitClassification(self.unit)
-	if uuidb.targetframe.largehealth and (classification ~= "minus") then
+	if uuidb.targetframe.largehealth then
 		local frametexture = uuidb.textures.targetframebig
 		self.deadText:ClearAllPoints()
 		self.deadText:SetPoint("CENTER", self.healthbar, "CENTER", 0, 0)
@@ -76,7 +76,7 @@ function uui_TargetFrameStyleTargetFrame(self, forceNormalTexture)
 		FocusFrameToTManaBar:SetHeight(3)
 		FocusFrameToT.deadText:SetWidth(0.01)
 	else
-		local frametexture = uuidb.textures.targetframe
+		frametexture = uuidb.textures.targetframe
 	end
 
 	-- get color in use
@@ -99,10 +99,12 @@ function uui_TargetFrameStyleTargetFrame(self, forceNormalTexture)
         	    colors = { r = 1, g = 1, b = 0}
         	end
         end
-		self.borderTexture:SetTexture(frametexture.targetingframe);
-		self.threatIndicator:SetTexture("Interface\\TargetingFrame\\UI-TargetingFrame-Flash")
-		self.threatIndicator:SetSize(242.00001525879, 93.00022888184)
-		self.threatIndicator:SetTexCoord(0,0,0,0.181640625,0.9453125,0,0.9453125,0.181640625)
+        if uuidb.targetframe.largehealth then
+			self.borderTexture:SetTexture(frametexture.targetingframe);
+			self.threatIndicator:SetTexture("Interface\\TargetingFrame\\UI-TargetingFrame-Flash")
+			self.threatIndicator:SetSize(242.00001525879, 93.00022888184)
+			self.threatIndicator:SetTexCoord(0,0,0,0.181640625,0.9453125,0,0.9453125,0.181640625)
+		end
 		self.borderTexture:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 		self.nameBackground:Hide();
 		self.manabar.pauseUpdates = true;
@@ -133,7 +135,6 @@ function uui_TargetFrameStyleTargetFrame(self, forceNormalTexture)
 		end
 		self.borderTexture:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 	else
-		self.borderTexture:SetTexture(frametexture.targetingframe)
 		if UnitIsPlayer(self.unit) and uuidb.targetframe.colortargett then
 			colors = RAID_CLASS_COLORS[select(2, UnitClass(self.unit))]
 			TargetFrameSpellBar.Border:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
@@ -149,6 +150,7 @@ function uui_TargetFrameStyleTargetFrame(self, forceNormalTexture)
            	TargetFrameSpellBar.Border:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 		end
 		self.borderTexture:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
+		self.borderTexture:SetTexture(frametexture.targetingframe)
 	end
 end
 
@@ -177,9 +179,11 @@ function targetframes:PLAYER_TARGET_CHANGED()
 end
 
 function targetframes:Name()
-	if uuidb.targetframe.name then
+	if uuidb.targetframe.name and uuidb.targetframe.largehealth then
 		TargetFrameTextureFrameName:ClearAllPoints()
 		TargetFrameTextureFrameName:SetPoint("CENTER", TargetFrameTextureFrame, "CENTER", -50, 36)
+		TargetFrameTextureFrameName:Show()
+	elseif uuidb.targetframe.name then
 		TargetFrameTextureFrameName:Show()
 	else
 		TargetFrameTextureFrameName:Hide()
@@ -223,10 +227,8 @@ function targetframes:ReworkAllColor(color)
 		self:Frames(color)
 		uui_TargetFrameStyleTargetFrame(TargetFrame, color
 			)
-	
-		if uuidb.targetframe.largehealth then
-			hooksecurefunc("TargetFrame_CheckClassification", uui_TargetFrameStyleTargetFrame)
-		end
+
+		hooksecurefunc("TargetFrame_CheckClassification", uui_TargetFrameStyleTargetFrame)
 	end
 end
 
