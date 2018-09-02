@@ -258,7 +258,7 @@ end
       --nt:SetVertexColor(uuidb.actionbars.color.equipped.r,uuidb.actionbars.color.equipped.g,uuidb.actionbars.color.equipped.b,1)
     else
       bu:SetNormalTexture(uuidb.textures.buttons.normal)
-      print("hitabvertex")
+      --print("hitabvertex")
       nt:SetVertexColor(color.r, color.g, color.b, color.a)
     end
     --make the normaltexture match the buttonsize
