@@ -204,6 +204,8 @@ Options:SetScript("OnShow", function(self)
 		UIDropDownMenu_AddButton(info)
 		info.text, info.arg1 = "Swag", "Swag"
 		UIDropDownMenu_AddButton(info)
+		info.text, info.arg1 = "Flat", "Flat"
+		UIDropDownMenu_AddButton(info)
 	end)
 
 	local ClassColorHealth = CreateFrame("CheckButton", "$parentClassColorHealth", self, "InterfaceOptionsCheckButtonTemplate")

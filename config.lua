@@ -52,6 +52,7 @@ local defaults = {
       Smooth            = "Interface\\AddOns\\Uber UI\\textures\\statusbars\\smooth",
       Striped           = "Interface\\AddOns\\Uber UI\\textures\\statusbars\\striped",
       Swag              = "Interface\\AddOns\\Uber UI\\textures\\statusbars\\swag",
+      Flat              = "Interface\\AddOns\\Uber UI\\textures\\statusbars\\flat",
     },
     targetframebig = {
       targetingframe    = "Interface\\AddOns\\Uber UI\\textures\\target\\targetingframebig",
