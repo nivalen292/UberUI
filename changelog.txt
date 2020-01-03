@@ -1,6 +1,4 @@
-Additions:
-	Custom Color Picker for all frames
-	Class Color targets
-	Class Color Arena Frames
-	Change Health Bar Textures
-	Dark PvP icons
+8.3 Updates:
+	Fixed bugs with entering / exiting vehicles
+	Fixed health scaling to fit vehicle frames
+	Fixed bugs with target aura coloring

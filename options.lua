@@ -271,6 +271,7 @@ Options:SetScript("OnShow", function(self)
 			UberUI.minimap:ReworkAllColor(uuidb.general.customcolorval)
 			UberUI.actionbars.EditColors(uuidb.general.customcolorval)
 			UberUI.buffs:UpdateColors(uuidb.general.customcolorval)
+			UberUI.auras:ReworkAllColors(uuidb.general.customcolorval)
 			CustomColor.icon:SetVertexColor(nr,ng,nb)
 			uuidb.general.classcolorframes = false
 		end

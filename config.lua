@@ -193,7 +193,7 @@ local defaults = {
     tilesize            = 32,
     edgesize            = 2,
     insets              = {l = 4, r = 4, t = 4, b = 4},
-    color               = {r = .4, g = .35, b = .35, a = 1},
+    color               = {r = 0, g = 0, b = 0, a = .9},
   },
   actionbars = {
     showbg              = true,

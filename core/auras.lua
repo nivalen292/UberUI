@@ -116,7 +116,6 @@ local function applycastSkin(b, color)
 	--if (UnitIsConnected(border.unit)) and uuidb.targetframe.colortargett then
 	--	UberUI.general:ClassColored(border, border.unit)
 	--else
-		border:SetVertexColor(color.r, color.g, color.b, color.a)
 	--end
 	b.border = border
 	--shadow
@@ -125,7 +124,7 @@ local function applycastSkin(b, color)
 	back:SetPoint("BOTTOMRIGHT", b, "BOTTOMRIGHT", 4, -4)
 	back:SetFrameLevel(frame:GetFrameLevel() - 1)
 	back:SetBackdrop(backdrop)
-	back:SetBackdropBorderColor(0, 0, 0, 0.9)
+	back:SetBackdropBorderColor(color.r, color.g, color.b, color.a)
 	b.bg = back
 	--set button styled variable
 	b.styled = true

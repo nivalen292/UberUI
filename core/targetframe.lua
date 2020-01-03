@@ -222,6 +222,7 @@ function targetframes:ReworkAllColor(color)
 		if not (color) then
 			color = uuidb.targetframe.color
 		end
+
 		self:Name()
 		self:Scale(uuidb.targetframe.scale)
 		self:Frames(color)
