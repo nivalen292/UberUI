@@ -242,38 +242,36 @@ Options:SetScript("OnShow", function(self)
 	--Color Picker Option
 	local colpick = uuidb.general.customcolorval
 	local CustomColor = CreateFrame("Frame", "$parentCustomColor", self)
-	CustomColor:SetPoint("LEFT", ClassColorFrames, "RIGHT", 210, 0)
+	CustomColor:SetPoint("LEFT", ClassColorFrames, "RIGHT", 310, 0)
 	CustomColor:SetSize(16,16)
 	CustomColor.icon = CustomColor:CreateTexture(nil,"OVERLAY",nil,-7)
 	CustomColor.icon:SetAllPoints(CustomColor)
 	CustomColor.icon:SetTexture("Interface\\AddOns\\Uber UI\\textures\\statusbars\\smooth")
 	CustomColor.icon:SetVertexColor(colpick.r,colpick.g,colpick.b)
 	CustomColor.text = CustomColor:CreateFontString(nil, nil, "GameFontHighlight")
-	CustomColor.text:SetPoint("LEFT", CustomColor, "RIGHT", 5, 0)
+	CustomColor.text:SetPoint("RIGHT", CustomColor, "LEFT", -2, 0)
 	CustomColor.text:SetText("Custom Color")
 	CustomColor.recolorTexture = function(color)
-			local nr,ng,nb,na
-			if color then
-				uuidb.general.customcolor = false
-				uuidb.general.classcolorframes = false
-			else
-				nr,ng,nb = ColorPickerFrame:GetColorRGB()
-				a = OpacitySliderFrame:GetValue()
-				uuidb.general.customcolor = true
+			if uuidb.general.customcolor == true then
+				local nr,ng,nb,na
+				if color then
+					uuidb.general.classcolorframes = false
+				else
+					nr,ng,nb = ColorPickerFrame:GetColorRGB()
+					a = OpacitySliderFrame:GetValue()
+				end
+				uuidb.general.customcolorval = {r = nr, g = ng, b = nb, a = na}
+				UberUI.general:MainMenuColor(uuidb.general.customcolorval)
+				UberUI.general:Gryphons(uuidb.general.customcolorval)
+				UberUI.playerframes:ReworkAllColor(uuidb.general.customcolorval)
+				UberUI.targetframes:ReworkAllColor(uuidb.general.customcolorval)
+				UberUI.misc:ReworkAllColor(uuidb.general.customcolorval)
+				UberUI.auras:ReworkAllColors(uuidb.general.customcolorval)
+				UberUI.minimap:ReworkAllColor(uuidb.general.customcolorval)
+				UberUI.actionbars.EditColors(uuidb.general.customcolorval)
+				UberUI.buffs:UpdateColors(uuidb.general.customcolorval)
+				CustomColor.icon:SetVertexColor(nr,ng,nb)
 			end
-			uuidb.general.customcolorval = {r = nr, g = ng, b = nb, a = na}
-			UberUI.general:MainMenuColor(uuidb.general.customcolorval)
-			UberUI.general:Gryphons(uuidb.general.customcolorval)
-			UberUI.playerframes:ReworkAllColor(uuidb.general.customcolorval)
-			UberUI.targetframes:ReworkAllColor(uuidb.general.customcolorval)
-			UberUI.misc:ReworkAllColor(uuidb.general.customcolorval)
-			UberUI.auras:ReworkAllColors(uuidb.general.customcolorval)
-			UberUI.minimap:ReworkAllColor(uuidb.general.customcolorval)
-			UberUI.actionbars.EditColors(uuidb.general.customcolorval)
-			UberUI.buffs:UpdateColors(uuidb.general.customcolorval)
-			UberUI.auras:ReworkAllColors(uuidb.general.customcolorval)
-			CustomColor.icon:SetVertexColor(nr,ng,nb)
-			uuidb.general.classcolorframes = false
 		end
 	CustomColor:EnableMouse(true)
 	CustomColor:SetScript("OnMouseDown", function(this,button,...)
@@ -288,6 +286,17 @@ Options:SetScript("OnShow", function(self)
 		GameTooltip:Show()
 	end)
 	CustomColor:SetScript("OnLeave", function(self) GameTooltip:Hide() end)
+
+	local CustomColorCheck = CreateFrame("CheckButton", "$parentCustomColorCheck", self, "InterfaceOptionsCheckButtonTemplate")
+	CustomColorCheck:SetPoint("RIGHT", CustomColor, "LEFT", -84, 0)
+	CustomColorCheck.tooltipText = "Check to set custom color"
+	CustomColorCheck:SetScript("OnClick", function(this)
+		local checked = not not this:GetChecked()
+		PlaySound(checked and SOUND_ON or SOUND_OFF)
+		uuidb.general.customcolor = checked
+		uuidb.general.classcolorframes = false
+		UberUI.general:ReworkColors(uuidb.general.customcolorval)
+	end)
 
 	local ColorTarget = CreateFrame("CheckButton", "$parentColorTarget", self, "InterfaceOptionsCheckButtonTemplate")
 	ColorTarget:SetPoint("TOPLEFT", ClassColorHealth, "BOTTOMLEFT", 0, -12)
@@ -345,6 +354,7 @@ Options:SetScript("OnShow", function(self)
 		TargetName:SetChecked(uuidb.targetframe.name)
 		ColorTarget:SetChecked(uuidb.targetframe.colortargett)
 		ArenaFrameCol:SetChecked(uuidb.general.colorarenat)
+		CustomColorCheck:SetChecked(uuidb.general.customcolor)
 	end
 
 	self:refresh()
