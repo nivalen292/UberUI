@@ -56,12 +56,15 @@ local defaults = {
     },
     targetframebig = {
       targetingframe    = "Interface\\AddOns\\Uber UI\\textures\\target\\targetingframebig",
+      minus             = "Interface\\AddOns\\Uber UI\\textures\\target\\minusbig",
+      minusflash        = "Interface\\AddOns\\Uber UI\\textures\\target\\minusbigflash",
       elite             = "Interface\\Addons\\Uber UI\\textures\\target\\elitebig",
       rareelite         = "Interface\\Addons\\Uber UI\\textures\\target\\rare-elitebig",
       rare              = "Interface\\AddOns\\Uber UI\\textures\\target\\rarebig",
     },
     targetframe = {
       targetingframe    = "Interface\\AddOns\\Uber UI\\textures\\target\\targetingframe",
+      minus             = "Interface\\AddOns\\Uber UI\\textures\\target\\minus",
       elite             = "Interface\\Addons\\Uber UI\\textures\\target\\elite",
       rareelite         = "Interface\\Addons\\Uber UI\\textures\\target\\rare-elite",
       rare              = "Interface\\AddOns\\Uber UI\\textures\\target\\rare",

@@ -88,7 +88,11 @@ function uui_TargetFrameStyleTargetFrame(self, forceNormalTexture)
 
 	-- style frames accordingly
 	local classification = UnitClassification(self.unit)
+	if uuidb.targetframe.largehealth then
+		TargetFrameTextureFrameName:SetPoint("CENTER", TargetFrameTextureFrame, "CENTER", -50, 36)
+	end
 	if ( classification == "minus" ) then
+		self.borderTexture:SetTexture(frametexture.minus)
 		if uuidb.targetframe.colortargett and not UnitIsPlayer(self.unit) then
 			local red,green,_ = UnitSelectionColor(self.unit)
 			if (red == 0) then
@@ -100,11 +104,25 @@ function uui_TargetFrameStyleTargetFrame(self, forceNormalTexture)
         	end
         end
         if uuidb.targetframe.largehealth then
-			self.borderTexture:SetTexture(frametexture.targetingframe);
-			self.threatIndicator:SetTexture("Interface\\TargetingFrame\\UI-TargetingFrame-Flash")
-			self.threatIndicator:SetSize(242.00001525879, 93.00022888184)
-			self.threatIndicator:SetTexCoord(0,0,0,0.181640625,0.9453125,0,0.9453125,0.181640625)
+			self.borderTexture:SetTexture(frametexture.minus)
+			self.threatIndicator:SetTexture(frametexture.minusflash)
+--[[			self.threatIndicator:SetSize(242.00001525879, 93.00022888184)
+			self.threatIndicator:SetTexCoord(0,0,0,0.181640625,0.9453125,0,0.9453125,0.181640625)--]]
+			self.Background:SetSize(119, 22)
+			self.Background:ClearAllPoints()
+			self.Background:SetPoint("TOPLEFT", 5, -42)
+			self.healthbar:SetSize(119, 22)
+			self.healthbar:ClearAllPoints()
+			self.healthbar:SetPoint("TOPLEFT", 5, -42)
+			self.healthbar.LeftText:ClearAllPoints()
+			self.healthbar.LeftText:SetPoint("LEFT", self.healthbar, "LEFT", 8, 0)
+			self.healthbar.RightText:ClearAllPoints()
+			self.healthbar.RightText:SetPoint("RIGHT", self.healthbar, "RIGHT", -5, 0)
+			self.healthbar.TextString:SetPoint("CENTER", self.healthbar, "CENTER", 0, 0)
+			TargetFrameTextureFrameName:SetPoint("CENTER", TargetFrameTextureFrame, "CENTER", -50, 20)
 		end
+		-- self.healthbar
+		self.borderTexture:SetTexture(frametexture.minus)
 		self.borderTexture:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 		self.nameBackground:Hide();
 		self.manabar.pauseUpdates = true;
