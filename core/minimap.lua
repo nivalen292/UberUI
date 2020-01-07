@@ -1,3 +1,4 @@
+
 local addon, ns = ...
 local minimap = {}
 
