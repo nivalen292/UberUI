@@ -16,7 +16,7 @@ targetframes:SetScript("OnEvent", function(self, event)
 			hooksecurefunc("TargetFrame_CheckClassification", uui_TargetFrameStyleTargetFrame)
 		end
 	end
-	if uuidb.targetframe.colortargett then
+	if uuidb.targetframe.colortargett ~= ("None") then
 		self:ClassColorTargetEnable()
 	end
 end)
@@ -93,7 +93,7 @@ function uui_TargetFrameStyleTargetFrame(self, forceNormalTexture)
 	end
 	if ( classification == "minus" ) then
 		self.borderTexture:SetTexture(frametexture.minus)
-		if uuidb.targetframe.colortargett and not UnitIsPlayer(self.unit) then
+		if uuidb.targetframe.colortargett == ("All") and not UnitIsPlayer(self.unit) then
 			local red,green,_ = UnitSelectionColor(self.unit)
 			if (red == 0) then
         	    colors = { r = 0, g = 1, b = 0}
@@ -133,30 +133,30 @@ function uui_TargetFrameStyleTargetFrame(self, forceNormalTexture)
 		forceNormalTexture = true;
 	elseif ( classification == "worldboss" or classification == "elite" ) then
 		self.borderTexture:SetTexture(frametexture.elite)
-		if uuidb.targetframe.colortargett then
+		if (uuidb.targetframe.colortargett == "All" or uuidb.targetframe.colortargett == "Rare/Elite") then
 			colors = {r = 164/255, g = 143/255, b = 57/255}
 			TargetFrameSpellBar.Border:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 		end
 		self.borderTexture:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 	elseif ( classification == "rareelite" ) then
 		self.borderTexture:SetTexture(frametexture.rareelite)
-		if uuidb.targetframe.colortargett then
+		if (uuidb.targetframe.colortargett == "All" or uuidb.targetframe.colortargett == "Rare/Elite") then
 			colors = {r = 65/255, g = 66/255, b = 73/255}
 			TargetFrameSpellBar.Border:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 		end
 		self.borderTexture:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 	elseif ( classification == "rare" ) then
 		self.borderTexture:SetTexture(frametexture.rare)
-		if uuidb.targetframe.colortargett then
+		if (uuidb.targetframe.colortargett == "All" or uuidb.targetframe.colortargett == "Rare/Elite") then
 			colors = {r = 173/255, g = 166/255, b = 156/255}
 			TargetFrameSpellBar.Border:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 		end
 		self.borderTexture:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 	else
-		if UnitIsPlayer(self.unit) and uuidb.targetframe.colortargett then
+		if UnitIsPlayer(self.unit) and (uuidb.targetframe.colortargett == "All" or uuidb.targetframe.colortargett == "Class") then
 			colors = RAID_CLASS_COLORS[select(2, UnitClass(self.unit))]
 			TargetFrameSpellBar.Border:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
-		elseif uuidb.targetframe.colortargett and not UnitIsPlayer(self.unit) then
+		elseif uuidb.targetframe.colortargett == ("All") and not UnitIsPlayer(self.unit) then
 			local red,green,_ = UnitSelectionColor(self.unit)
 			if (red == 0) then
         	    colors = { r = 0, g = 1, b = 0}
@@ -179,7 +179,7 @@ end
 
 function targetframes:PLAYER_TARGET_CHANGED()
 	local colors
-	if UnitIsConnected("targettarget") and uuidb.targetframe.colortargett then
+	if UnitIsConnected("targettarget") and (uuidb.targetframe.colortargett == "All" or uuidb.targetframe.colortargett == "Class") then
 		if UnitIsPlayer("targettarget") then
 			colors = RAID_CLASS_COLORS[select(2, UnitClass("targettarget"))]
 		else

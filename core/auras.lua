@@ -39,7 +39,7 @@ local function applySkin(b, color)
 	end
 
 	local colors = color
-	if uuidb.targetframe.colortargett then
+	if uuidb.targetframe.colortargett == ("All") then
 		if UnitIsConnected(u) and UnitIsPlayer(u) then
 			colors = RAID_CLASS_COLORS[select(2, UnitClass(u))]
 		else

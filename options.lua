@@ -170,7 +170,7 @@ Options:SetScript("OnShow", function(self)
 		uuidb.targetframe.colortargett = color
 		UIDropDownMenu_SetText(ColorTarget, uuidb.targetframe.colortargett)
 	end
-	UIDropDownMenu_SetText(ColorTarget, uuidb.general.colortargett)
+	UIDropDownMenu_SetText(ColorTarget, uuidb.targetframe.colortargett)
 	UIDropDownMenu_Initialize(ColorTarget, function(self,color)
 		local info = UIDropDownMenu_CreateInfo()
 		info.func = self.SetValue
