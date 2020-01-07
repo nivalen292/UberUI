@@ -1,6 +1,11 @@
-8.3 Updates:
+8.3.0.1 Updates:
 	Fixed bugs with entering / exiting vehicles
 	Fixed health scaling to fit vehicle frames
 	Fixed bugs with target & targetofTarget buff/debuff coloring
-8.3.1 Updates:
 	Added checkbox for custom ui color
+	Added logic for order hall icon in bfa to be faction icons
+	Added options for Target Frame Coloring
+		- None: Leave target frames the same color as all other frames
+		- All: Color target frames based on character class or rarity
+		- Class: Color target frames only for charcter targets the color of their class
+		- Rare/Elite: Color target frames for Rare/Elite mobs with their color (gold/silver/black)
