@@ -153,6 +153,7 @@ end
     -- remove the style background theme
 	style:SetTexture(nil)
     hooksecurefunc(style, "SetTexture", function(self, texture)
+      print('Hook1')
       if texture then
         --print("reseting texture: "..texture)
         self:SetTexture(nil)
@@ -270,34 +271,46 @@ end
       end
       local bu = nt:GetParent()
       local action = bu.action
-      --print(bu:GetName(), IsEquippedAction(action))
-      --print("bu "..bu:GetName().." R"..r.." G"..g.." B"..b)
-      if r==1 and g==1 and b==1 and action and (IsEquippedAction(action)) then
-        if uuidb.actionbars.color.equipped.r == 1 and  uuidb.actionbars.color.equipped.g == 1 and  uuidb.actionbars.color.equipped.b == 1 then
-          nt:SetVertexColor(0.999,0.999,0.999,1)
-        else
-          bu:SetNormalTexture(uuidb.textures.buttons.equipped)
-          nt:SetVertexColor(uuidb.actionbars.color.equipped.r, uuidb.actionbars.color.equipped.g, uuidb.actionbars.color.equipped.b)
-        end
-      elseif r==0.5 and g==0.5 and b==1 then
-        --blizzard oom color
-        if color.r == 0.5 and  color.g == 0.5 and  color.b == 1 then
-          nt:SetVertexColor(0.499,0.499,0.999,1)
-        else
-          bu:SetNormalTexture(uuidb.textures.buttons.normal)
-          nt:SetVertexColor(color.r, color.g, color.b, color.a)
-        end
-      elseif r==1 and g==1 and b==1 then
-        if color.r == 1 and  color.g == 1 and  color.b == 1 then
-          bu:SetNormalTexture(uuidb.textures.buttons.normal)
-          nt:SetVertexColor(0.999,0.999,0.999,1)
-        else
-          bu:SetNormalTexture(uuidb.textures.buttons.normal)
-          nt:SetVertexColor(color.r, color.g, color.b, color.a)
+      local curR, curG, curB, curA = nt:GetVertexColor()
+      local mult = 10^(2)
+      curRR = math.floor(curR*mult+0.5)/mult
+      curGG = math.floor(curG*mult+0.5)/mult
+      curBB = math.floor(curB*mult+0.5)/mult
+      curAA = math.floor(curA*mult+0.5)/mult
+--[[      print("Current: ", curR, curG, curB, curA)
+      print("New: ", color.r, color.g, color.b, color.a)
+      print("Round: ", curRR, curGG, curBB, curAA)
+      print("Base: ", r, g, b, a)--]]
+      if (curRR ~= color.r and curGG ~= color.g and curBB ~= color.b and curAA ~= color.a) then
+        --print(bu:GetName(), IsEquippedAction(action))
+        --print("bu "..bu:GetName().." R"..r.." G"..g.." B"..b)
+        if r==1 and g==1 and b==1 and action and (IsEquippedAction(action)) then
+          if uuidb.actionbars.color.equipped.r == 1 and  uuidb.actionbars.color.equipped.g == 1 and  uuidb.actionbars.color.equipped.b == 1 then
+            nt:SetVertexColor(0.999,0.999,0.999,1)
+          else
+            bu:SetNormalTexture(uuidb.textures.buttons.equipped)
+            nt:SetVertexColor(uuidb.actionbars.color.equipped.r, uuidb.actionbars.color.equipped.g, uuidb.actionbars.color.equipped.b)
+          end
+        elseif r==0.5 and g==0.5 and b==1 then
+          --blizzard oom color
+          if color.r == 0.5 and  color.g == 0.5 and  color.b == 1 then
+            nt:SetVertexColor(0.499,0.499,0.999,1)
+          else
+            bu:SetNormalTexture(uuidb.textures.buttons.normal)
+            nt:SetVertexColor(color.r, color.g, color.b, color.a)
+          end
+        elseif r==1 and g==1 and b==1 then
+          if color.r == 1 and  color.g == 1 and  color.b == 1 then
+            bu:SetNormalTexture(uuidb.textures.buttons.normal)
+            nt:SetVertexColor(0.999,0.999,0.999,1)
+          else
+            bu:SetNormalTexture(uuidb.textures.buttons.normal)
+            nt:SetVertexColor(color.r, color.g, color.b, color.a)
+          end
         end
       end
     end)
-    --shadows+background
+    --shadows+backgroundr
     if not bu.bg or uuidb.actionbars.overridecol then applyBackground(bu) end
     bu.rabs_styled = true
     if bartender4 then --fix the normaltexture

@@ -30,6 +30,8 @@ function uui_TargetFrameStyleTargetFrame(self, forceNormalTexture)
 		self.levelText:SetPoint("RIGHT", self.healthbar, "BOTTOMRIGHT", 63, 10)
 		self.nameBackground:Hide()
 		self.Background:SetSize(119, 42)
+		self.Background:ClearAllPoints()
+		self.Background:SetPoint("TOPLEFT", 5, -24)
 		self.manabar.pauseUpdates = false
 		self.manabar:Show()
 		TextStatusBar_UpdateTextString(self.manabar)
