@@ -153,7 +153,6 @@ end
     -- remove the style background theme
 	style:SetTexture(nil)
     hooksecurefunc(style, "SetTexture", function(self, texture)
-      print('Hook1')
       if texture then
         --print("reseting texture: "..texture)
         self:SetTexture(nil)
