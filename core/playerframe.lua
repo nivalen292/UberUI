@@ -112,7 +112,7 @@ function uui_playerframes_LargeHealth(color)
 		PlayerFrameManaBar.FullPowerFrame.SpikeFrame.BigSpikeGlow:ClearAllPoints()
 		PlayerFrameManaBar.FullPowerFrame.SpikeFrame.BigSpikeGlow:SetPoint("CENTER",PlayerFrameManaBar.FullPowerFrame,"RIGHT",5,-4)
 		PlayerFrameManaBar.FullPowerFrame.SpikeFrame.BigSpikeGlow:SetSize(30, 50)
-	elseif uuidb.playerframe.largehealth and UnitInVehicle("Player") and PlayerFrameTexture:GetTexture() ~= "Interface\\Addons\\Uber UI\\textures\\target\\targetingframebig" then
+	elseif uuidb.playerframe.largehealth and UnitInVehicle("Player") and (PlayerFrameTexture:GetTexture() ~= "Interface\\Addons\\Uber UI\\textures\\target\\targetingframebig" or PlayerFrame.state == "vehicle") then
 		PlayerFrameHealthBar:SetHeight(12)
 		PlayerFrameHealthBar.LeftText:ClearAllPoints()
 		PlayerFrameHealthBar.LeftText:SetPoint("LEFT", PlayerFrameHealthBar, "LEFT", 10, 0)
@@ -124,8 +124,8 @@ function uui_playerframes_LargeHealth(color)
 		PlayerStatusTexture:Hide()
 		PlayerRestGlow:Hide()
 		PlayerStatusGlow:Hide()
-		PlayerPrestigeBadge:SetAlpha(0)
-		PlayerPrestigePortrait:SetAlpha(0)
+
+
 		TargetFrameTextureFramePrestigeBadge:SetAlpha(0)
 		TargetFrameTextureFramePrestigePortrait:SetAlpha(0)
 		FocusFrameTextureFramePrestigeBadge:SetAlpha(0)

@@ -111,28 +111,45 @@ function misc:TooltipColor(color)
 	end)
 end
 
-function misc:pvpicons()
-	for i,v in pairs({
-		PlayerPVPIcon,
-		TargetFrameTextureFramePVPIcon,
-		FocusFrameTextureFramePVPIcon,
-	}) do
-		if uuidb.miscframes.pvpicons and string.find(v:GetName(), "Player") then
-			v:Show()
-			v:SetAlpha(1)
-			hooksecurefunc("PlayerFrame_UpdatePvPStatus", function()
-				if uuidb.miscframes.pvpicons then
-					local factionGroup, factionName = UnitFactionGroup("player");
-   					if ( factionGroup == "Horde" ) then
-   						PlayerPVPIcon:SetTexture(uuidb.textures.other.pvphorde);
-   					elseif ( factionGroup == "Alliance" ) then
-   					   	PlayerPVPIcon:SetTexture(uuidb.textures.other.pvpally);
-   					end
-   				end
-   			end)
-		else
-			v:SetAlpha(0)
-		end
+local hcount = 0
+function misc:pvpicons(color)
+
+	if uuidb.general.customcolor or uuidb.general.classcolorframes then
+		color = uuidb.general.customcolorval
+	else
+		color = uuidb.mainmenu.gryphcolor
+	end
+
+	if uuidb.miscframes.pvpicons and hcount > 0 then
+		PlayerPrestigeBadge:SetAlpha(1)
+		PlayerPrestigePortrait:SetAlpha(1)
+		PlayerPrestigePortrait:SetVertexColor(color.r, color.g, color.b, color.a)
+	elseif uuidb.miscframes.pvpicons then
+		PlayerPrestigeBadge:SetAlpha(1)
+		PlayerPrestigePortrait:SetAlpha(1)
+		hcount = hcount + 1
+		hooksecurefunc("PlayerFrame_UpdatePvPStatus", function(color)
+			if uuidb.general.customcolor then
+				color = uuidb.general.customcolorval
+			else
+				color = uuidb.mainmenu.gryphcolor
+			end
+
+			if uuidb.miscframes.pvpicons then
+				PlayerPrestigeBadge:SetAlpha(1)
+				PlayerPrestigePortrait:SetAlpha(1)
+				PlayerPrestigePortrait:SetTexture(uuidb.textures.other.prestige)
+				if select(2, UnitFactionGroup("player")) == "Horde" then
+					PlayerPrestigePortrait:SetTexCoord(0.000976562, 0.0498047, 0.869141, 0.970703)
+				else
+					PlayerPrestigePortrait:SetTexCoord(0.000976562, 0.0498047, 0.763672, 0.865234)
+				end
+				PlayerPrestigePortrait:SetVertexColor(color.r, color.g, color.b, color.a)
+			end
+		end)
+	else
+		PlayerPrestigeBadge:SetAlpha(0)
+		PlayerPrestigePortrait:SetAlpha(0)
 	end
 end
 
@@ -141,10 +158,10 @@ function misc:ReworkAllColor(color)
 		color = uuidb.miscframes.misccolor
 	end
 	self:NameplateTexture()
+	self:pvpicons(color)
 	self:RaidColor(color)
 	self:PartyColor(color)
 	self:TooltipColor(color)
-	self:pvpicons()
 end
 
 UberUI.misc = misc

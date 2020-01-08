@@ -293,7 +293,8 @@ Options:SetScript("OnShow", function(self)
 					a = OpacitySliderFrame:GetValue()
 				end
 				uuidb.general.customcolorval = {r = nr, g = ng, b = nb, a = na}
-				UberUI.general:MainMenuColor(uuidb.general.customcolorval)
+				UberUI.general:ReworkColors(uuidb.general.customcolorval)
+--[[				UberUI.general:MainMenuColor(uuidb.general.customcolorval)
 				UberUI.general:Gryphons(uuidb.general.customcolorval)
 				UberUI.playerframes:ReworkAllColor(uuidb.general.customcolorval)
 				UberUI.targetframes:ReworkAllColor(uuidb.general.customcolorval)
@@ -302,7 +303,7 @@ Options:SetScript("OnShow", function(self)
 				UberUI.minimap:ReworkAllColor(uuidb.general.customcolorval)
 				UberUI.actionbars.EditColors(uuidb.general.customcolorval)
 				UberUI.buffs:UpdateColors(uuidb.general.customcolorval)
-				CustomColor.icon:SetVertexColor(nr,ng,nb)
+				CustomColor.icon:SetVertexColor(nr,ng,nb)--]]
 			end
 		end
 	CustomColor:EnableMouse(true)

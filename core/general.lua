@@ -139,21 +139,16 @@ function general:BarTexture(value)
         manabar:SetStatusBarTexture(texture)
     end
 
-    if (uuidb.general.forceManaBarTexture) then
-        local function manaBarTexture(manaBar)
-            if (uuidb.general.forceManaBarTexture) then
-                manaBar:SetStatusBarTexture(PlayerFrameManaBar.uuimanatexture)
-            end
-        end
-
-        PlayerFrameManaBar.uuimanatexture = texture
-
-        if(not PlayerFrameManaBar.EasyFramesHookUpdateType) then
-            hooksecurefunc("UnitFrameManaBar_UpdateType", manaBarTexture)
-
-            PlayerFrameManaBar.EasyFramesHookUpdateType = true
-        end
+    local function manaBarTexture(manaBar)
+        manaBar:SetStatusBarTexture(texture)
     end
+
+    if (not PlayerFrameManaBar.EasyFramesHookUpdateType) then
+        hooksecurefunc("UnitFrameManaBar_UpdateType", manaBarTexture)
+
+        PlayerFrameManaBar.EasyFramesHookUpdateType = true
+    end
+
 end
 
 --class color target frames / health
@@ -255,7 +250,7 @@ function general:MicroBar()
 	end
 end	
 
-count = 0
+local ccount = 0
 
 function general:ColorAllFrames()
 	if uuidb.general.customcolor or uuidb.general.classcolorframes then
@@ -267,7 +262,7 @@ function general:ColorAllFrames()
 		UberUI.misc:ReworkAllColor(color)
 		UberUI.auras:ReworkAllColors(color)
 		UberUI.minimap:ReworkAllColor(color)
-		if count == 0 then
+		if ccount == 0 then
 			UberUI.actionbars:ReworkAllColors(color)
 		end
 	else
@@ -278,12 +273,12 @@ function general:ColorAllFrames()
 		UberUI.misc:ReworkAllColor()
 		UberUI.auras:ReworkAllColors()
 		UberUI.minimap:ReworkAllColor()
-		if count == 0 then
+		if ccount == 0 then
 			UberUI.actionbars:ReworkAllColors()
 		end
 	end
 	UberUI.buffs:ReworkAllColor()
-	count = count + 1
+	ccount = ccount + 1
 end
 
 function general:ReworkColors()

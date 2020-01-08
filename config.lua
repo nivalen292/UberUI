@@ -75,7 +75,8 @@ local defaults = {
       tot               = "Interface\\AddOns\\Uber UI\\textures\\target\\targetoftargetframe",
       pvphorde          = "Interface\\AddOns\\Uber UI\\textures\\pvp-horde",
       pvpally           = "Interface\\AddOns\\Uber UI\\textures\\pvp-alliance",
-      clockbutton       = "Interface\\AddOns\\Uber UI\\textures\\clockbackground"
+      clockbutton       = "Interface\\AddOns\\Uber UI\\textures\\clockbackground",
+      prestige          = "Interface\\AddOns\\Uber UI\\textures\\PvPPrestigeIconsborder",
     },
   },
   general = {

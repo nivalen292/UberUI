@@ -259,7 +259,7 @@ end
     else
       bu:SetNormalTexture(uuidb.textures.buttons.normal)
       --print("hitabvertex")
-      nt:SetVertexColor(color.r, color.g, color.b, color.a)
+      --nt:SetVertexColor(color.r, color.g, color.b, color.a)
     end
     --make the normaltexture match the buttonsize
     nt:SetAllPoints(bu)
@@ -269,6 +269,7 @@ end
         color = uuidb.general.customcolorval
       end
       local bu = nt:GetParent()
+
       local action = bu.action
       local curR, curG, curB, curA = nt:GetVertexColor()
       local mult = 10^(2)
@@ -276,11 +277,14 @@ end
       curGG = math.floor(curG*mult+0.5)/mult
       curBB = math.floor(curB*mult+0.5)/mult
       curAA = math.floor(curA*mult+0.5)/mult
---[[      print("Current: ", curR, curG, curB, curA)
-      print("New: ", color.r, color.g, color.b, color.a)
-      print("Round: ", curRR, curGG, curBB, curAA)
-      print("Base: ", r, g, b, a)--]]
+      -- 66 67
       if (curRR ~= color.r and curGG ~= color.g and curBB ~= color.b and curAA ~= color.a) then
+--[[        print("Action: ", action)
+        print("Current: ", curR, curG, curB, curA)
+        print("New: ", color.r, color.g, color.b, color.a)
+        print("Round: ", curRR, curGG, curBB, curAA)
+        print("Base: ", r, g, b, a)
+        print("color")--]]
         --print(bu:GetName(), IsEquippedAction(action))
         --print("bu "..bu:GetName().." R"..r.." G"..g.." B"..b)
         if r==1 and g==1 and b==1 and action and (IsEquippedAction(action)) then

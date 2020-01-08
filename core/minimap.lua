@@ -31,18 +31,20 @@ function minimap:GarrisonBtn(color)
 	if not (color) then
 		local color = uuidb.minimap.color
 	end
-
+	if gb then
+		gb.border.texture:SetVertexColor(color.r, color.g, color.b, color.a)
+	end
 	hooksecurefunc("GarrisonLandingPageMinimapButton_UpdateIcon", function(self)
 		local garrisonType = C_Garrison.GetLandingPageGarrisonType();
 		if (garrisonType == LE_GARRISON_TYPE_8_0) then
 			if select(1,UnitFactionGroup("player")) == "Horde" then
 				if not gb then
 					gb = CreateFrame("Frame", nil, GarrisonLandingPageMinimapButton)
-					gb:SetFrameLevel(GarrisonLandingPageMinimapButton:GetFrameLevel())
+					gb:SetFrameLevel(GarrisonLandingPageMinimapButton:GetFrameLevel() - 1)
 					gb:SetPoint("CENTER", -1, 2)
 					gb:SetSize(37,37)
 
-					gb.border = CreateFrame("Frame", nil, gb)
+					gb.border = CreateFrame("Frame", gbb, gb)
 					gb.border:SetFrameLevel(gb:GetFrameLevel() + 1)
 					gb.border:SetAllPoints()
 					gb.border.texture = gb.border:CreateTexture(nil, "ARTWORK")
@@ -55,7 +57,7 @@ function minimap:GarrisonBtn(color)
 			else
 				if not gb then
 					gb = CreateFrame("Frame", nil, GarrisonLandingPageMinimapButton)
-					gb:SetFrameLevel(GarrisonLandingPageMinimapButton:GetFrameLevel())
+					gb:SetFrameLevel(GarrisonLandingPageMinimapButton:GetFrameLevel() - 1)
 					gb:SetPoint("CENTER", -1, 2)
 					gb:SetSize(37,37)
 

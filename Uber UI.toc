@@ -14,8 +14,8 @@ core\playerframe.lua
 core\targetframe.lua
 core\minimap.lua
 core\buffs.lua
-core\actionbars.lua
 core\auras.lua
 core\miscframes.lua
 core\arenaframes.lua
 core\general.lua
+core\actionbars.lua
