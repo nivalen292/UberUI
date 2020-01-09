@@ -140,7 +140,10 @@ function general:BarTexture(value)
     end
 
     local function manaBarTexture(manaBar)
-        manaBar:SetStatusBarTexture(texture)
+    	currentBar = PlayerFrameManaBar.texture:GetTexture()
+    	if string.match(currentBar, "UI%-StatusBar") then
+        	manaBar:SetStatusBarTexture(texture)
+        end
     end
 
     if (not PlayerFrameManaBar.EasyFramesHookUpdateType) then

@@ -3,7 +3,8 @@
 	Fixed health scaling to fit vehicle frames
 	Fixed bugs with target & targetofTarget buff/debuff coloring
 	Added checkbox for custom ui color
-	Added logic for order hall icon in bfa to be faction icons
+	Changed order hall icon in bfa to be faction icons
+	Changed PVP icons to use Honor rank icons instead of faction icons
 	Added options for Target Frame Coloring
 		- None: Leave target frames the same color as all other frames
 		- All: Color target frames based on character class or rarity

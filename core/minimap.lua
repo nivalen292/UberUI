@@ -73,6 +73,8 @@ function minimap:GarrisonBtn(color)
 				end
 			end
 		else
+			self:GetNormalTexture():SetTexture(nil)
+			self:GetPushedTexture():SetTexture(nil)
 			if not gb then
 				gb = CreateFrame("Frame", nil, GarrisonLandingPageMinimapButton)
 				gb:SetFrameLevel(GarrisonLandingPageMinimapButton:GetFrameLevel() - 1)
@@ -91,7 +93,7 @@ function minimap:GarrisonBtn(color)
 				gb.border.texture:SetPoint("CENTER", 1, -2)
 				gb.border.texture:SetSize(45,45)
 			end
-			if (C_Garrison.GetLandingPageGarrisonType() == 2) then
+			if (garrisonType == 2) then
 				if select(1,UnitFactionGroup("player")) == "Alliance" then	
 					SetPortraitToTexture(gb.icon, select(3,GetSpellInfo(61573)))
 				elseif select(1,UnitFactionGroup("player")) == "Horde" then
@@ -99,8 +101,8 @@ function minimap:GarrisonBtn(color)
 				end
 			else
 				local t = CLASS_ICON_TCOORDS[select(2,UnitClass("player"))]
-	              	gb.icon:SetTexture("Interface\\TargetingFrame\\UI-Classes-Circles")
-	              	gb.icon:SetTexCoord(unpack(t))
+              	gb.icon:SetTexture("Interface\\TargetingFrame\\UI-Classes-Circles")
+              	gb.icon:SetTexCoord(unpack(t))
 			end
 		end
 	end)
