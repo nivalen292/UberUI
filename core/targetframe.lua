@@ -186,6 +186,7 @@ function uui_TargetFrameStyleTargetFrame(self, forceNormalTexture)
         	TargetFrameTextureFramePrestigePortrait:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
            	TargetFrameSpellBar.Border:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 		end
+		TargetFrameTextureFramePrestigePortrait:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 		self.borderTexture:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 		self.borderTexture:SetTexture(frametexture.targetingframe)
 	end

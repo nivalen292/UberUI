@@ -130,7 +130,7 @@ function misc:pvpicons(color)
 		PlayerPrestigePortrait:SetVertexColor(color.r, color.g, color.b, color.a)
 		hcount = hcount + 1
 		hooksecurefunc("PlayerFrame_UpdatePvPStatus", function(color)
-			if uuidb.general.customcolor then
+			if uuidb.general.customcolor or uuidb.general.classcolorframes then
 				color = uuidb.general.customcolorval
 			else
 				color = uuidb.playerframe.color

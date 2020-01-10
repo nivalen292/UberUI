@@ -36,7 +36,6 @@ function minimap:GarrisonBtn(color)
 		gb.border.texture:SetVertexColor(color.r, color.g, color.b, color.a)
 	end
 	hooksecurefunc("GarrisonLandingPageMinimapButton_UpdateIcon", function(self)
-		print('color minimap')
 		local garrisonType = C_Garrison.GetLandingPageGarrisonType();
 		if (garrisonType == LE_GARRISON_TYPE_8_0) then
 			if select(1,UnitFactionGroup("player")) == "Horde" then
