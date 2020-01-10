@@ -150,16 +150,6 @@ Options:SetScript("OnShow", function(self)
 		end
 	end)
 
-	--[[local ColorTarget = CreateFrame("CheckButton", "$parentColorTarget", self, "InterfaceOptionsCheckButtonTemplate")
-	ColorTarget:SetPoint("TOPLEFT", ClassColorHealth, "BOTTOMLEFT", 0, -12)
-	ColorTarget.Text:SetText("Colors target by class")
-	ColorTarget.tooltipText = "Colors target frames by class and or rarity."
-	ColorTarget:SetScript("OnClick", function(this)
-		local checked = not not this:GetChecked()
-		PlaySound(checked and SOUND_ON or SOUND_OFF)
-		uuidb.targetframe.colortargett = checked
-	end)--]]
-
 	local ColorTarget = CreateFrame("frame", "$parentColorTarget", self, "UIDropDownMenuTemplate")
 	ColorTarget:SetPoint("LEFT", BigFrames, "RIGHT", 180, 0)
 	ColorTarget.text = ColorTarget:CreateFontString(nil, nil, "GameFontHighlight")
@@ -183,16 +173,6 @@ Options:SetScript("OnShow", function(self)
 		info.text, info.arg1 = "Rare/Elite", "Rare/Elite"
 		UIDropDownMenu_AddButton(info)
 	end)
-
---[[	local ColorTarget = CreateFrame("CheckButton", "$parentColorTarget", self, "InterfaceOptionsCheckButtonTemplate")
-	ColorTarget:SetPoint("LEFT", BigFrames, "RIGHT", 200, 0)
-	ColorTarget.Text:SetText("Colors target by class")
-	ColorTarget.tooltipText = "Colors target frames by class and or rarity."
-	ColorTarget:SetScript("OnClick", function(this)
-		local checked = not not this:GetChecked()
-		PlaySound(checked and SOUND_ON or SOUND_OFF)
-		uuidb.targetframe.colortargett = checked
-	end)--]]
 
 	--Health Texture Option
 	local HealthTexture = CreateFrame("frame", "$parentHealthTexture", self, "UIDropDownMenuTemplate")
@@ -294,16 +274,6 @@ Options:SetScript("OnShow", function(self)
 				end
 				uuidb.general.customcolorval = {r = nr, g = ng, b = nb, a = na}
 				UberUI.general:ReworkColors(uuidb.general.customcolorval)
---[[				UberUI.general:MainMenuColor(uuidb.general.customcolorval)
-				UberUI.general:Gryphons(uuidb.general.customcolorval)
-				UberUI.playerframes:ReworkAllColor(uuidb.general.customcolorval)
-				UberUI.targetframes:ReworkAllColor(uuidb.general.customcolorval)
-				UberUI.misc:ReworkAllColor(uuidb.general.customcolorval)
-				UberUI.auras:ReworkAllColors(uuidb.general.customcolorval)
-				UberUI.minimap:ReworkAllColor(uuidb.general.customcolorval)
-				UberUI.actionbars.EditColors(uuidb.general.customcolorval)
-				UberUI.buffs:UpdateColors(uuidb.general.customcolorval)
-				CustomColor.icon:SetVertexColor(nr,ng,nb)--]]
 			end
 		end
 	CustomColor:EnableMouse(true)
@@ -334,7 +304,7 @@ Options:SetScript("OnShow", function(self)
 	local LargeHealth = CreateFrame("CheckButton", "$parentLargeHealth", self, "InterfaceOptionsCheckButtonTemplate")
 	LargeHealth:SetPoint("TOPLEFT", ClassColorHealth, "BOTTOMLEFT", 0, -12)
 	LargeHealth.Text:SetText("Enlarge Health Bars")
-	LargeHealth.tooltipText = "Makes UI Health Bars Larger"
+	LargeHealth.tooltipText = "Makes UI Health Bars Larger (Requires Reload)"
 	LargeHealth:SetScript("OnClick", function(this)
 		local checked = not not this:GetChecked()
 		PlaySound(checked and SOUND_ON or SOUND_OFF)
