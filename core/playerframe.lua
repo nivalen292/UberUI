@@ -125,11 +125,10 @@ function uui_playerframes_LargeHealth(color)
 		PlayerRestGlow:Hide()
 		PlayerStatusGlow:Hide()
 
-
-		TargetFrameTextureFramePrestigeBadge:SetAlpha(0)
-		TargetFrameTextureFramePrestigePortrait:SetAlpha(0)
-		FocusFrameTextureFramePrestigeBadge:SetAlpha(0)
-		FocusFrameTextureFramePrestigePortrait:SetAlpha(0)
+		if not uuidb.miscframes.pvpicons then
+			FocusFrameTextureFramePrestigeBadge:SetAlpha(0)
+			FocusFrameTextureFramePrestigePortrait:SetAlpha(0)
+		end
 	end)
 
 	PlayerFrameGroupIndicator:SetAlpha(0)

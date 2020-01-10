@@ -55,7 +55,7 @@ function uui_TargetFrameStyleTargetFrame(self, forceNormalTexture)
 		TargetFrameNumericalThreatBG:Hide()
 		TargetFrameNumericalThreatValue:Hide()
 
-		if uuidb.miscframes.pvpicons and UnitIsPVP("target") then
+		if uuidb.miscframes.pvpicons then
 			TargetFrameTextureFramePrestigeBadge:SetAlpha(1)
 			TargetFrameTextureFramePrestigePortrait:SetAlpha(1)
 			TargetFrameTextureFramePrestigePortrait:SetTexture(uuidb.textures.other.prestige)
@@ -68,6 +68,9 @@ function uui_TargetFrameStyleTargetFrame(self, forceNormalTexture)
 				TargetFrameTextureFramePVPIcon:SetTexture(uuidb.textures.other.pvpally)
 				TargetFrameTextureFramePrestigePortrait:SetTexCoord(0.000976562, 0.0498047, 0.763672, 0.865234)
 			end
+		else
+			TargetFrameTextureFramePrestigeBadge:SetAlpha(0)
+			TargetFrameTextureFramePrestigePortrait:SetAlpha(0)
 		end
 
 		--TargetOfTarget
@@ -138,6 +141,7 @@ function uui_TargetFrameStyleTargetFrame(self, forceNormalTexture)
 		self.manabar.LeftText:Hide();
 		self.manabar.RightText:Hide();
 		forceNormalTexture = true;
+		TargetFrameSpellBar.Border:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 	elseif ( classification == "worldboss" or classification == "elite" ) then
 		self.borderTexture:SetTexture(frametexture.elite)
 		if (uuidb.targetframe.colortargett == "All" or uuidb.targetframe.colortargett == "Rare/Elite") then

@@ -117,7 +117,7 @@ function misc:pvpicons(color)
 	if uuidb.general.customcolor or uuidb.general.classcolorframes then
 		color = uuidb.general.customcolorval
 	else
-		color = uuidb.mainmenu.gryphcolor
+		color = uuidb.playerframe.color
 	end
 
 	if uuidb.miscframes.pvpicons and hcount > 0 then
@@ -127,12 +127,13 @@ function misc:pvpicons(color)
 	elseif uuidb.miscframes.pvpicons then
 		PlayerPrestigeBadge:SetAlpha(1)
 		PlayerPrestigePortrait:SetAlpha(1)
+		PlayerPrestigePortrait:SetVertexColor(color.r, color.g, color.b, color.a)
 		hcount = hcount + 1
 		hooksecurefunc("PlayerFrame_UpdatePvPStatus", function(color)
 			if uuidb.general.customcolor then
 				color = uuidb.general.customcolorval
 			else
-				color = uuidb.mainmenu.gryphcolor
+				color = uuidb.playerframe.color
 			end
 
 			if uuidb.miscframes.pvpicons then
