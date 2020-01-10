@@ -264,10 +264,7 @@ function targetframes:ReworkAllColor(color)
 		self:Name()
 		self:Scale(uuidb.targetframe.scale)
 		self:Frames(color)
-		uui_TargetFrameStyleTargetFrame(TargetFrame, color
-			)
-
-		hooksecurefunc("TargetFrame_CheckClassification", uui_TargetFrameStyleTargetFrame)
+		uui_TargetFrameStyleTargetFrame(TargetFrame, color)
 	end
 end
 
