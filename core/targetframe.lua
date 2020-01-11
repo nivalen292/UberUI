@@ -52,8 +52,9 @@ function uui_TargetFrameStyleTargetFrame(self, forceNormalTexture)
 		self.manabar.RightText:ClearAllPoints()
 		self.manabar.RightText:SetPoint("RIGHT", self.manabar, "RIGHT", -5, 0)
 		self.manabar.TextString:SetPoint("CENTER", self.manabar, "CENTER", 0, 0)
-		TargetFrameNumericalThreatBG:Hide()
-		TargetFrameNumericalThreatValue:Hide()
+		for _, nmf in pairs({TargetFrameNumericalThreat:GetRegions()}) do
+			nmf:Hide()
+		end
 
 		if uuidb.miscframes.pvpicons then
 			TargetFrameTextureFramePrestigeBadge:SetAlpha(1)

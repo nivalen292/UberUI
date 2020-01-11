@@ -14,14 +14,17 @@ end)
 
 function misc:NameplateTexture()
 	hooksecurefunc("CompactUnitFrame_UpdateHealthColor", function(frame)
-		if uuidb.general.bartexture ~= "Blizzard" then
-			local texture = uuidb.textures.statusbars[uuidb.general.bartexture]
-			frame.healthBar:SetStatusBarTexture(texture)
+		if not frame:IsForbidden() then
+			if uuidb.general.bartexture ~= "Blizzard" then
+				local texture = uuidb.textures.statusbars[uuidb.general.bartexture]
+				frame.healthBar:SetStatusBarTexture(texture)
+			end
 		end
 	end)
 end
 
 function misc:RaidColor(color)
+	local texture = uuidb.textures.statusbars[uuidb.general.bartexture]
 	for g = 1, NUM_RAID_GROUPS do
 		local group = _G["CompactRaidGroup"..g.."BorderFrame"]
 		if group then
@@ -39,6 +42,8 @@ function misc:RaidColor(color)
 						region:SetVertexColor(color.r, color.g, color.b, color.a)
 					end
 				end
+				frame.healthBar:SetStatusBarTexture(texture)
+				frame.powerBar:SetStatusBarTexture(texture)
 			end
 			local frame = _G["CompactRaidFrame"..m]
 			if frame and uuidb.miscframes.raidsinglecolor then
@@ -47,6 +52,8 @@ function misc:RaidColor(color)
 						region:SetVertexColor(color.r, color.g, color.b, color.a)
 					end
 				end
+				frame.healthBar:SetStatusBarTexture(texture)
+				frame.powerBar:SetStatusBarTexture(texture)
 			end
 		end
 		if CompactPartyFrameBorderFrame then
