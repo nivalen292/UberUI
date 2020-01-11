@@ -10,6 +10,7 @@ misc:SetScript("OnEvent", function(self,event)
 	if (event == "PLAYER_ENTERING_WORLD") then
 		self:pvpicons()
 	end
+	misc:XPBars()
 end)
 
 function misc:NameplateTexture()
@@ -21,6 +22,20 @@ function misc:NameplateTexture()
 			end
 		end
 	end)
+end
+
+function misc:XPBars()
+	local texture = uuidb.textures.statusbars[uuidb.general.bartexture]
+	if uuidb.general.bartexture ~= "Blizzard" then
+		local st = { StatusTrackingBarManager:GetChildren() }
+		for _,s in pairs(st) do
+		   for k,v in pairs(s) do
+		      if k == "StatusBar" then
+		         v:SetStatusBarTexture(texture)
+		      end
+		   end
+		end
+	end	
 end
 
 function misc:RaidColor(color)
@@ -172,6 +187,7 @@ function misc:ReworkAllColor(color)
 		color = uuidb.miscframes.misccolor
 	end
 	self:NameplateTexture()
+	self:XPBars()
 	self:pvpicons(color)
 	self:RaidColor(color)
 	self:PartyColor(color)
