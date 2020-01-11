@@ -174,20 +174,20 @@ Options:SetScript("OnShow", function(self)
 		UIDropDownMenu_AddButton(info)
 	end)
 
-	--Health Texture Option
-	local HealthTexture = CreateFrame("frame", "$parentHealthTexture", self, "UIDropDownMenuTemplate")
-	HealthTexture:SetPoint("LEFT", ColorTarget, "RIGHT", 180, 0)
-	HealthTexture.text = HealthTexture:CreateFontString(nil, nil, "GameFontHighlight")
-	HealthTexture.text:SetPoint("LEFT", HealthTexture, "RIGHT", 0, 24)
-	HealthTexture.text:SetText("Health Texture")
-	function HealthTexture:SetValue(value)
+	--Bar Texture Option
+	local BarTextures = CreateFrame("frame", "$parentBarTextures", self, "UIDropDownMenuTemplate")
+	BarTextures:SetPoint("LEFT", ColorTarget, "RIGHT", 180, 0)
+	BarTextures.text = BarTextures:CreateFontString(nil, nil, "GameFontHighlight")
+	BarTextures.text:SetPoint("LEFT", BarTextures, "RIGHT", -15, 24)
+	BarTextures.text:SetText("Bar Textures")
+	function BarTextures:SetValue(value)
 		local texture = value
 		uuidb.general.bartexture = texture
-		UIDropDownMenu_SetText(HealthTexture, uuidb.general.bartexture)
+		UIDropDownMenu_SetText(BarTextures, uuidb.general.bartexture)
 		UberUI.general:BarTexture(texture)
 	end
-	UIDropDownMenu_SetText(HealthTexture, uuidb.general.bartexture)
-	UIDropDownMenu_Initialize(HealthTexture, function(self,tex)
+	UIDropDownMenu_SetText(BarTextures, uuidb.general.bartexture)
+	UIDropDownMenu_Initialize(BarTextures, function(self,tex)
 		local info = UIDropDownMenu_CreateInfo()
 		info.func = self.SetValue
 		info.text, info.arg1 = "Blizzard", "Blizzard"

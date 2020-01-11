@@ -1,10 +1,14 @@
 8.3.0.1 Updates:
-	Fixed bugs with entering / exiting vehicles
-	Fixed health scaling to fit vehicle frames
+	Fixed some (not all) bugs with entering / exiting vehicles (stack overflow issue still remains)
+	Fixed health bar scaling to fit vehicle frames
 	Fixed bugs with target & targetofTarget buff/debuff coloring
+	Fixed texturing for mana bars (when they are standard bars and not special textures (ex. Shadow Priest Insanity / DH Fury)
+	Created large health frames for minor enemies to differentiate them from normal enemies
 	Added checkbox for custom ui color
 	Changed order hall icon in bfa to be faction icons
-	Changed PVP icons to use Honor rank icons instead of faction icons
+	Changed PVP icons to use Honor rank icons instead of faction icons with colorable background
+	Changed default bar texture away from the awful Blizz texture to Flat for cleaner default look (sorry blizz)
+	Added custom bar texture to XP / Artifact bars
 	Added options for Target Frame Coloring
 		- None: Leave target frames the same color as all other frames
 		- All: Color target frames based on character class or rarity

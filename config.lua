@@ -86,7 +86,7 @@ local defaults = {
     colorarenat       = true,
     customcolorval    = RAID_CLASS_COLORS[select(2, UnitClass("player"))],
     font              = STANDARD_TEXT_FONT,
-    bartexture        = "Blizzard",
+    bartexture        = "Flat",
     forcemanabar      = false,
   },
   mainmenu = {

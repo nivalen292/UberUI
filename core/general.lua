@@ -140,8 +140,8 @@ function general:BarTexture(value)
     end
 
     local function manaBarTexture(manaBar)
-    	currentBar = PlayerFrameManaBar.texture:GetTexture()
-    	if string.match(currentBar, "UI%-StatusBar") then
+    	currentBar = manaBar.texture:GetTexture()
+    	if string.match(currentBar, "UI%-StatusBar") and uuidb.general.bartexture ~= "Blizzard" then
         	manaBar:SetStatusBarTexture(texture)
         end
     end
