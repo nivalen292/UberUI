@@ -1,5 +1,5 @@
 8.3.0.1 Updates:
-	Fixed some (not all) bugs with entering / exiting vehicles (stack overflow issue still remains)
+	Fixed some (not all) bugs with entering / exiting vehicles (stack overflow issue may still remain)
 	Fixed health bar scaling to fit vehicle frames
 	Fixed bugs with target & targetofTarget buff/debuff coloring
 	Fixed texturing for mana bars (when they are standard bars and not special textures (ex. Shadow Priest Insanity / DH Fury)

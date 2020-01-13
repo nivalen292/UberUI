@@ -72,6 +72,8 @@ local function MiscFrames(color)
     CastingBarFrame.Border:SetTexture("Interface\\AddOns\\Uber UI\\textures\\castingbarborder")
 end
 
+local pcount = 0
+ 
 function uui_playerframes_LargeHealth(color)
 	if not (color) and uuidb.general.customcolor or uuidb.general.classcolorframes then
 		color = uuidb.general.customcolorval
@@ -120,16 +122,14 @@ function uui_playerframes_LargeHealth(color)
 		PlayerFrameHealthBar.RightText:SetPoint("RIGHT", PlayerFrameHealthBar, "RIGHT", -5, 0)
 	end
 
-	hooksecurefunc("PlayerFrame_UpdateStatus",function()
-		PlayerStatusTexture:Hide()
-		PlayerRestGlow:Hide()
-		PlayerStatusGlow:Hide()
-
-		if not uuidb.miscframes.pvpicons then
-			FocusFrameTextureFramePrestigeBadge:SetAlpha(0)
-			FocusFrameTextureFramePrestigePortrait:SetAlpha(0)
-		end
-	end)
+	if pcount == 0 then
+		hooksecurefunc("PlayerFrame_UpdateStatus",function()
+			PlayerStatusTexture:Hide()
+			PlayerRestGlow:Hide()
+			PlayerStatusGlow:Hide()
+		end)
+		pcount = pcount + 1
+	end
 
 	PlayerFrameGroupIndicator:SetAlpha(0)
 	PlayerHitIndicator:SetText(nil) 
