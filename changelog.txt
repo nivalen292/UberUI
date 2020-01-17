@@ -14,3 +14,9 @@
 		- All: Color target frames based on character class or rarity
 		- Class: Color target frames only for charcter targets the color of their class
 		- Rare/Elite: Color target frames for Rare/Elite mobs with their color (gold/silver/black)
+8.3.0.2 Update:
+	Fixed some bugs with coloring non-large unit fames
+	Fixed coloring for focus frame pvp icon
+	Added custom textures to self, target, and focus castbars
+	Added custom textures to target, focus name background
+	Now, if target name not selected while using standard frames, name will show but background will be hidden
