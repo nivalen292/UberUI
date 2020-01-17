@@ -154,12 +154,16 @@ function misc:pvpicons(color)
 		PlayerPrestigePortrait:SetAlpha(1)
 		TargetFrameTextureFramePrestigeBadge:SetAlpha(1)
 		TargetFrameTextureFramePrestigePortrait:SetAlpha(1)
+		FocusFrameTextureFramePrestigeBadge:SetAlpha(1)
+		FocusFrameTextureFramePrestigePortrait:SetAlpha(1)
 		PlayerPrestigePortrait:SetVertexColor(color.r, color.g, color.b, color.a)
 	elseif uuidb.miscframes.pvpicons then
 		PlayerPrestigeBadge:SetAlpha(1)
 		PlayerPrestigePortrait:SetAlpha(1)
 		TargetFrameTextureFramePrestigeBadge:SetAlpha(1)
 		TargetFrameTextureFramePrestigePortrait:SetAlpha(1)
+		FocusFrameTextureFramePrestigeBadge:SetAlpha(1)
+		FocusFrameTextureFramePrestigePortrait:SetAlpha(1)
 		PlayerPrestigePortrait:SetVertexColor(color.r, color.g, color.b, color.a)
 		hcount = hcount + 1
 		hooksecurefunc("PlayerFrame_UpdatePvPStatus", function(color)
@@ -186,6 +190,8 @@ function misc:pvpicons(color)
 		PlayerPrestigePortrait:SetAlpha(0)
 		TargetFrameTextureFramePrestigeBadge:SetAlpha(0)
 		TargetFrameTextureFramePrestigePortrait:SetAlpha(0)
+		FocusFrameTextureFramePrestigeBadge:SetAlpha(0)
+		FocusFrameTextureFramePrestigePortrait:SetAlpha(0)
 	end
 end
 

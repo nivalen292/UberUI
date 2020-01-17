@@ -19,25 +19,6 @@ actionbars:SetScript("OnEvent", function(self, event, ...) return self[event] an
 if IsAddOnLoaded("Masque") and (dominos or bartender4) then
   return
 end
-    --backdrop settings
---  local bgfile, edgefile = "", ""
---  if uuidb.actionbars.showshadow then edgefile = uuidb.textures.buttons.outer_shadow end
---  if uuidb.actionbars.useflatbackground and uuidb.actionbars.showbg then bgfile = uuidb.textures.buttons.buttonbackflat end
---
---  --backdrop
--- local backdrop = {
---    bgFile = bgfile,
---    edgeFile = edgefile,
---    tile = false,
---    tileSize = 32,
---    edgeSize = uuidb.actionbars.inset,
---    insets = {
---      left = uuidb.actionbars.inset,
---      right = uuidb.actionbars.inset,
---      top = uuidb.actionbars.inset,
---      bottom = uuidb.actionbars.inset,
---    },
---  }
 
 function actionbars:ADDON_LOADED()
    --backdrop settings
@@ -46,7 +27,7 @@ function actionbars:ADDON_LOADED()
   if uuidb.actionbars.useflatbackground and uuidb.actionbars.showbg then bgfile = uuidb.textures.buttons.buttonbackflat end
 
   --backdrop
- backdrop = {
+ local backdrop = {
     bgFile = bgfile,
     edgeFile = edgefile,
     tile = false,
@@ -59,6 +40,8 @@ function actionbars:ADDON_LOADED()
       bottom = uuidb.actionbars.inset,
     },
   }
+
+  local abinit = 0
 end
 
 
