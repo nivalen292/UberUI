@@ -24,7 +24,7 @@ function misc:NameplateTexture()
 	end)
 end
 
-function misc:XPBars()
+function misc:ExtraBars()
 	local texture = uuidb.textures.statusbars[uuidb.general.bartexture]
 	if uuidb.general.bartexture ~= "Blizzard" then
 		local st = { StatusTrackingBarManager:GetChildren() }
@@ -34,6 +34,13 @@ function misc:XPBars()
 		         v:SetStatusBarTexture(texture)
 		      end
 		   end
+		end
+		for _,v in pairs({
+			CastingBarFrame,
+			TargetFrameSpellBar,
+			FocusFrameSpellBar
+			}) do
+			v:SetStatusBarTexture(texture)
 		end
 	end	
 end
@@ -187,7 +194,7 @@ function misc:ReworkAllColor(color)
 		color = uuidb.miscframes.misccolor
 	end
 	self:NameplateTexture()
-	self:XPBars()
+	self:ExtraBars()
 	self:pvpicons(color)
 	self:RaidColor(color)
 	self:PartyColor(color)
