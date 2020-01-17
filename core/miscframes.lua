@@ -10,7 +10,7 @@ misc:SetScript("OnEvent", function(self,event)
 	if (event == "PLAYER_ENTERING_WORLD") then
 		self:pvpicons()
 	end
-	misc:XPBars()
+	misc:ExtraBars()
 end)
 
 function misc:NameplateTexture()

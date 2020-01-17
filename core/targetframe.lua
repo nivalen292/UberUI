@@ -12,9 +12,7 @@ local targetframes = CreateFrame("frame")
 targetframes:RegisterEvent("ADDON_LOADED")
 targetframes:SetScript("OnEvent", function(self, event)
 	if not (IsAddOnLoaded("EasyFrames")) then
-		if uuidb.targetframe.largehealth then
-			hooksecurefunc("TargetFrame_CheckClassification", uui_TargetFrameStyleTargetFrame)
-		end
+		hooksecurefunc("TargetFrame_CheckClassification", uui_TargetFrameStyleTargetFrame)
 	end
 	if uuidb.targetframe.colortargett ~= ("None") then
 		self:ClassColorTargetEnable()
@@ -56,24 +54,6 @@ function uui_TargetFrameStyleTargetFrame(self, forceNormalTexture)
 			nmf:Hide()
 		end
 
-		if uuidb.miscframes.pvpicons then
-			TargetFrameTextureFramePrestigeBadge:SetAlpha(1)
-			TargetFrameTextureFramePrestigePortrait:SetAlpha(1)
-			TargetFrameTextureFramePrestigePortrait:SetTexture(uuidb.textures.other.prestige)
-			if select(2, UnitFactionGroup("target")) == "Horde" then
-				TargetFrameTextureFramePVPIcon:SetTexture(uuidb.textures.other.pvphorde)
-				TargetFrameTextureFramePrestigePortrait:SetTexCoord(0.000976562, 0.0498047, 0.869141, 0.970703)
-			elseif select(2, UnitFactionGroup("target")) == "Neutral" then
-				TargetFrameTextureFramePrestigePortrait:SetTexCoord(0.0517578, 0.100586, 0.763672, 0.865234)
-			else
-				TargetFrameTextureFramePVPIcon:SetTexture(uuidb.textures.other.pvpally)
-				TargetFrameTextureFramePrestigePortrait:SetTexCoord(0.000976562, 0.0498047, 0.763672, 0.865234)
-			end
-		else
-			TargetFrameTextureFramePrestigeBadge:SetAlpha(0)
-			TargetFrameTextureFramePrestigePortrait:SetAlpha(0)
-		end
-
 		--TargetOfTarget
 		TargetFrameToTHealthBar:ClearAllPoints()
 		TargetFrameToTHealthBar:SetPoint("TOPLEFT", 44, -15)
@@ -90,6 +70,37 @@ function uui_TargetFrameStyleTargetFrame(self, forceNormalTexture)
 		FocusFrameToT.deadText:SetWidth(0.01)
 	else
 		frametexture = uuidb.textures.targetframe
+		local texture = uuidb.textures.statusbars[uuidb.general.bartexture]
+		if uuidb.general.bartexture ~= "Blizzard" then
+			TargetFrameTextureFrameName:Show()
+			TargetFrameNameBackground:SetTexture(texture)
+			FocusFrameNameBackground:SetTexture(texture)
+		end
+		if not uuidb.targetframe.name then
+			TargetFrameTextureFrameName:Show()
+			TargetFrameNameBackground:Hide()
+			FocusFrameNameBackground:Hide()
+			TargetFrameBackground:SetHeight(42)
+			FocusFrameBackground:SetHeight(42)
+		end
+	end
+
+	if uuidb.miscframes.pvpicons then
+		TargetFrameTextureFramePrestigeBadge:SetAlpha(1)
+		TargetFrameTextureFramePrestigePortrait:SetAlpha(1)
+		TargetFrameTextureFramePrestigePortrait:SetTexture(uuidb.textures.other.prestige)
+		if select(2, UnitFactionGroup("target")) == "Horde" then
+			TargetFrameTextureFramePVPIcon:SetTexture(uuidb.textures.other.pvphorde)
+			TargetFrameTextureFramePrestigePortrait:SetTexCoord(0.000976562, 0.0498047, 0.869141, 0.970703)
+		elseif select(2, UnitFactionGroup("target")) == "Neutral" then
+			TargetFrameTextureFramePrestigePortrait:SetTexCoord(0.0517578, 0.100586, 0.763672, 0.865234)
+		else
+			TargetFrameTextureFramePVPIcon:SetTexture(uuidb.textures.other.pvpally)
+			TargetFrameTextureFramePrestigePortrait:SetTexCoord(0.000976562, 0.0498047, 0.763672, 0.865234)
+		end
+	else
+		TargetFrameTextureFramePrestigeBadge:SetAlpha(0)
+		TargetFrameTextureFramePrestigePortrait:SetAlpha(0)
 	end
 
 	-- get color in use
@@ -98,7 +109,6 @@ function uui_TargetFrameStyleTargetFrame(self, forceNormalTexture)
 	else
 		colors = uuidb.targetframe.color
 	end
-
 	-- style frames accordingly
 	local classification = UnitClassification(self.unit)
 	if uuidb.targetframe.largehealth then
@@ -150,6 +160,7 @@ function uui_TargetFrameStyleTargetFrame(self, forceNormalTexture)
 			TargetFrameTextureFramePrestigePortrait:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 			TargetFrameSpellBar.Border:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 		end
+		FocusFrameTextureFramePrestigePortrait:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 		TargetFrameTextureFramePrestigePortrait:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 		self.borderTexture:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 	elseif ( classification == "rareelite" ) then
@@ -159,6 +170,7 @@ function uui_TargetFrameStyleTargetFrame(self, forceNormalTexture)
 			TargetFrameTextureFramePrestigePortrait:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 			TargetFrameSpellBar.Border:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 		end
+		FocusFrameTextureFramePrestigePortrait:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 		TargetFrameTextureFramePrestigePortrait:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 		self.borderTexture:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 	elseif ( classification == "rare" ) then
@@ -169,10 +181,12 @@ function uui_TargetFrameStyleTargetFrame(self, forceNormalTexture)
 			TargetFrameSpellBar.Border:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 		end
 		TargetFrameTextureFramePrestigePortrait:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
+		FocusFrameTextureFramePrestigePortrait:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 		self.borderTexture:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 	else
 		if UnitIsPlayer(self.unit) and (uuidb.targetframe.colortargett == "All" or uuidb.targetframe.colortargett == "Class") then
 			colors = RAID_CLASS_COLORS[select(2, UnitClass(self.unit))]
+			FocusFrameTextureFramePrestigePortrait:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 			TargetFrameTextureFramePrestigePortrait:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 			TargetFrameSpellBar.Border:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 		elseif uuidb.targetframe.colortargett == ("All") and not UnitIsPlayer(self.unit) then
@@ -184,12 +198,15 @@ function uui_TargetFrameStyleTargetFrame(self, forceNormalTexture)
         	else
         	    colors = { r = 1, g = 1, b = 0}
         	end
+        	FocusFrameTextureFramePrestigePortrait:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
         	TargetFrameTextureFramePrestigePortrait:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
            	TargetFrameSpellBar.Border:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 		end
+		FocusFrameTextureFramePrestigePortrait:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 		TargetFrameTextureFramePrestigePortrait:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 		self.borderTexture:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 		self.borderTexture:SetTexture(frametexture.targetingframe)
+		TargetFrameToTTextureFrameTexture:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 	end
 end
 
@@ -226,6 +243,8 @@ function targetframes:Name()
 		TargetFrameTextureFrameName:Show()
 	else
 		TargetFrameTextureFrameName:Hide()
+		TargetFrameNameBackground:Hide()
+		FocusFrameNameBackground:Hide()
 	end
 end
 
