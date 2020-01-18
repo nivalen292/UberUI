@@ -127,6 +127,12 @@ end
     backdropc = uuidb.actionbars.shadowcolor
   end
 
+  if uuidb.actionbars.gloss then
+    butex = uuidb.textures.buttons.normal
+  else
+    butex = uuidb.textures.buttons.light
+  end
+
     if not bu or (bu and bu.rabs_styled and not uuidb.actionbars.overridecol) then return end
     local name = bu:GetName() or bu:GetParent():GetName()
 	local style = bu.style or bu.Style
@@ -153,7 +159,7 @@ end
 		ho:Hide()
 	end
     --add button normaltexture
-    bu:SetNormalTexture(uuidb.textures.buttons.normal)
+    bu:SetNormalTexture(butex)
     local nt = bu:GetNormalTexture()
     nt:SetVertexColor(color.r, color.g, color.b, color.a)
     nt:SetAllPoints(bu)
@@ -172,6 +178,12 @@ end
   local function styleActionButton(bu, color)
     if not (color) then
       color = uuidb.actionbars.color.normal
+    end
+
+    if uuidb.actionbars.gloss then
+      butex = uuidb.textures.buttons.normal
+    else
+      butex = uuidb.textures.buttons.light
     end
 
     overridecol = uuidb.actionbars.overridecol
@@ -223,7 +235,7 @@ end
     --bu:SetHighlightTexture(uuidb.textures.buttons.hover)
     bu:SetPushedTexture(uuidb.textures.buttons.pushed)
     --bu:SetCheckedTexture(uuidb.textures.buttons.checked)
-    bu:SetNormalTexture(uuidb.textures.buttons.normal)
+    bu:SetNormalTexture(butex)
     if not nt then
       --fix the non existent texture problem (no clue what is causing this)
       nt = bu:GetNormalTexture()
@@ -240,7 +252,7 @@ end
       bu:SetNormalTexture(uuidb.textures.buttons.equipped)
       --nt:SetVertexColor(uuidb.actionbars.color.equipped.r,uuidb.actionbars.color.equipped.g,uuidb.actionbars.color.equipped.b,1)
     else
-      bu:SetNormalTexture(uuidb.textures.buttons.normal)
+      bu:SetNormalTexture(butex)
       --print("hitabvertex")
       --nt:SetVertexColor(color.r, color.g, color.b, color.a)
     end
@@ -251,6 +263,13 @@ end
       if uuidb.general.customcolor or uuidb.general.classcolorframes then
         color = uuidb.general.customcolorval
       end
+
+      if uuidb.actionbars.gloss then
+        butex = uuidb.textures.buttons.normal
+      else
+        butex = uuidb.textures.buttons.light
+      end
+
       local bu = nt:GetParent()
 
       local action = bu.action
@@ -275,22 +294,22 @@ end
             nt:SetVertexColor(0.999,0.999,0.999,1)
           else
             bu:SetNormalTexture(uuidb.textures.buttons.equipped)
-            nt:SetVertexColor(uuidb.actionbars.color.equipped.r, uuidb.actionbars.color.equipped.g, uuidb.actionbars.color.equipped.b)
+            nt:SetVertexColor(uuidb.actionbars.color.equipped.r, uuidb.actionbars.color.equipped.g, uuidb.actionbars.color.equipped.b, uuidb.actionbars.color.equipped.a)
           end
         elseif r==0.5 and g==0.5 and b==1 then
           --blizzard oom color
           if color.r == 0.5 and  color.g == 0.5 and  color.b == 1 then
             nt:SetVertexColor(0.499,0.499,0.999,1)
           else
-            bu:SetNormalTexture(uuidb.textures.buttons.normal)
+            bu:SetNormalTexture(butex)
             nt:SetVertexColor(color.r, color.g, color.b, color.a)
           end
         elseif r==1 and g==1 and b==1 then
           if color.r == 1 and  color.g == 1 and  color.b == 1 then
-            bu:SetNormalTexture(uuidb.textures.buttons.normal)
+            bu:SetNormalTexture(butex)
             nt:SetVertexColor(0.999,0.999,0.999,1)
           else
-            bu:SetNormalTexture(uuidb.textures.buttons.normal)
+            bu:SetNormalTexture(butex)
             nt:SetVertexColor(color.r, color.g, color.b, color.a)
           end
         end
@@ -319,7 +338,7 @@ end
 	nt:SetTexCoord(0.2,0.8,0.2,0.8)
 	nt:SetPoint("TOPLEFT", bu, "TOPLEFT", 2, -2)
   nt:SetPoint("BOTTOMRIGHT", bu, "BOTTOMRIGHT", -2, 2)
-	bo:SetTexture(uuidb.textures.buttons.normal)
+	bo:SetTexture(butex)
 	bo:SetTexCoord(0, 1, 0, 1)
 	bo:SetDrawLayer("BACKGROUND",- 7)
 	bo:SetVertexColor(0.4, 0.35, 0.35)
@@ -349,11 +368,17 @@ end
     --bu:SetHighlightTexture(uuidb.textures.buttons.hover)
     bu:SetPushedTexture(uuidb.textures.buttons.pushed)
     --bu:SetCheckedTexture(uuidb.textures.buttons.checked)
-    bu:SetNormalTexture(uuidb.textures.buttons.normal)
+    bu:SetNormalTexture(butex)
     hooksecurefunc(bu, "SetNormalTexture", function(self, texture)
       --make sure the normaltexture stays the way we want it
-      if texture and texture ~= uuidb.textures.buttons.normal then
-        self:SetNormalTexture(uuidb.textures.buttons.normal)
+      if uuidb.actionbars.gloss then
+        butex = uuidb.textures.buttons.normal
+      else
+        butex = uuidb.textures.buttons.light
+      end
+
+      if texture and texture ~= butex then
+        self:SetNormalTexture(butex)
       end
     end)
     --cut the default border of the icons and make them shiny
@@ -371,6 +396,12 @@ end
       color = uuidb.actionbars.color.normal
     end
 
+    if uuidb.actionbars.gloss then
+      butex = uuidb.textures.buttons.normal
+    else
+      butex = uuidb.textures.buttons.light
+    end
+
     if not bu or (bu and bu.rabs_styled and not uuidb.actionbars.overridecol) then return end
     local name = bu:GetName()
     local ic  = _G[name.."Icon"]
@@ -384,7 +415,7 @@ end
     --bu:SetHighlightTexture(uuidb.textures.buttons.hover)
     bu:SetPushedTexture(uuidb.textures.buttons.pushed)
     --bu:SetCheckedTexture(uuidb.textures.buttons.checked)
-    bu:SetNormalTexture(uuidb.textures.buttons.normal)
+    bu:SetNormalTexture(butex)
     --cut the default border of the icons and make them shiny
     ic:SetTexCoord(0.1,0.9,0.1,0.9)
     ic:SetPoint("TOPLEFT", bu, "TOPLEFT", 2, -2)
@@ -400,6 +431,12 @@ end
       color = uuidb.actionbars.color.normal
     end
 
+    if uuidb.actionbars.gloss then
+      butex = uuidb.textures.buttons.normal
+    else
+      butex = uuidb.textures.buttons.light
+    end
+
     if not bu or (bu and bu.rabs_styled) then return end
     local name = bu:GetName()
     local ic  = _G[name.."Icon"]
@@ -413,7 +450,7 @@ end
     --bu:SetHighlightTexture(uuidb.textures.buttons.hover)
     bu:SetPushedTexture(uuidb.textures.buttons.pushed)
     --bu:SetCheckedTexture(uuidb.textures.buttons.checked)
-    bu:SetNormalTexture(uuidb.textures.buttons.normal)
+    bu:SetNormalTexture(butex)
     --cut the default border of the icons and make them shiny
     ic:SetTexCoord(0.1,0.9,0.1,0.9)
     ic:SetPoint("TOPLEFT", bu, "TOPLEFT", 2, -2)
@@ -477,6 +514,12 @@ local function styleBag(bu, color)
       color = uuidb.actionbars.bagiconcolor
     end
 
+  if uuidb.actionbars.gloss then
+    butex = uuidb.textures.buttons.normal
+  else
+    butex = uuidb.textures.buttons.light
+  end
+
 	if not bu or (bu and bu.rabs_styled and not uuidb.actionbars.overridecol) then return end
 	local name = bu:GetName()
 	local ic  = _G[name.."IconTexture"]
@@ -491,15 +534,15 @@ local function styleBag(bu, color)
 	ic:SetTexCoord(0.1,0.9,0.1,0.9)
       ic:SetPoint("TOPLEFT", bu, "TOPLEFT", 2, -2)
       ic:SetPoint("BOTTOMRIGHT", bu, "BOTTOMRIGHT", -2, 2)
-    bu:SetNormalTexture(uuidb.textures.buttons.normal)
+    bu:SetNormalTexture(butex)
 	--bu:SetHighlightTexture(uuidb.textures.buttons.hover)
       bu:SetPushedTexture(uuidb.textures.buttons.pushed)
         --bu:SetCheckedTexture(uuidb.textures.buttons.checked)
 
       --make sure the normaltexture stays the way we want it
 	--hooksecurefunc(bu, "SetNormalTexture", function(self, texture)
- --   if texture and texture ~= uuidb.textures.buttons.normal then
- --     self:SetNormalTexture(uuidb.textures.buttons.normal)
+ --   if texture and texture ~= butex then
+ --     self:SetNormalTexture(butex)
  --   end
  -- end)
 	--bu.Back = CreateFrame("Frame", nil, bu)

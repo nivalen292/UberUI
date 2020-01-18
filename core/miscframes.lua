@@ -15,10 +15,11 @@ end)
 
 function misc:NameplateTexture()
 	hooksecurefunc("CompactUnitFrame_UpdateHealthColor", function(frame)
-		if not frame:IsForbidden() then
+		if not frame:IsForbidden() and frame:GetName():find('NamePlate') then
 			if uuidb.general.bartexture ~= "Blizzard" then
 				local texture = uuidb.textures.statusbars[uuidb.general.bartexture]
 				frame.healthBar:SetStatusBarTexture(texture)
+				frame.castBar:SetStatusBarTexture(texture)
 			end
 		end
 	end)
@@ -38,7 +39,8 @@ function misc:ExtraBars()
 		for _,v in pairs({
 			CastingBarFrame,
 			TargetFrameSpellBar,
-			FocusFrameSpellBar
+			FocusFrameSpellBar,
+			ClassNameplateManaBarFrame
 			}) do
 			v:SetStatusBarTexture(texture)
 		end

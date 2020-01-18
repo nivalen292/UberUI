@@ -36,7 +36,7 @@ local defaults = {
       inverse           = "Interface\\AddOns\\Uber UI\\textures\\button_backgroundinverse",
       buttonback        = "Interface\\AddOns\\Uber UI\\textures\\button_backgroundlight",
       buttonbackflat    = "Interface\\AddOns\\Uber UI\\textures\\button_background_flat",
-      outer_shadow      = "Interface\\AddOns\\Uber UI\\textures\\outer_shadow",
+      outer_shadow      = "Interface\\AddOns\\Uber UI\\textures\\outer_shadow_bold",
     },
     statusbars = {
       Minimalist        = "Interface\\AddOns\\Uber UI\\textures\\statusbars\\Minimalist",
@@ -203,14 +203,15 @@ local defaults = {
     showbg              = true,
     showshadow          = true,
     useflatbackground   = false,
+    gloss               = false,
     backgroundcolor     = {r = .2, g = .2, b = .2, a = .3},
     shadowcolor         = {r = 0, g = 0, b = 0, a = .9},
     bagiconcolor        = {r = 0.4, g = 0.35, b = 0.35, a = 1},
     inset               = 5,
     overridecol         = false,
     color = {
-      normal            = {r = .37, g = .3, b = .3, a = 1},
-      equipped          = {r = .1, g = .5, b = .1, a = 1},
+      normal            = {r = .3, g = .3, b = .3, a = 1},
+      equipped          = {r = .1, g = .5, b = .1, a = .9},
     },
     hotkeys = {
       show              = true,
