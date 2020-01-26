@@ -20,3 +20,10 @@
 	Added custom textures to self, target, and focus castbars
 	Added custom textures to target, focus name background
 	Now, if target name not selected while using standard frames, name will show but background will be hidden
+8.3.0.3 Update:
+	Added texture to nameplate castbars
+	Added texturing to personal resource display manabar
+	Added option to enable or disable glossy actionbuttons
+8.3.0.4 Update:
+	Updated Elite / Rare / RareElite textures
+	Updates to raid frame textures
