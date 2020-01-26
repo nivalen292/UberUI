@@ -5,12 +5,15 @@ local misc = {}
 local misc = CreateFrame("frame")
 misc:RegisterEvent("PLAYER_ENTERING_WORLD")
 misc:RegisterEvent("GROUP_ROSTER_UPDATE")
+misc:RegisterEvent("RAID_ROSTER_UPDATE")
 misc:RegisterEvent("PLAYER_LEAVE_COMBAT")
 misc:SetScript("OnEvent", function(self,event)
 	if (event == "PLAYER_ENTERING_WORLD") then
 		self:pvpicons()
+		hooksecurefunc("CompactRaidFrameContainer_LayoutFrames", RaidColor)
 	end
 	misc:ExtraBars()
+	RaidColor()
 end)
 
 function misc:NameplateTexture()
@@ -47,7 +50,14 @@ function misc:ExtraBars()
 	end	
 end
 
-function misc:RaidColor(color)
+function RaidColor(color)
+	--CompactRaidFrameContainer_LayoutFrames(self);
+	if not (color) and uuidb.general.customcolor or uuidb.general.classcolorframes then
+		color = uuidb.general.customcolorval
+	else
+		color = uuidb.playerframe.color
+	end
+
 	local texture = uuidb.textures.statusbars[uuidb.general.bartexture]
 	for g = 1, NUM_RAID_GROUPS do
 		local group = _G["CompactRaidGroup"..g.."BorderFrame"]
@@ -204,9 +214,9 @@ function misc:ReworkAllColor(color)
 	self:NameplateTexture()
 	self:ExtraBars()
 	self:pvpicons(color)
-	self:RaidColor(color)
 	self:PartyColor(color)
 	self:TooltipColor(color)
+	RaidColor(color)
 end
 
 UberUI.misc = misc
