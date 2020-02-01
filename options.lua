@@ -356,6 +356,17 @@ Options:SetScript("OnShow", function(self)
 		uuidb.general.colorarenat = checked
 	end)
 
+	local TexRaid = CreateFrame("CheckButton", "$parentTexRaid", self, "InterfaceOptionsCheckButtonTemplate")
+	TexRaid:SetPoint("LEFT", ArenaFrameCol, "RIGHT", 200, 0)
+	TexRaid.Text:SetText("Texture Raid Frames")
+	TexRaid.tooltipText = "Toggles the texturing of raid frames"
+	TexRaid:SetScript("OnClick", function(this)
+		local checked = not not this:GetChecked()
+		PlaySound(checked and SOUND_ON or SOUND_OFF)
+		uuidb.miscframes.texraidframes = checked
+		RaidColor()
+	end)
+
 	function self:refresh()
 		Gryphon:SetChecked(uuidb.mainmenu.gryphon)
 		Hotkey:SetChecked(uuidb.actionbars.hotkeys.show)
@@ -370,6 +381,7 @@ Options:SetScript("OnShow", function(self)
 		TargetName:SetChecked(uuidb.targetframe.name)
 		ArenaFrameCol:SetChecked(uuidb.general.colorarenat)
 		CustomColorCheck:SetChecked(uuidb.general.customcolor)
+		TexRaid:SetChecked(uuidb.miscframes.texraidframes)
 	end
 
 	self:refresh()

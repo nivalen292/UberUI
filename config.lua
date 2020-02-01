@@ -239,6 +239,7 @@ local defaults = {
     raidgroupcolor      = true,
     raidsinglecolor     = true,
     pvpicons            = false,
+    texraidframes       = true,
     arenaframescolor    = {r = .05, g = .05, b = .05, a = 1},
     misccolor           = {r = .05, g = .05, b = .05, a = 1},
   },

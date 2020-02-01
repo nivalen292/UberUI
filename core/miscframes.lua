@@ -76,8 +76,10 @@ function RaidColor(color)
 						region:SetVertexColor(color.r, color.g, color.b, color.a)
 					end
 				end
-				frame.healthBar:SetStatusBarTexture(texture)
-				frame.powerBar:SetStatusBarTexture(texture)
+				if uuidb.general.bartexture ~= "Blizzard" and uuidb.miscframes.texraidframes then
+					frame.healthBar:SetStatusBarTexture(texture)
+					frame.powerBar:SetStatusBarTexture(texture)
+				end
 			end
 			local frame = _G["CompactRaidFrame"..m]
 			if frame and uuidb.miscframes.raidsinglecolor then
@@ -86,8 +88,10 @@ function RaidColor(color)
 						region:SetVertexColor(color.r, color.g, color.b, color.a)
 					end
 				end
-				frame.healthBar:SetStatusBarTexture(texture)
-				frame.powerBar:SetStatusBarTexture(texture)
+				if uuidb.general.bartexture ~= "Blizzard" and uuidb.miscframes.texraidframes then
+					frame.healthBar:SetStatusBarTexture(texture)
+					frame.powerBar:SetStatusBarTexture(texture)
+				end
 			end
 		end
 		if CompactPartyFrameBorderFrame then

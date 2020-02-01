@@ -27,3 +27,6 @@
 8.3.0.4 Update:
 	Updated Elite / Rare / RareElite textures
 	Updates to raid frame textures
+8.3.0.5 Update:
+	Bug fix attempt with default blizzard texture and raid frames
+	Added option to turn off texturing of raid frames specifically
