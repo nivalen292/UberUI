@@ -163,9 +163,9 @@ function misc:TooltipColor(color)
 			shoppingTooltip2:SetBackdropBorderColor(color.r, color.g, color.b, color.a)
 		end
 	end)
-	--hooksecurefunc("GameTooltip_SetBackdropStyle", function(self, style)
-	--	self:SetBackdropBorderColor(color.r, color.g, color.b, color.a)
-	--end)
+	hooksecurefunc("SharedTooltip_SetBackdropStyle", function(self, style)
+		self:SetBackdropBorderColor(color.r, color.g, color.b, color.a)
+	end)
 end
 
 local hcount = 0
