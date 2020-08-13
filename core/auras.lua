@@ -78,7 +78,7 @@ local function applySkin(b, color)
 	border:SetPoint("BOTTOMRIGHT", b, "BOTTOMRIGHT", 1, -1)
 	b.border = border
 	--shadow
-	local back = CreateFrame("Frame", nil, b)
+	local back = CreateFrame("Frame", nil, b, BackdropTemplateMixin and "BackdropTemplate")
 	back:SetPoint("TOPLEFT", b, "TOPLEFT", -4, 4)
 	back:SetPoint("BOTTOMRIGHT", b, "BOTTOMRIGHT", 4, -4)
 	back:SetFrameLevel(b:GetFrameLevel() - 1)

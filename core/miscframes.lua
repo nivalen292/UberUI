@@ -23,11 +23,13 @@ end)
 
 function misc:NameplateTexture()
 	hooksecurefunc("CompactUnitFrame_UpdateHealthColor", function(frame)
-		if not frame:IsForbidden() and frame:GetName():find('NamePlate') then
+		if not frame:IsForbidden() and frame.healthBar ~= nil then
 			if uuidb.general.bartexture ~= "Blizzard" then
 				local texture = uuidb.textures.statusbars[uuidb.general.bartexture]
 				frame.healthBar:SetStatusBarTexture(texture)
-				frame.castBar:SetStatusBarTexture(texture)
+				if frame.castBar ~= nil then
+					frame.castBar:SetStatusBarTexture(texture)
+				end
 			end
 		end
 	end)
@@ -161,9 +163,9 @@ function misc:TooltipColor(color)
 			shoppingTooltip2:SetBackdropBorderColor(color.r, color.g, color.b, color.a)
 		end
 	end)
-	hooksecurefunc("GameTooltip_SetBackdropStyle", function(self, style)
-		self:SetBackdropBorderColor(color.r, color.g, color.b, color.a)
-	end)
+	--hooksecurefunc("GameTooltip_SetBackdropStyle", function(self, style)
+	--	self:SetBackdropBorderColor(color.r, color.g, color.b, color.a)
+	--end)
 end
 
 local hcount = 0

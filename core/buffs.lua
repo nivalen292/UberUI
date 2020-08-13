@@ -150,7 +150,7 @@ local function applySkin(b)
 
   --shadow
   if uui.background.show then
-    local back = CreateFrame("Frame", nil, b)
+    local back = CreateFrame("Frame", nil, b, BackdropTemplateMixin and "BackdropTemplate")
     back:SetPoint("TOPLEFT", b, "TOPLEFT", -uui.background.padding, uui.background.padding)
     back:SetPoint("BOTTOMRIGHT", b, "BOTTOMRIGHT", uui.background.padding, -uui.background.padding)
     back:SetFrameLevel(b:GetFrameLevel() - 1)
