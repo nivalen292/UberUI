@@ -10,7 +10,10 @@ misc:RegisterEvent("PLAYER_LEAVE_COMBAT")
 misc:SetScript("OnEvent", function(self,event)
 	if (event == "PLAYER_ENTERING_WORLD") then
 		self:pvpicons()
-		hooksecurefunc("CompactRaidFrameContainer_LayoutFrames", RaidColor)
+		if not (IsAddOnLoaded("VuhDo")) then
+			RaidColor()
+			hooksecurefunc("CompactRaidFrameContainer_LayoutFrames", RaidColor)
+		end
 	end
 	misc:ExtraBars()
 	RaidColor()
