@@ -27,6 +27,8 @@ function misc:NameplateTexture()
 			if uuidb.general.bartexture ~= "Blizzard" then
 				local texture = uuidb.textures.statusbars[uuidb.general.bartexture]
 				frame.healthBar:SetStatusBarTexture(texture)
+				frame.myHealPrediction:SetTexture(texture)
+				frame.otherHealPrediction:SetTexture(texture)
 				if frame.castBar ~= nil then
 					frame.castBar:SetStatusBarTexture(texture)
 				end
@@ -50,10 +52,11 @@ function misc:ExtraBars()
 			CastingBarFrame,
 			TargetFrameSpellBar,
 			FocusFrameSpellBar,
-			ClassNameplateManaBarFrame
+			ClassNameplateManaBarFrame,
 			}) do
 			v:SetStatusBarTexture(texture)
 		end
+		ClassNameplateManaBarFrame.ManaCostPredictionBar:SetTexture(texture)
 	end	
 end
 
