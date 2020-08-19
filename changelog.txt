@@ -5,3 +5,5 @@
 		-- actionbars
 		-- mninimap
 		-- tooltips
+	Update positioning of debuffs slighly lower to not cause overlap when three rows of buffs exist
+	Update textures for player and target frames that were missing (ex. incoming heal & absorb)
