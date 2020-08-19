@@ -65,6 +65,16 @@ local function ManaBars()
     }
 end
 
+local function NonStatusBars()
+	return {
+		PlayerFrameMyHealPredictionBar,
+		PlayerFrameOtherHealPredictionBar,
+		TargetFrameMyHealPredictionBar,
+		TargetFrameOtherHealPredictionBar,
+		PlayerFrameManaCostPredictionBar,
+	}
+end
+
  -- COLORING THE MAIN BAR
 function general:MainMenuColor(color)
 	if not (color) then
@@ -128,6 +138,7 @@ function general:BarTexture(value)
 
     local healthBars = HealthBars()
     local manaBars = ManaBars()
+    local nonStatusBars = NonStatusBars()
 
     for _, healthbar in pairs(healthBars) do
         healthbar:SetStatusBarTexture(texture)
@@ -150,6 +161,10 @@ function general:BarTexture(value)
         hooksecurefunc("UnitFrameManaBar_UpdateType", manaBarTexture)
 
         PlayerFrameManaBar.EasyFramesHookUpdateType = true
+    end
+
+    for _,v in pairs(nonStatusBars) do
+    	v:SetTexture(texture)
     end
 
 end
