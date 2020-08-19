@@ -29,6 +29,8 @@ function misc:NameplateTexture()
 				frame.healthBar:SetStatusBarTexture(texture)
 				frame.myHealPrediction:SetTexture(texture)
 				frame.otherHealPrediction:SetTexture(texture)
+				frame.totalAbsorb:SetTexture(striped)
+				frame.totalAbsorb:SetVertexColor(.6, .9, .9, 1)
 				if frame.castBar ~= nil then
 					frame.castBar:SetStatusBarTexture(texture)
 				end
