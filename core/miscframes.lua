@@ -26,6 +26,7 @@ function misc:NameplateTexture()
 		if not frame:IsForbidden() and frame.healthBar ~= nil then
 			if uuidb.general.bartexture ~= "Blizzard" then
 				local texture = uuidb.textures.statusbars[uuidb.general.bartexture]
+				local striped = uuidb.textures.statusbars.Striped
 				frame.healthBar:SetStatusBarTexture(texture)
 				frame.myHealPrediction:SetTexture(texture)
 				frame.otherHealPrediction:SetTexture(texture)
