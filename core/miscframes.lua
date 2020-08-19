@@ -16,16 +16,20 @@ misc:SetScript("OnEvent", function(self,event)
 		end
 	end
 	misc:ExtraBars()
-	RaidColor()
+	if not (IsAddOnLoaded("VuhDo")) then
+		RaidColor()
+	end
 end)
 
 function misc:NameplateTexture()
 	hooksecurefunc("CompactUnitFrame_UpdateHealthColor", function(frame)
-		if not frame:IsForbidden() and frame:GetName():find('NamePlate') then
+		if not frame:IsForbidden() and frame.healthBar ~= nil then
 			if uuidb.general.bartexture ~= "Blizzard" then
 				local texture = uuidb.textures.statusbars[uuidb.general.bartexture]
 				frame.healthBar:SetStatusBarTexture(texture)
-				frame.castBar:SetStatusBarTexture(texture)
+				if frame.castBar ~= nil then
+					frame.castBar:SetStatusBarTexture(texture)
+				end
 			end
 		end
 	end)
@@ -54,6 +58,7 @@ function misc:ExtraBars()
 end
 
 function RaidColor(color)
+	erf = IsAddOnLoaded("EnhancedRaidFrames")
 	--CompactRaidFrameContainer_LayoutFrames(self);
 	if not (color) and uuidb.general.customcolor or uuidb.general.classcolorframes then
 		color = uuidb.general.customcolorval
@@ -74,9 +79,11 @@ function RaidColor(color)
 		for m = 1, 5 do
 			local frame = _G["CompactRaidGroup"..g.."Member"..m]
 			if frame and uuidb.miscframes.raidgroupcolor then
-				for _, region in pairs({frame:GetRegions()}) do
-					if region:GetName():find("Border") then
-						region:SetVertexColor(color.r, color.g, color.b, color.a)
+				if not erf then
+					for _, region in pairs({frame:GetRegions()}) do
+						if region:GetName():find("Border") then
+							region:SetVertexColor(color.r, color.g, color.b, color.a)
+						end
 					end
 				end
 				if uuidb.general.bartexture ~= "Blizzard" and uuidb.miscframes.texraidframes then
@@ -87,8 +94,10 @@ function RaidColor(color)
 			local frame = _G["CompactRaidFrame"..m]
 			if frame and uuidb.miscframes.raidsinglecolor then
 				for _, region in pairs({frame:GetRegions()}) do
-					if region:GetName():find("Border") then
-						region:SetVertexColor(color.r, color.g, color.b, color.a)
+					if not erf then
+						if region:GetName():find("Border") then
+							region:SetVertexColor(color.r, color.g, color.b, color.a)
+						end
 					end
 				end
 				if uuidb.general.bartexture ~= "Blizzard" and uuidb.miscframes.texraidframes then
