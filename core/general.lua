@@ -135,6 +135,7 @@ end
 
 function general:BarTexture(value)
     local texture = uuidb.textures.statusbars[value]
+    local striped = uuidb.textures.statusbars.Striped
 
     local healthBars = HealthBars()
     local manaBars = ManaBars()
@@ -166,6 +167,11 @@ function general:BarTexture(value)
     for _,v in pairs(nonStatusBars) do
     	v:SetTexture(texture)
     end
+
+    PlayerFrameTotalAbsorbBar:SetTexture(striped)
+	PlayerFrameTotalAbsorbBar:SetVertexColor(.6, .9, .9)
+	TargetFrameTotalAbsorbBar:SetTexture(striped)
+	TargetFrameTotalAbsorbBar:SetVertexColor(.6, .9, .9)
 
 end
 
