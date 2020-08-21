@@ -108,9 +108,13 @@ local defaults = {
     scale             = 1.2,
     color             = {r = .05, g = .05, b =.05, a = 1},
     name              = true,
+    nameinside        = false,
     colortargett      = false,
     colorfocust       = false,
     colortott         = false,
+  },
+  focusframe = {
+    nameinside        = true,
   },
   minimap = {
     color             = {r = .05, g = .05, b =.05, a = 1},

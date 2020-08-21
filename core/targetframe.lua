@@ -112,7 +112,11 @@ function uui_TargetFrameStyleTargetFrame(self, forceNormalTexture)
 	-- style frames accordingly
 	local classification = UnitClassification(self.unit)
 	if uuidb.targetframe.largehealth then
-		TargetFrameTextureFrameName:SetPoint("CENTER", TargetFrameTextureFrame, "CENTER", -50, 36)
+		if uuidb.targetframe.nameinside then
+			TargetFrameTextureFrameName:SetPoint("CENTER", TargetFrameTextureFrame, "CENTER", -50, 20)
+		else
+			TargetFrameTextureFrameName:SetPoint("CENTER", TargetFrameTextureFrame, "CENTER", -50, 36)
+		end
 	end
 	if ( classification == "minus" ) then
 		self.borderTexture:SetTexture(frametexture.minus)
@@ -206,6 +210,9 @@ function uui_TargetFrameStyleTargetFrame(self, forceNormalTexture)
 		TargetFrameTextureFramePrestigePortrait:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 		self.borderTexture:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 		self.borderTexture:SetTexture(frametexture.targetingframe)
+		if not uuidb.miscframes.pvpicons then
+			TargetFrameTextureFramePrestigePortrait:SetAlpha(0)
+		end
 		TargetFrameToTTextureFrameTexture:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 	end
 end

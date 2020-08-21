@@ -367,6 +367,28 @@ Options:SetScript("OnShow", function(self)
 		RaidColor()
 	end)
 
+	local TargetNameInside = CreateFrame("CheckButton", "$parentTargetNameInside", self, "InterfaceOptionsCheckButtonTemplate")
+	TargetNameInside:SetPoint("LEFT", TexRaid, "RIGHT", 200, 0)
+	TargetNameInside.Text:SetText("Target Name Inside")
+	TargetNameInside.tooltipText = "Toggles the target name above the frame or not for large frames"
+	TargetNameInside:SetScript("OnClick", function(this)
+		local checked = not not this:GetChecked()
+		PlaySound(checked and SOUND_ON or SOUND_OFF)
+		uuidb.targetframe.nameinside = checked
+		UberUI.general:ColorAllFrames()
+	end)
+
+	local FocusNameInside = CreateFrame("CheckButton", "$parentFocusNameInside", self, "InterfaceOptionsCheckButtonTemplate")
+	FocusNameInside:SetPoint("TOPLEFT", ArenaFrameCol, "BOTTOMLEFT", 0, -12)
+	FocusNameInside.Text:SetText("Focus Name Inside")
+	FocusNameInside.tooltipText = "Toggles the focus frame name above the frame or not for large frames"
+	FocusNameInside:SetScript("OnClick", function(this)
+		local checked = not not this:GetChecked()
+		PlaySound(checked and SOUND_ON or SOUND_OFF)
+		uuidb.focusframe.nameinside = checked
+		UberUI.misc:FocusName()
+	end)
+
 	function self:refresh()
 		Gryphon:SetChecked(uuidb.mainmenu.gryphon)
 		Hotkey:SetChecked(uuidb.actionbars.hotkeys.show)
@@ -382,6 +404,8 @@ Options:SetScript("OnShow", function(self)
 		ArenaFrameCol:SetChecked(uuidb.general.colorarenat)
 		CustomColorCheck:SetChecked(uuidb.general.customcolor)
 		TexRaid:SetChecked(uuidb.miscframes.texraidframes)
+		TargetNameInside:SetChecked(uuidb.targetframe.nameinside)
+		FocusNameInside:SetChecked(uuidb.focusframe.nameinside)
 	end
 
 	self:refresh()

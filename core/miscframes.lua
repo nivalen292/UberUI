@@ -173,6 +173,14 @@ function misc:TooltipColor(color)
 	end)
 end
 
+function misc:FocusName()
+	if not uuidb.focusframe.nameinside then
+		FocusFrameTextureFrameName:SetPoint('CENTER', 'FocusFrameTextureFrame', 'CENTER', -50, 34)
+	else
+		FocusFrameTextureFrameName:SetPoint('CENTER', 'FocusFrameTextureFrame', 'CENTER', -50, 19)
+	end
+end	
+
 local hcount = 0
 function misc:pvpicons(color)
 
@@ -237,6 +245,9 @@ function misc:ReworkAllColor(color)
 	self:pvpicons(color)
 	self:PartyColor(color)
 	self:TooltipColor(color)
+	if not uuidb.focusframe.nameinside then
+		self:FocusName()
+	end
 	RaidColor(color)
 end
 
