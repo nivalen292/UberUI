@@ -7,3 +7,5 @@
 		-- tooltips
 	Update positioning of debuffs slighly lower to not cause overlap when three rows of buffs exist
 	Update textures for player and target frames that were missing (ex. incoming heal & absorb)
+	Added options to move name position inside or outside of frames for Target & Focus frame
+	Fixed bug with pvp portrait showing when supposed to be hidden on non-large target frame
