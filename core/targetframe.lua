@@ -164,7 +164,6 @@ function uui_TargetFrameStyleTargetFrame(self, forceNormalTexture)
 			TargetFrameTextureFramePrestigePortrait:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 			TargetFrameSpellBar.Border:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 		end
-		FocusFrameTextureFramePrestigePortrait:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 		TargetFrameTextureFramePrestigePortrait:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 		self.borderTexture:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 	elseif ( classification == "rareelite" ) then
@@ -174,7 +173,6 @@ function uui_TargetFrameStyleTargetFrame(self, forceNormalTexture)
 			TargetFrameTextureFramePrestigePortrait:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 			TargetFrameSpellBar.Border:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 		end
-		FocusFrameTextureFramePrestigePortrait:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 		TargetFrameTextureFramePrestigePortrait:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 		self.borderTexture:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 	elseif ( classification == "rare" ) then
@@ -184,13 +182,10 @@ function uui_TargetFrameStyleTargetFrame(self, forceNormalTexture)
 			TargetFrameTextureFramePrestigePortrait:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 			TargetFrameSpellBar.Border:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 		end
-		TargetFrameTextureFramePrestigePortrait:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
-		FocusFrameTextureFramePrestigePortrait:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 		self.borderTexture:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 	else
 		if UnitIsPlayer(self.unit) and (uuidb.targetframe.colortargett == "All" or uuidb.targetframe.colortargett == "Class") then
 			colors = RAID_CLASS_COLORS[select(2, UnitClass(self.unit))]
-			FocusFrameTextureFramePrestigePortrait:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 			TargetFrameTextureFramePrestigePortrait:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 			TargetFrameSpellBar.Border:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 		elseif uuidb.targetframe.colortargett == ("All") and not UnitIsPlayer(self.unit) then
@@ -202,11 +197,9 @@ function uui_TargetFrameStyleTargetFrame(self, forceNormalTexture)
         	else
         	    colors = { r = 1, g = 1, b = 0}
         	end
-        	FocusFrameTextureFramePrestigePortrait:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
         	TargetFrameTextureFramePrestigePortrait:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
            	TargetFrameSpellBar.Border:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 		end
-		FocusFrameTextureFramePrestigePortrait:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 		TargetFrameTextureFramePrestigePortrait:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 		self.borderTexture:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 		self.borderTexture:SetTexture(frametexture.targetingframe)
@@ -219,7 +212,6 @@ end
 
 function targetframes:ClassColorTargetEnable()
 	hooksecurefunc("TargetofTarget_Update", self.PLAYER_TARGET_CHANGED)
-
 end
 
 function targetframes:PLAYER_TARGET_CHANGED()

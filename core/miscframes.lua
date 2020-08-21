@@ -7,6 +7,7 @@ misc:RegisterEvent("PLAYER_ENTERING_WORLD")
 misc:RegisterEvent("GROUP_ROSTER_UPDATE")
 misc:RegisterEvent("RAID_ROSTER_UPDATE")
 misc:RegisterEvent("PLAYER_LEAVE_COMBAT")
+misc:RegisterEvent("PLAYER_FOCUS_CHANGED")
 misc:SetScript("OnEvent", function(self,event)
 	if (event == "PLAYER_ENTERING_WORLD") then
 		self:pvpicons()
@@ -15,11 +16,38 @@ misc:SetScript("OnEvent", function(self,event)
 			hooksecurefunc("CompactRaidFrameContainer_LayoutFrames", RaidColor)
 		end
 	end
+	if (event == "PLAYER_FOCUS_CHANGED") then
+		self:FocusFrame()
+	end
 	misc:ExtraBars()
 	if not (IsAddOnLoaded("VuhDo")) then
 		RaidColor()
 	end
 end)
+
+function misc:FocusFrame()
+	if UnitExists('focus') then
+		local u = 'focus'
+		if uuidb.targetframe.colortargett == ("All") then
+			if UnitIsConnected(u) and UnitIsPlayer(u) then
+				colors = RAID_CLASS_COLORS[select(2, UnitClass(u))]
+			else
+				local red,green,_ = UnitSelectionColor(u)
+				if (red == 0) then
+	        	    colors = { r = 0, g = 1, b = 0}
+	        	elseif (green == 0) then
+	        	    colors = { r = 1, g = 0, b = 0}
+	        	else
+	        	    colors = { r = 1, g = 1, b = 0}
+	        	end
+			end
+		else
+			colors = uuidb.auras.color
+		end
+		FocusFrameSpellBar.Border:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
+		FocusFrameTextureFramePrestigePortrait:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
+	end
+end
 
 function misc:NameplateTexture()
 	hooksecurefunc("CompactUnitFrame_UpdateHealthColor", function(frame)
