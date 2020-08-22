@@ -160,7 +160,7 @@ local defaults = {
       },
     },
     debuff = {
-      pos               = {a1 = "TOPRIGHT", af = "Minimap", a2 = "TOPLEFT", x = -35, y = -120 },
+      pos               = {a1 = "TOPRIGHT", af = "Minimap", a2 = "TOPLEFT", x = -35, y = -80 },
       gap               = 30,
       locked            = true,
       rowspacing        = 10,

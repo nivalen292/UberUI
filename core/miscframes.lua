@@ -49,7 +49,9 @@ function misc:FocusFrame()
 	end
 end
 
+local nthook = false
 function misc:NameplateTexture()
+	if nthook then return end
 	hooksecurefunc("CompactUnitFrame_UpdateHealthColor", function(frame)
 		if not frame:IsForbidden() and frame.healthBar ~= nil then
 			if uuidb.general.bartexture ~= "Blizzard" then
@@ -65,6 +67,7 @@ function misc:NameplateTexture()
 			end
 		end
 	end)
+	nthook = true
 end
 
 function misc:ExtraBars()
@@ -87,6 +90,7 @@ function misc:ExtraBars()
 			v:SetStatusBarTexture(texture)
 		end
 		ClassNameplateManaBarFrame.ManaCostPredictionBar:SetTexture(texture)
+		GameTooltipStatusBarTexture:SetTexture(texture)
 	end	
 end
 
@@ -188,8 +192,15 @@ function misc:PartyColor(color)
 	end
 end
 
+local tthookset = false
 function misc:TooltipColor(color)
+	if tthookset then return end
 	hooksecurefunc("GameTooltip_ShowCompareItem", function(self, anchorFrame)
+		if uuidb.general.customcolor or uuidb.general.classcolorframes then
+			color = uuidb.general.customcolorval
+		else
+			color = uuidb.playerframe.color
+		end
 		if (self) then
 			local shoppingTooltip1, shoppingTooltip2 = unpack(self.shoppingTooltips)
 			shoppingTooltip1:SetBackdropBorderColor(color.r, color.g, color.b, color.a)
@@ -197,8 +208,14 @@ function misc:TooltipColor(color)
 		end
 	end)
 	hooksecurefunc("SharedTooltip_SetBackdropStyle", function(self, style)
+		if uuidb.general.customcolor or uuidb.general.classcolorframes then
+			color = uuidb.general.customcolorval
+		else
+			color = uuidb.playerframe.color
+		end
 		self:SetBackdropBorderColor(color.r, color.g, color.b, color.a)
 	end)
+	tthookset = true
 end
 
 function misc:FocusName()
