@@ -63,6 +63,7 @@ function misc:NameplateTexture()
 				frame.totalAbsorb:SetVertexColor(.6, .9, .9, 1)
 				if frame.castBar ~= nil then
 					frame.castBar:SetStatusBarTexture(texture)
+					frame.castBar.Flash:SetTexture(texture)
 				end
 			end
 		end
