@@ -184,14 +184,6 @@ local function updateDebuffAnchors(buttonName,index)
   end
 end
 
---local function moveDebuffs(num, pos)
---  if num > 10 and pos == -80 then
---    rBFS_DebuffDragFrame:SetPoint(debuff.pos.a1,debuff.pos.af,debuff.pos.a2,debuff.pos.x,-120)
---  elseif num <= 10 and pos == -120 then
---    rBFS_DebuffDragFrame:SetPoint(debuff.pos.a1,debuff.pos.af,debuff.pos.a2,debuff.pos.x,debuff.pos.y)
---  end
---end
-
 --update buff anchors
 local function updateAllBuffAnchors()
   --variables
@@ -240,11 +232,6 @@ local function updateAllBuffAnchors()
   local rows = ceil((buffCounter+offset)/uuidb.buffdebuff.buff.buttonsperrow)
   local height = uuidb.buffdebuff.buff.button.size*rows + uuidb.buffdebuff.buff.rowspacing*rows + uuidb.buffdebuff.buff.gap*min(1,rows)
   buffFrameHeight = height
-  if numBuffs > 20 and currentPos == -80 then
-    rBFS_DebuffDragFrame:SetPoint(debuff.pos.a1,debuff.pos.af,debuff.pos.a2,debuff.pos.x,-120)
-  elseif numBuffs <= 20 and currentPos == -120 then
-    rBFS_DebuffDragFrame:SetPoint(debuff.pos.a1,debuff.pos.af,debuff.pos.a2,debuff.pos.x,debuff.pos.y)
-  end
 end
 
 function buffs:ReworkAllColor()

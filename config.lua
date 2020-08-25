@@ -132,7 +132,7 @@ local defaults = {
       colspacing        = 7,
       buttonsperrow     = 10,
       button = {
-        size            = 28,
+        size            = 30,
       },
       icon = {
         padding         = -2,
@@ -160,14 +160,14 @@ local defaults = {
       },
     },
     debuff = {
-      pos               = {a1 = "TOPRIGHT", af = "Minimap", a2 = "TOPLEFT", x = -35, y = -80 },
+      pos               = {a1 = "TOPRIGHT", af = "Minimap", a2 = "TOPLEFT", x = -35, y = -120 },
       gap               = 30,
       locked            = true,
       rowspacing        = 10,
       colspacing        = 7,
       buttonsperrow     = 10,
       button = {
-        size            = 28,
+        size            = 30,
       },
       icon = {
         padding         = -2,
