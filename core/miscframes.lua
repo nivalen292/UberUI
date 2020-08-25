@@ -121,6 +121,17 @@ function RaidColor(color)
 					for _, region in pairs({frame:GetRegions()}) do
 						if region:GetName():find("Border") then
 							region:SetVertexColor(color.r, color.g, color.b, color.a)
+							if not _G["crg"..g.."m"..m] then
+								_G["crg"..g.."m"..m] = CreateFrame("Frame", "CompactRaidGroup"..g.."Member"..m.."RoleIconBorder", _G["CompactRaidGroup"..g.."Member"..m.."RoleIcon"]:GetParent())
+								_G["crg"..g.."m"..m]:SetPoint(_G["CompactRaidGroup"..g.."Member"..m.."RoleIcon"]:GetPoint())
+								_G["crg"..g.."m"..m]:SetSize(_G["CompactRaidGroup"..g.."Member"..m.."RoleIcon"]:GetSize())
+								_G["crg"..g.."m"..m].texture = _G["crg"..g.."m"..m]:CreateTexture()
+								_G["crg"..g.."m"..m].texture:SetPoint(_G["CompactRaidGroup"..g.."Member"..m.."RoleIcon"]:GetPoint())
+								_G["crg"..g.."m"..m].texture:SetTexture("Interface\\AddOns\\Uber UI\\textures\\ui-portraitroles")
+								_G["crg"..g.."m"..m].texture:SetSize(_G["CompactRaidGroup"..g.."Member"..m.."RoleIcon"]:GetSize())
+								_G["crg"..g.."m"..m].texture:SetTexCoord(0, 0.296875, 0.015625, 0.3125)
+								_G["crg"..g.."m"..m].texture:SetVertexColor(color)
+							end
 						end
 					end
 				end
@@ -135,6 +146,17 @@ function RaidColor(color)
 					if not erf then
 						if region:GetName():find("Border") then
 							region:SetVertexColor(color.r, color.g, color.b, color.a)
+							if not _G["crf"..m] then
+								_G["crf"..m] = CreateFrame("Frame", "CompactRaidFrame"..m.."RoleIconBorder", _G["CompactRaidFrame"..m.."RoleIcon"]:GetParent())
+								_G["crf"..m]:SetPoint(_G["CompactRaidFrame"..m.."RoleIcon"]:GetPoint())
+								_G["crf"..m]:SetSize(_G["CompactRaidFrame"..m.."RoleIcon"]:GetSize())
+								_G["crf"..m].texture = _G["crf"..m]:CreateTexture()
+								_G["crf"..m].texture:SetPoint(_G["CompactRaidFrame"..m.."RoleIcon"]:GetPoint())
+								_G["crf"..m].texture:SetTexture("Interface\\AddOns\\Uber UI\\textures\\ui-portraitroles")
+								_G["crf"..m].texture:SetSize(_G["CompactRaidFrame"..m.."RoleIcon"]:GetSize())
+								_G["crf"..m].texture:SetTexCoord(0, 0.296875, 0.015625, 0.3125)
+								_G["crf"..m].texture:SetVertexColor(color)
+							end
 						end
 					end
 				end
@@ -186,10 +208,27 @@ function misc:PartyColor(color)
 			v:SetVertexColor(color.r, color.g, color.b, color.a)
 		--end
 	end
+	if uuidb.general.customcolor or uuidb.general.classcolorframes then
+		color = uuidb.general.customcolorval
+	else
+		color = uuidb.playerframe.color
+	end
 	for i=1,4 do 
 		_G["PartyMemberFrame"..i.."PVPIcon"]:SetAlpha(0)
-		_G["PartyMemberFrame"..i.."NotPresentIcon"]:Hide()
-		_G["PartyMemberFrame"..i.."NotPresentIcon"].Show = function() end
+		_G["PartyMemberFrame"..i.."NotPresentIcon"].Border:SetVertexColor(color)
+		if not _G["pa"..i.."ri"] then
+			_G["pa"..i.."ri"] = CreateFrame("Frame", "PartyMemberFrame"..i.."RoleIconBorder", _G["PartyMemberFrame"..i.."RoleIcon"]:GetParent())
+			_G["pa"..i.."ri"]:SetPoint(_G["PartyMemberFrame"..i.."RoleIcon"]:GetPoint())
+			_G["pa"..i.."ri"]:SetSize(_G["PartyMemberFrame"..i.."RoleIcon"]:GetSize())
+			_G["pa"..i.."ri"].texture = _G["pa"..i.."ri"]:CreateTexture()
+			_G["pa"..i.."ri"].texture:SetPoint(_G["PartyMemberFrame"..i.."RoleIcon"]:GetPoint())
+			_G["pa"..i.."ri"].texture:SetTexture("Interface\\AddOns\\Uber UI\\textures\\ui-portraitroles")
+			_G["pa"..i.."ri"].texture:SetSize(_G["PartyMemberFrame"..i.."RoleIcon"]:GetSize())
+			_G["pa"..i.."ri"].texture:SetTexCoord(0, 0.296875, 0.015625, 0.3125)
+			_G["pa"..i.."ri"].texture:SetVertexColor(color)
+		end
+		--_G["PartyMemberFrame"..i.."NotPresentIcon"]:Hide()
+		--_G["PartyMemberFrame"..i.."NotPresentIcon"].Show = function() end
 	end
 end
 

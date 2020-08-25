@@ -148,6 +148,24 @@ function playerframes:Scale(value)
 	end
 end
 
+function playerframes:RoleIconBorder(color)
+	if not (color) and uuidb.general.customcolor or uuidb.general.classcolorframes then
+		color = uuidb.general.customcolorval
+	else
+		color = uuidb.playerframe.color
+	end
+	if not plri then
+		plri = CreateFrame("Frame", "PlayerFrameRoleIconBorder", PlayerFrameRoleIcon:GetParent())
+		plri:SetPoint(PlayerFrameRoleIcon:GetPoint())
+		plri:SetSize(PlayerFrameRoleIcon:GetSize())
+		plri.texture = plri:CreateTexture()
+		plri.texture:SetPoint(PlayerFrameRoleIcon:GetPoint())
+		plri.texture:SetTexture("Interface\\AddOns\\Uber UI\\textures\\ui-portraitroles")
+		plri.texture:SetSize(PlayerFrameRoleIcon:GetSize())
+		plri.texture:SetTexCoord(0, 0.296875, 0.015625, 0.3125)
+		plri.texture:SetVertexColor(color)
+	end
+end
 
 function playerframes:PetFrame()
 	hooksecurefunc("PetFrame_Update", function(self, override)
@@ -193,6 +211,7 @@ function playerframes:ReworkAllColor(color)
 		MiscFrames(color)
 		self:Name()
 		self:Scale(uuidb.playerframe.scale)
+		self:RoleIconBorder()
 	end
 end
 
