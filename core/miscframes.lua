@@ -125,18 +125,17 @@ function RaidColor(color)
 						end
 					end
 				end
-				if not _G["crg"..g.."m"..m] then
-					_G["crg"..g.."m"..m] = CreateFrame("Frame", "CompactRaidGroup"..g.."Member"..m.."RoleIconBorder", _G["CompactRaidGroup"..g.."Member"..m.."RoleIcon"]:GetParent())
-					_G["crg"..g.."m"..m]:SetPoint(_G["CompactRaidGroup"..g.."Member"..m.."RoleIcon"]:GetPoint())
-					_G["crg"..g.."m"..m]:SetSize(_G["CompactRaidGroup"..g.."Member"..m.."RoleIcon"]:GetSize())
-					_G["crg"..g.."m"..m].texture = _G["crg"..g.."m"..m]:CreateTexture()
-					_G["crg"..g.."m"..m].texture:SetPoint(_G["CompactRaidGroup"..g.."Member"..m.."RoleIcon"]:GetPoint())
-					_G["crg"..g.."m"..m].texture:SetTexture("Interface\\AddOns\\Uber UI\\textures\\ui-portraitroles")
-					_G["crg"..g.."m"..m].texture:SetSize(_G["CompactRaidGroup"..g.."Member"..m.."RoleIcon"]:GetSize())
-					_G["crg"..g.."m"..m].texture:SetTexCoord(0, 0.296875, 0.015625, 0.3125)
-					_G["crg"..g.."m"..m].texture:SetVertexColor(color)
-				else
-					_G["crg"..g.."m"..m].texture:SetSize(_G["CompactRaidGroup"..g.."Member"..m.."RoleIcon"]:GetSize())
+				if not _G["CompactRaidGroup"..g.."Member"..m].roleIconBorder then
+					_G["CompactRaidGroup"..g.."Member"..m].roleIcon:SetDrawLayer("ARTWORK",1)
+					local size = _G["CompactRaidGroup"..g.."Member"..m.."RoleIcon"]:GetHeight()
+					_G["CompactRaidGroup"..g.."Member"..m].roleIconBorder = _G["CompactRaidGroup"..g.."Member"..m]:CreateTexture("CompactRaidGroup"..g.."Member"..m.."RoleIconBorder")
+					_G["CompactRaidGroup"..g.."Member"..m].roleIconBorder:SetPoint(_G["CompactRaidGroup"..g.."Member"..m.."RoleIcon"]:GetPoint())
+					_G["CompactRaidGroup"..g.."Member"..m].roleIconBorder:SetTexture("Interface\\AddOns\\Uber UI\\textures\\ui-portraitroles")
+					_G["CompactRaidGroup"..g.."Member"..m].roleIconBorder:SetSize(1, size)
+					_G["CompactRaidGroup"..g.."Member"..m].roleIconBorder:SetTexCoord(0, 0.296875, 0.015625, 0.3125)
+					_G["CompactRaidGroup"..g.."Member"..m].roleIconBorder:SetVertexColor(color)
+					_G["CompactRaidGroup"..g.."Member"..m].roleIconBorder:SetDrawLayer("ARTWORK",2)
+					_G["CompactRaidGroup"..g.."Member"..m].roleIconBorder:Hide()
 				end
 				if uuidb.general.bartexture ~= "Blizzard" and uuidb.miscframes.texraidframes then
 					frame.healthBar:SetStatusBarTexture(texture)
@@ -152,18 +151,17 @@ function RaidColor(color)
 						end
 					end
 				end
-				if not _G["crf"..m] then
-					_G["crf"..m] = CreateFrame("Frame", "CompactRaidFrame"..m.."RoleIconBorder", _G["CompactRaidFrame"..m.."RoleIcon"]:GetParent())
-					_G["crf"..m]:SetPoint(_G["CompactRaidFrame"..m.."RoleIcon"]:GetPoint())
-					_G["crf"..m]:SetSize(_G["CompactRaidFrame"..m.."RoleIcon"]:GetSize())
-					_G["crf"..m].texture = _G["crf"..m]:CreateTexture()
-					_G["crf"..m].texture:SetPoint(_G["CompactRaidFrame"..m.."RoleIcon"]:GetPoint())
-					_G["crf"..m].texture:SetTexture("Interface\\AddOns\\Uber UI\\textures\\ui-portraitroles")
-					_G["crf"..m].texture:SetSize(_G["CompactRaidFrame"..m.."RoleIcon"]:GetSize())
-					_G["crf"..m].texture:SetTexCoord(0, 0.296875, 0.015625, 0.3125)
-					_G["crf"..m].texture:SetVertexColor(color)
-				else
-					_G["crf"..m].texture:SetSize(_G["CompactRaidFrame"..m.."RoleIcon"]:GetSize())
+				if not _G["CompactRaidFrame"..m].roleIconBorder then
+					_G["CompactRaidFrame"..m].roleIcon:SetDrawLayer("ARTWORK",1)
+					local size = _G["CompactRaidFrame"..m.."RoleIcon"]:GetHeight()
+					_G["CompactRaidFrame"..m].roleIconBorder = _G["CompactRaidFrame"..m]:CreateTexture("CompactRaidFrame"..m.."RoleIconBorder")
+					_G["CompactRaidFrame"..m].roleIconBorder:SetPoint(_G["CompactRaidFrame"..m.."RoleIcon"]:GetPoint())
+					_G["CompactRaidFrame"..m].roleIconBorder:SetTexture("Interface\\AddOns\\Uber UI\\textures\\ui-portraitroles")
+					_G["CompactRaidFrame"..m].roleIconBorder:SetSize(1, size)
+					_G["CompactRaidFrame"..m].roleIconBorder:SetTexCoord(0, 0.296875, 0.015625, 0.3125)
+					_G["CompactRaidFrame"..m].roleIconBorder:SetVertexColor(color)
+					_G["CompactRaidFrame"..m].roleIconBorder:SetDrawLayer("ARTWORK",2)
+					_G["CompactRaidFrame"..m].roleIconBorder:Hide()
 				end
 				if uuidb.general.bartexture ~= "Blizzard" and uuidb.miscframes.texraidframes then
 					frame.healthBar:SetStatusBarTexture(texture)
@@ -179,18 +177,17 @@ function RaidColor(color)
 						end
 					end
 				end
-				if not _G["cpf"..m] then
-					_G["cpf"..m] = CreateFrame("Frame", "CompactPartyFrame"..m.."RoleIconBorder", _G["CompactPartyFrameMember"..m.."RoleIcon"]:GetParent())
-					_G["cpf"..m]:SetPoint(_G["CompactPartyFrameMember"..m.."RoleIcon"]:GetPoint())
-					_G["cpf"..m]:SetSize(_G["CompactPartyFrameMember"..m.."RoleIcon"]:GetSize())
-					_G["cpf"..m].texture = _G["cpf"..m]:CreateTexture()
-					_G["cpf"..m].texture:SetPoint(_G["CompactPartyFrameMember"..m.."RoleIcon"]:GetPoint())
-					_G["cpf"..m].texture:SetTexture("Interface\\AddOns\\Uber UI\\textures\\ui-portraitroles")
-					_G["cpf"..m].texture:SetSize(_G["CompactPartyFrameMember"..m.."RoleIcon"]:GetSize())
-					_G["cpf"..m].texture:SetTexCoord(0, 0.296875, 0.015625, 0.3125)
-					_G["cpf"..m].texture:SetVertexColor(color)
-				else
-					_G["cpf"..m].texture:SetSize(_G["CompactPartyFrameMember"..m.."RoleIcon"]:GetSize())
+				if not _G["CompactPartyFrameMember"..m].roleIconBorder then
+					_G["CompactPartyFrameMember"..m].roleIcon:SetDrawLayer("ARTWORK",1)
+					local size = _G["CompactPartyFrameMember"..m.."RoleIcon"]:GetHeight();
+					_G["CompactPartyFrameMember"..m].roleIconBorder = _G["CompactPartyFrameMember"..m]:CreateTexture("CompactPartyFrameMember"..m.."RoleIconBorder")
+					_G["CompactPartyFrameMember"..m].roleIconBorder:SetPoint(_G["CompactPartyFrameMember"..m.."RoleIcon"]:GetPoint())
+					_G["CompactPartyFrameMember"..m].roleIconBorder:SetTexture("Interface\\AddOns\\Uber UI\\textures\\ui-portraitroles")
+					_G["CompactPartyFrameMember"..m].roleIconBorder:SetSize(1, size)
+					_G["CompactPartyFrameMember"..m].roleIconBorder:SetTexCoord(0, 0.296875, 0.015625, 0.3125)
+					_G["CompactPartyFrameMember"..m].roleIconBorder:SetVertexColor(color)
+					_G["CompactPartyFrameMember"..m].roleIconBorder:SetDrawLayer("ARTWORK",2)
+					_G["CompactPartyFrameMember"..m].roleIconBorder:Hide()
 				end
 				if uuidb.general.bartexture ~= "Blizzard" and uuidb.miscframes.texraidframes then
 					frame.healthBar:SetStatusBarTexture(texture)
@@ -222,13 +219,27 @@ function RaidColor(color)
 	CompactRaidFrameManagerToggleButton:SetNormalTexture("Interface\\AddOns\\Uber UI\\textures\\raid\\RaidPanel-Toggle")
 	if crfhook then return end
 	crfhook = true
-	hooksecurefunc("CompactRaidFrameContainer_TryUpdate", function(self)
-		if not (color) and uuidb.general.customcolor or uuidb.general.classcolorframes then
-			color = uuidb.general.customcolorval
+	hooksecurefunc("CompactUnitFrame_UpdateRoleIcon", function(frame)
+		if (not frame.roleIcon or not frame.roleIconBorder) then return end
+		local size = frame.roleIcon:GetHeight()	--We keep the height so that it carries from the set up, but we decrease the width to 1 to allow room for things anchored to the role (e.g. name).
+		local raidID = UnitInRaid(frame.unit)
+		if ( UnitInVehicle(frame.unit) and UnitHasVehicleUI(frame.unit) ) then
+			frame.roleIconBorder:Show()
+			frame.roleIconBorder:SetSize(size, size);
+		elseif ( frame.optionTable.displayRaidRoleIcon and raidID and select(10, GetRaidRosterInfo(raidID)) ) then
+			local role = select(10, GetRaidRosterInfo(raidID))
+			frame.roleIconBorder:Show()
+			frame.roleIconBorder:SetSize(size, size)
 		else
-			color = uuidb.playerframe.color
+			local role = UnitGroupRolesAssigned(frame.unit)
+			if ( frame.optionTable.displayRoleIcon and (role == "TANK" or role == "HEALER" or role == "DAMAGER") ) then
+				frame.roleIconBorder:Show()
+				frame.roleIconBorder:SetSize(size, size)
+			else
+				frame.roleIconBorder:Hide()
+				frame.roleIconBorder:SetSize(1, size)
+			end
 		end
-		RaidColor(color)
 	end)
 end
 

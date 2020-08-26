@@ -154,22 +154,23 @@ function playerframes:RoleIconBorder(color)
 	else
 		color = uuidb.playerframe.color
 	end
-	if not plri then
-		plri = CreateFrame("Frame", "PlayerFrameRoleIconBorder", PlayerFrameRoleIcon:GetParent())
-		plri:SetPoint(PlayerFrameRoleIcon:GetPoint())
-		plri:SetSize(PlayerFrameRoleIcon:GetSize())
-		plri.texture = plri:CreateTexture()
-		plri.texture:SetPoint(PlayerFrameRoleIcon:GetPoint())
-		plri.texture:SetTexture("Interface\\AddOns\\Uber UI\\textures\\ui-portraitroles")
-		plri.texture:SetSize(PlayerFrameRoleIcon:GetSize())
-		plri.texture:SetTexCoord(0, 0.296875, 0.015625, 0.3125)
-		plri.texture:SetVertexColor(color)
+	if not _G["PlayerFrameRoleIconBorder"] then
+		local parent = PlayerFrameRoleIcon:GetParent()
+		local ri_layer, ri_sub = PlayerFrameRoleIcon:GetDrawLayer()
+		parent.roleIconBorder = parent:CreateTexture("PlayerFrameRoleIconBorder")
+		parent.roleIconBorder:SetPoint(PlayerFrameRoleIcon:GetPoint())
+		parent.roleIconBorder:SetTexture("Interface\\AddOns\\Uber UI\\textures\\ui-portraitroles")
+		parent.roleIconBorder:SetSize(PlayerFrameRoleIcon:GetSize())
+		parent.roleIconBorder:SetTexCoord(0, 0.296875, 0.015625, 0.3125)
+		parent.roleIconBorder:SetDrawLayer(ri_layer,ri_sub+1)
+		parent.roleIconBorder:SetVertexColor(color)
 		hooksecurefunc("PlayerFrame_UpdateRolesAssigned", function()
 			local role = UnitGroupRolesAssigned("player");
+			local parent = PlayerFrameRoleIcon:GetParent()
 			if ( role == "TANK" or role == "HEALER" or role == "DAMAGER") then
-				plri.texture:Show();
+				parent.roleIconBorder:Show();
 			else
-				plri.texture:Hide();
+				parent.roleIconBorder:Hide();
 			end
 		end)
 	end
