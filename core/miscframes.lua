@@ -223,28 +223,18 @@ function RaidColor(color)
 		if (not frame.roleIcon or not frame.roleIconBorder) then return end
 		local size = frame.roleIcon:GetHeight()	--We keep the height so that it carries from the set up, but we decrease the width to 1 to allow room for things anchored to the role (e.g. name).
 		local raidID = UnitInRaid(frame.unit)
-		if ( UnitInVehicle(frame.unit) and UnitHasVehicleUI(frame.unit) ) then
-			frame.roleIconBorder:Show()
-			frame.roleIconBorder:SetSize(size, size);
-		elseif ( frame.optionTable.displayRaidRoleIcon and raidID and select(10, GetRaidRosterInfo(raidID)) ) then
-			local role = select(10, GetRaidRosterInfo(raidID))
+		if frame.roleIcon:IsShown() then
 			frame.roleIconBorder:Show()
 			frame.roleIconBorder:SetSize(size, size)
 		else
-			local role = UnitGroupRolesAssigned(frame.unit)
-			if ( frame.optionTable.displayRoleIcon and (role == "TANK" or role == "HEALER" or role == "DAMAGER") ) then
-				frame.roleIconBorder:Show()
-				frame.roleIconBorder:SetSize(size, size)
-			else
-				frame.roleIconBorder:Hide()
-				frame.roleIconBorder:SetSize(1, size)
-			end
+			frame.roleIconBorder:Hide()
+			frame.roleIconBorder:SetSize(1, size)
 		end
 	end)
 end
 
 
-
+local pmfhook = false
 function misc:PartyColor(color)
 	local partyframes = {
 		PartyMemberFrame1Texture, 
@@ -270,7 +260,7 @@ function misc:PartyColor(color)
 	end
 	for i=1,4 do 
 		_G["PartyMemberFrame"..i.."PVPIcon"]:SetAlpha(0)
-		_G["PartyMemberFrame"..i.."NotPresentIcon"].texture:SetVertexColor(color)
+		_G["PartyMemberFrame"..i.."NotPresentIcon"].Border:SetVertexColor(color)
 		if not _G["pa"..i.."ri"] then
 			_G["pa"..i.."ri"] = CreateFrame("Frame", "PartyMemberFrame"..i.."RoleIconBorder", _G["PartyMemberFrame"..i.."RoleIcon"]:GetParent())
 			_G["pa"..i.."ri"]:SetPoint(_G["PartyMemberFrame"..i.."RoleIcon"]:GetPoint())
@@ -283,6 +273,13 @@ function misc:PartyColor(color)
 			_G["pa"..i.."ri"].texture:SetVertexColor(color)
 		end
 	end
+	if pmfhook then return end
+	pmfhook = true
+	hooksecurefunc("PartyMemberFrame_UpdateNotPresentIcon", function(self)
+		if self.notPresentIcon:IsShown() then
+			self.notPresentIcon.Border:Show()
+		end
+	end)
 end
 
 local tthookset = false
