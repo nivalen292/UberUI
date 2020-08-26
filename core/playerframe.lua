@@ -164,6 +164,14 @@ function playerframes:RoleIconBorder(color)
 		plri.texture:SetSize(PlayerFrameRoleIcon:GetSize())
 		plri.texture:SetTexCoord(0, 0.296875, 0.015625, 0.3125)
 		plri.texture:SetVertexColor(color)
+		hooksecurefunc("PlayerFrame_UpdateRolesAssigned", function()
+			local role = UnitGroupRolesAssigned("player");
+			if ( role == "TANK" or role == "HEALER" or role == "DAMAGER") then
+				plri.texture:Show();
+			else
+				plri.texture:Hide();
+			end
+		end)
 	end
 end
 
