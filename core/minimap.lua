@@ -37,7 +37,7 @@ function minimap:GarrisonBtn(color)
 	end
 	hooksecurefunc("GarrisonLandingPageMinimapButton_UpdateIcon", function(self)
 		local garrisonType = C_Garrison.GetLandingPageGarrisonType();
-		if (garrisonType == LE_GARRISON_TYPE_8_0) then
+		if (garrisonType == Enum.GarrisonType.Type_8_0) then
 			if select(1,UnitFactionGroup("player")) == "Horde" then
 				if not gb then
 					gb = CreateFrame("Frame", nil, GarrisonLandingPageMinimapButton)
@@ -73,7 +73,7 @@ function minimap:GarrisonBtn(color)
 					gb.border.texture:SetSize(45,50)
 				end
 			end
-		else
+		elseif (garrisonType <= Enum.GarrisonType_7_0) then
 			self:GetNormalTexture():SetTexture(nil)
 			self:GetPushedTexture():SetTexture(nil)
 			if not gb then
