@@ -94,7 +94,11 @@ function general:MainMenuColor(color)
 		}) do
 		local frameAtlas = v:GetAtlas()
 		if frameAtlas ~= nil then
-			local txl, txr, txt, txb = select(4, GetAtlasInfo(frameAtlas))
+			local frameAtlasInfo = C_Texture.GetAtlasInfo(frameAtlas)
+			local txl = frameAtlasInfo.leftTexCoord
+			local txr = frameAtlasInfo.rightTexCoord
+			local txt = frameAtlasInfo.topTexCoord
+			local txb = frameAtlasInfo.bottomTexCoord
 			v:SetTexture("Interface\\AddOns\\Uber UI\\Textures\\MainMenuBar")
 			v:SetTexCoord(txl, txr, txt, txb)
 			v:SetVertexColor(color.r, color.g, color.b, color.a)
@@ -115,7 +119,11 @@ function general:Gryphons(color)
 		if uuidb.mainmenu.gryphon then
 			local frameAtlas = v:GetAtlas()
 			if frameAtlas ~= nil then
-				local txl, txr, txt, txb = select(4, GetAtlasInfo(frameAtlas))
+				local frameAtlasInfo = C_Texture.GetAtlasInfo(frameAtlas)
+				local txl = frameAtlasInfo.leftTexCoord
+				local txr = frameAtlasInfo.rightTexCoord
+				local txt = frameAtlasInfo.topTexCoord
+				local txb = frameAtlasInfo.bottomTexCoord
 				v:SetTexture("Interface\\AddOns\\Uber UI\\Textures\\MainMenuBar")
 				v:SetTexCoord(txl, txr, txt, txb)
 				if v == MainMenuBarArtFrame.RightEndCap then

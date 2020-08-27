@@ -247,11 +247,7 @@ function misc:PartyColor(color)
 		PartyMemberFrame4PetFrameTexture,
 	}
 	for _,v in pairs(partyframes) do
-		--if (UnitIsConnected(v.unit)) and uuidb.miscframes.partycolort then
-		--	uui_General_ClassColored(v, v.unit)
-		--else
-			v:SetVertexColor(color.r, color.g, color.b, color.a)
-		--end
+		v:SetVertexColor(color.r, color.g, color.b, color.a)
 	end
 	if uuidb.general.customcolor or uuidb.general.classcolorframes then
 		color = uuidb.general.customcolorval
