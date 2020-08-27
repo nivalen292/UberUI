@@ -234,7 +234,6 @@ function RaidColor(color)
 end
 
 
-local pmfhook = false
 function misc:PartyColor(color)
 	local partyframes = {
 		PartyMemberFrame1Texture, 
@@ -269,13 +268,6 @@ function misc:PartyColor(color)
 			_G["pa"..i.."ri"].texture:SetVertexColor(color)
 		end
 	end
-	if pmfhook then return end
-	pmfhook = true
-	hooksecurefunc("PartyMemberFrame_UpdateNotPresentIcon", function(self)
-		if self.notPresentIcon:IsShown() then
-			self.notPresentIcon.Border:Show()
-		end
-	end)
 end
 
 local tthookset = false
