@@ -12,3 +12,5 @@
 	- Fixed bug with pvp portrait showing when supposed to be hidden on non-large target frame
 	- Added Border to Role Icons with coloring for Player, Party, & Raid Frames.
 	- Disabled Hiding of 'NotPresentIcon' for Party Frames and added colored border
+	- Added more options for target frame coloring
+	- Added option to display target dragon portraits separately from target frame coloring

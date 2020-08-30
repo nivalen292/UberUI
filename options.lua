@@ -182,6 +182,10 @@ Options:SetScript("OnShow", function(self)
 		UIDropDownMenu_AddButton(info)
 		info.text, info.arg1 = "Rare/Elite", "Rare/Elite"
 		UIDropDownMenu_AddButton(info)
+		info.text, info.arg1 = "Friendly/Hostile", "Friendly/Hostile"
+		UIDropDownMenu_AddButton(info)
+		info.text, info.arg1 = "Class/Friendly/Hostile", "Class/Friendly/Hostile"
+		UIDropDownMenu_AddButton(info)
 	end)
 
 	--Bar Texture Option
@@ -389,6 +393,17 @@ Options:SetScript("OnShow", function(self)
 		UberUI.misc:FocusName()
 	end)
 
+	local ColorDragonSeparate = CreateFrame("CheckButton", "$parentFocusNameInside", self, "InterfaceOptionsCheckButtonTemplate")
+	ColorDragonSeparate:SetPoint("LEFT", FocusNameInside, "RIGHT", 200, 0)
+	ColorDragonSeparate.Text:SetText("Color Dragons Separate")
+	ColorDragonSeparate.tooltipText = "Selecting this option will color the dragons on target frame separate from the frame color"
+	ColorDragonSeparate:SetScript("OnClick", function(this)
+		local checked = not not this:GetChecked()
+		PlaySound(checked and SOUND_ON or SOUND_OFF)
+		uuidb.targetframe.colordragon = checked
+		UberUI.general:ReworkColors(uuidb.general.customcolorval)
+	end)
+
 	function self:refresh()
 		Gryphon:SetChecked(uuidb.mainmenu.gryphon)
 		Hotkey:SetChecked(uuidb.actionbars.hotkeys.show)
@@ -406,6 +421,7 @@ Options:SetScript("OnShow", function(self)
 		TexRaid:SetChecked(uuidb.miscframes.texraidframes)
 		TargetNameInside:SetChecked(uuidb.targetframe.nameinside)
 		FocusNameInside:SetChecked(uuidb.focusframe.nameinside)
+		ColorDragonSeparate:SetChecked(uuidb.targetframe.colordragon)
 	end
 
 	self:refresh()

@@ -44,19 +44,26 @@ local function applySkin(b, color)
 	end
 
 	local colors = color
-	if uuidb.targetframe.colortargett == ("All") then
-		if UnitIsConnected(u) and UnitIsPlayer(u) then
-			colors = RAID_CLASS_COLORS[select(2, UnitClass(u))]
-		else
-			local red,green,_ = UnitSelectionColor(u)
-			if (red == 0) then
-        	    colors = { r = 0, g = 1, b = 0}
-        	elseif (green == 0) then
-        	    colors = { r = 1, g = 0, b = 0}
-        	else
-        	    colors = { r = 1, g = 1, b = 0}
-        	end
+	local classification = UnitClassification(u)
+	if (uuidb.targetframe.colortargett == "All" or uuidb.targetframe.colortargett == "Class" or uuidb.targetframe.colortargett == "Class/Friendly/Hostile") and (UnitIsConnected(u) and UnitIsPlayer(u)) then
+		colors = RAID_CLASS_COLORS[select(2, UnitClass(u))]
+	elseif (uuidb.targetframe.colortargett == "All" or uuidb.targetframe.colortargett == "Rare/Elite") and (classification == 'elite' or classification == 'worldboss' or classification == 'rare' or classification == 'rareelite') then
+		if ( classification == "worldboss" or classification == "elite" ) then
+			colors = {r = 159/255, g = 115/255, b = 19/255}
+		elseif ( classification == "rareelite" ) then
+			colors = {r = 65/255, g = 66/255, b = 73/255}
+		elseif ( classification == "rare" ) then
+			colors = {r = 173/255, g = 166/255, b = 156/255}
 		end
+	elseif (uuidb.targetframe.colortargett == "All" or uuidb.targetframe.colortargett == "Friendly/Hostile" or uuidb.targetframe.colortargett == "Class/Friendly/Hostile") then
+		local red,green,_ = UnitSelectionColor(u)
+		if (red == 0) then
+    	    colors = { r = 0, g = 1, b = 0}
+    	elseif (green == 0) then
+    	    colors = { r = 1, g = 0, b = 0}
+    	else
+    	    colors = { r = 1, g = 1, b = 0}
+    	end
 	elseif uuidb.general.customcolor or uuidb.general.classcolorframesor then
 		colors = uuidb.general.customcolorval
 	else

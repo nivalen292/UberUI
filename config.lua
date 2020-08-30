@@ -112,6 +112,7 @@ local defaults = {
     colortargett      = false,
     colorfocust       = false,
     colortott         = false,
+    colordragon       = true,
   },
   focusframe = {
     nameinside        = true,
