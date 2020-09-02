@@ -208,11 +208,16 @@ end
     if fobs then fobs:SetTexture(nil) end
     bo:SetTexture(nil) --hide the border (plain ugly, sry blizz)
     --hotkey
+<<<<<<< Updated upstream
     if string.byte(ho:GetText()) == 226 then
       ho:SetFont("Fonts\\ARIALN.ttf", uuidb.actionbars.hotkeys.fontsize, "OUTLINE")
     else
       ho:SetFont(uuidb.general.font, uuidb.actionbars.hotkeys.fontsize, "OUTLINE")
     end
+=======
+    if ho:GetText()
+    ho:SetFont(uuidb.general.font, uuidb.actionbars.hotkeys.fontsize, "OUTLINE")
+>>>>>>> Stashed changes
     ho:ClearAllPoints()
     ho:SetPoint(uuidb.actionbars.hotkeys.pos1.a1,bu,uuidb.actionbars.hotkeys.pos1.x,uuidb.actionbars.hotkeys.pos1.y)
     ho:SetPoint(uuidb.actionbars.hotkeys.pos2.a1,bu,uuidb.actionbars.hotkeys.pos2.x,uuidb.actionbars.hotkeys.pos2.y)

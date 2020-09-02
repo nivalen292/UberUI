@@ -26,11 +26,10 @@ function misc:NameplateTexture()
 		if not frame:IsForbidden() and frame.healthBar ~= nil then
 			if uuidb.general.bartexture ~= "Blizzard" then
 				local texture = uuidb.textures.statusbars[uuidb.general.bartexture]
-				local striped = uuidb.textures.statusbars.Striped
 				frame.healthBar:SetStatusBarTexture(texture)
 				frame.myHealPrediction:SetTexture(texture)
 				frame.otherHealPrediction:SetTexture(texture)
-				frame.totalAbsorb:SetTexture(striped)
+				frame.totalAbsorb:SetTexture(texture)
 				frame.totalAbsorb:SetVertexColor(.6, .9, .9, 1)
 				if frame.castBar ~= nil then
 					frame.castBar:SetStatusBarTexture(texture)
@@ -63,6 +62,50 @@ function misc:ExtraBars()
 	end	
 end
 
+<<<<<<< Updated upstream
+=======
+function misc:Map(color)
+	if uuidb.general.customcolor or uuidb.general.classcolorframes then
+		color = uuidb.general.customcolorval
+	else
+		color = uuidb.playerframe.color
+	end
+	
+	WorldMapFrameBg:SetVertexColor(color.r, color.g, color.b, .7)
+	QuestScrollFrame.Background:SetVertexColor(color.r, color.g, color.b, .5)
+	WorldMapFrame.BorderFrame.TitleBg:SetVertexColor(color.r, color.g, color.b)
+	WorldMapFrame.BorderFrame.InsetBorderTop:SetVertexColor(color.r, color.g, color.b)
+	local qsf1 = {
+	   QuestScrollFrameScrollBar,
+	   WorldMapFrame.BorderFrame.NineSlice,
+	   WorldMapFrame.NavBar,
+	   WorldMapFrame.NavBar.overlay
+	}
+	local qsf2 = {
+	   QuestScrollFrameScrollBar.ScrollDownButton,
+	   QuestScrollFrameScrollBar.ScrollUpButton,
+	   QuestScrollFrameScrollBarThumbTexture
+	}
+
+	for _,v in pairs(qsf1) do
+	   for _,region in pairs({v:GetRegions()}) do
+	      region:SetVertexColor(color.r, color.g, color.b)
+	   end 
+	end
+
+
+	for _,v in pairs(qsf2) do
+	   if v:IsObjectType("Button") then
+	      for _,region in pairs({v:GetRegions()}) do
+	         region:SetVertexColor(color.r + .3, color.g + .3, color.b + .3)
+	      end
+	   else
+	      v:SetVertexColor(color.r + .3, color.g + .3, color.b + .3) 
+	   end
+	end
+end
+
+>>>>>>> Stashed changes
 function RaidColor(color)
 	erf = IsAddOnLoaded("EnhancedRaidFrames")
 	--CompactRaidFrameContainer_LayoutFrames(self);
