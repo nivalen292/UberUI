@@ -70,6 +70,26 @@ local function MiscFrames(color)
 		v:SetVertexColor(color.r, color.g, color.b, color.a)
     end
     CastingBarFrame.Border:SetTexture("Interface\\AddOns\\Uber UI\\textures\\castingbarborder")
+
+	for _,v in pairs({
+      TotemFrameTotem1,
+      TotemFrameTotem2,
+      TotemFrameTotem3,
+      TotemFrameTotem4
+	}) do
+	   for _,child in pairs({v:GetChildren()}) do
+	      local name = child:GetName()
+	      if name == nil then
+	         local regions = child:GetRegions()
+	         for _,region in pairs({regions}) do
+	            if region:GetTexture():find("TotemBorder") then
+	            	region:SetTexture("Interface\\AddOns\\Uber UI\\textures\\TotemBorder")
+	            	region:SetVertexColor(color.r, color.g, color.b, color.a)
+	            end
+	         end
+	      end
+	   end
+	end
 end
 
 local pcount = 0
