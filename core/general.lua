@@ -22,9 +22,7 @@ local general = CreateFrame("frame")
 general:RegisterEvent("PLAYER_LOGIN")
 general:SetScript("OnEvent", function(self, event)
 	uuidb.actionbars.overridecol = false
-	if uuidb.general.bartexture ~= "Blizzard" then
-		self:BarTexture(uuidb.general.bartexture)
-	end
+	self:BarTexture(uuidb.general.bartexture)
 	if uuidb.general.classcolorhealth then
 		self:HealthColor()
 	end
