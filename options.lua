@@ -404,6 +404,17 @@ Options:SetScript("OnShow", function(self)
 		UberUI.general:ReworkColors(uuidb.general.customcolorval)
 	end)
 
+	local BlizzardArenaFrames = CreateFrame("CheckButton", "$parentFocusNameInside", self, "InterfaceOptionsCheckButtonTemplate")
+	BlizzardArenaFrames:SetPoint("LEFT", ColorDragonSeparate, "RIGHT", 200, 0)
+	BlizzardArenaFrames.Text:SetText("Hide Arena Frames")
+	BlizzardArenaFrames.tooltipText = "Selecting this option will hide the default blizzard arena frames"
+	BlizzardArenaFrames:SetScript("OnClick", function(this)
+		local checked = not not this:GetChecked()
+		PlaySound(checked and SOUND_ON or SOUND_OFF)
+		uuidb.miscframes.hidedefaultarena = checked
+		UberUI.arenaframes:HideArena()
+	end)
+
 	function self:refresh()
 		Gryphon:SetChecked(uuidb.mainmenu.gryphon)
 		Hotkey:SetChecked(uuidb.actionbars.hotkeys.show)
@@ -422,6 +433,7 @@ Options:SetScript("OnShow", function(self)
 		TargetNameInside:SetChecked(uuidb.targetframe.nameinside)
 		FocusNameInside:SetChecked(uuidb.focusframe.nameinside)
 		ColorDragonSeparate:SetChecked(uuidb.targetframe.colordragon)
+		BlizzardArenaFrames:SetChecked(uuidb.miscframes.hidedefaultarena)
 	end
 
 	self:refresh()

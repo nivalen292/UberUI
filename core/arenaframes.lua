@@ -18,6 +18,20 @@ arenaframes:SetScript("OnEvent", function(self, event, addon)
 	end
 end)
 
+function arenaframes:HideArena()
+	if IsAddOnLoaded("Blizzard_ArenaUI") then
+		if uuidb.miscframes.hidedefaultarena then
+		    ArenaEnemyFrame1:SetAlpha(0)
+		    ArenaEnemyFrame2:SetAlpha(0)
+		    ArenaEnemyFrame3:SetAlpha(0)
+		else
+		    ArenaEnemyFrame1:SetAlpha(1)
+		    ArenaEnemyFrame2:SetAlpha(1)
+		    ArenaEnemyFrame3:SetAlpha(1)
+		end
+	end
+end
+
 function arenaframes:Color(color)
 	if not (color) then
 		color = uuidb.miscframes.arenaframescolor
@@ -60,18 +74,7 @@ function arenaframes:Color(color)
 			ArenaEnemyFrame3PetFrameTexture,
 			}) do
 				v:SetVertexColor(.05,.05,.05)
-		end
-	--elseif event == "ARENA_PREP_OPPONENT_SPECIALIZATIONS" or (event == "PLAYER_ENTERING_WORLD" and instanceType == "arena") then
-	--	for i,v in pairs({
-	--		ArenaPrepFrame1Texture,
-	--		ArenaPrepFrame2Texture,
-	--		ArenaPrepFrame3Texture,
-	--		ArenaPrepFrame1SpecBorder,
-	--		ArenaPrepFrame2SpecBorder,
-	--		ArenaPrepFrame3SpecBorder,
-	--	}) do
-	--		v:SetVertexColor(.05, .05, .05)
-	--    end 		
+		end	
 	end 
 end
 
