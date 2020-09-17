@@ -246,6 +246,7 @@ local defaults = {
     pvpicons            = false,
     texraidframes       = true,
     hidedefaultarena    = false,
+    nameplatenumbers    = false,
     arenaframescolor    = {r = .05, g = .05, b = .05, a = 1},
     misccolor           = {r = .05, g = .05, b = .05, a = 1},
   },

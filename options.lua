@@ -393,7 +393,7 @@ Options:SetScript("OnShow", function(self)
 		UberUI.misc:FocusName()
 	end)
 
-	local ColorDragonSeparate = CreateFrame("CheckButton", "$parentFocusNameInside", self, "InterfaceOptionsCheckButtonTemplate")
+	local ColorDragonSeparate = CreateFrame("CheckButton", "$parentColorDragonSeparate", self, "InterfaceOptionsCheckButtonTemplate")
 	ColorDragonSeparate:SetPoint("LEFT", FocusNameInside, "RIGHT", 200, 0)
 	ColorDragonSeparate.Text:SetText("Color Dragons Separate")
 	ColorDragonSeparate.tooltipText = "Selecting this option will color the dragons on target frame separate from the frame color"
@@ -404,7 +404,7 @@ Options:SetScript("OnShow", function(self)
 		UberUI.general:ReworkColors(uuidb.general.customcolorval)
 	end)
 
-	local BlizzardArenaFrames = CreateFrame("CheckButton", "$parentFocusNameInside", self, "InterfaceOptionsCheckButtonTemplate")
+	local BlizzardArenaFrames = CreateFrame("CheckButton", "$parentBlizzardArenaFrames", self, "InterfaceOptionsCheckButtonTemplate")
 	BlizzardArenaFrames:SetPoint("LEFT", ColorDragonSeparate, "RIGHT", 200, 0)
 	BlizzardArenaFrames.Text:SetText("Hide Arena Frames")
 	BlizzardArenaFrames.tooltipText = "Selecting this option will hide the default blizzard arena frames"
@@ -413,6 +413,17 @@ Options:SetScript("OnShow", function(self)
 		PlaySound(checked and SOUND_ON or SOUND_OFF)
 		uuidb.miscframes.hidedefaultarena = checked
 		UberUI.arenaframes:HideArena()
+	end)
+
+	local NameplateNum = CreateFrame("CheckButton", "$parentNameplateNum", self, "InterfaceOptionsCheckButtonTemplate")
+	NameplateNum:SetPoint("TOPLEFT", FocusNameInside, "BOTTOMLEFT", 0, -12)
+	NameplateNum.Text:SetText("Nameplate Numbers")
+	NameplateNum.tooltipText = "Selecting this will change nameplate in arenas to show target number instead of name"
+	NameplateNum:SetScript("OnClick", function(this)
+		local checked = not not this:GetChecked()
+		PlaySound(checked and SOUND_ON or SOUND_OFF)
+		uuidb.miscframes.nameplatenumbers = checked
+		UberUI.arenaframes:NameplateNumbers()
 	end)
 
 	function self:refresh()
@@ -434,6 +445,7 @@ Options:SetScript("OnShow", function(self)
 		FocusNameInside:SetChecked(uuidb.focusframe.nameinside)
 		ColorDragonSeparate:SetChecked(uuidb.targetframe.colordragon)
 		BlizzardArenaFrames:SetChecked(uuidb.miscframes.hidedefaultarena)
+		NameplateNum:SetChecked(uuidb.miscframes.nameplatenumbers)
 	end
 
 	self:refresh()

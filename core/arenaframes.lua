@@ -11,9 +11,11 @@ arenaframes:SetScript("OnEvent", function(self, event, addon)
 		if uuidb.general.customcolor or uuidb.general.classcolorframes then
 			self:Color(uuidb.general.customcolorval)
 			self:Prep(uuidb.general.customcolorval)
+			self:NameplateNumbers()
 		else
 			self:Color()
 			self:Prep()
+			self:NameplateNumbers()
 		end
 	end
 end)
@@ -30,6 +32,24 @@ function arenaframes:HideArena()
 		    ArenaEnemyFrame3:SetAlpha(1)
 		end
 	end
+end
+
+local nn = false
+function arenaframes:NameplateNumbers()
+	local U=UnitIsUnit 
+	if not nn and uuidb.miscframes.nameplatenumbers then
+		hooksecurefunc("CompactUnitFrame_UpdateName", function(F)
+			if IsActiveBattlefieldArena() and F.unit:find("nameplate") then 
+				for i=1,5 do 
+					if U(F.unit,"arena"..i) then 
+						F.name:SetText(i)F.name:SetTextColor(1,1,0)
+						break
+					end
+				end
+			end
+		end)
+	end
+	local nn = true
 end
 
 function arenaframes:Color(color)
