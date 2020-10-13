@@ -108,9 +108,14 @@ local defaults = {
     scale             = 1.2,
     color             = {r = .05, g = .05, b =.05, a = 1},
     name              = true,
+    nameinside        = false,
     colortargett      = false,
     colorfocust       = false,
     colortott         = false,
+    colordragon       = true,
+  },
+  focusframe = {
+    nameinside        = true,
   },
   minimap = {
     color             = {r = .05, g = .05, b =.05, a = 1},
@@ -128,7 +133,7 @@ local defaults = {
       colspacing        = 7,
       buttonsperrow     = 10,
       button = {
-        size            = 28,
+        size            = 30,
       },
       icon = {
         padding         = -2,
@@ -163,7 +168,7 @@ local defaults = {
       colspacing        = 7,
       buttonsperrow     = 10,
       button = {
-        size            = 28,
+        size            = 30,
       },
       icon = {
         padding         = -2,
@@ -240,6 +245,8 @@ local defaults = {
     raidsinglecolor     = true,
     pvpicons            = false,
     texraidframes       = true,
+    hidedefaultarena    = false,
+    nameplatenumbers    = false,
     arenaframescolor    = {r = .05, g = .05, b = .05, a = 1},
     misccolor           = {r = .05, g = .05, b = .05, a = 1},
   },

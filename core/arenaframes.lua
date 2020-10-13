@@ -11,12 +11,47 @@ arenaframes:SetScript("OnEvent", function(self, event, addon)
 		if uuidb.general.customcolor or uuidb.general.classcolorframes then
 			self:Color(uuidb.general.customcolorval)
 			self:Prep(uuidb.general.customcolorval)
+			self:NameplateNumbers()
 		else
 			self:Color()
 			self:Prep()
+			self:NameplateNumbers()
 		end
 	end
 end)
+
+function arenaframes:HideArena()
+	if IsAddOnLoaded("Blizzard_ArenaUI") then
+		if uuidb.miscframes.hidedefaultarena then
+		    ArenaEnemyFrame1:SetAlpha(0)
+		    ArenaEnemyFrame2:SetAlpha(0)
+		    ArenaEnemyFrame3:SetAlpha(0)
+		else
+		    ArenaEnemyFrame1:SetAlpha(1)
+		    ArenaEnemyFrame2:SetAlpha(1)
+		    ArenaEnemyFrame3:SetAlpha(1)
+		end
+	end
+end
+
+local nn = false
+function arenaframes:NameplateNumbers()
+	local U=UnitIsUnit 
+	if not nn and uuidb.miscframes.nameplatenumbers then
+		hooksecurefunc("CompactUnitFrame_UpdateName", function(F)
+			if IsActiveBattlefieldArena() and F.unit:find("nameplate") then 
+				for i=1,5 do 
+					if U(F.unit,"arena"..i) then 
+						F.name:SetText(i)
+						F.name:SetTextColor(1,1,0)
+						break
+					end
+				end
+			end
+		end)
+	end
+	local nn = true
+end
 
 function arenaframes:Color(color)
 	if not (color) then
@@ -60,18 +95,7 @@ function arenaframes:Color(color)
 			ArenaEnemyFrame3PetFrameTexture,
 			}) do
 				v:SetVertexColor(.05,.05,.05)
-		end
-	--elseif event == "ARENA_PREP_OPPONENT_SPECIALIZATIONS" or (event == "PLAYER_ENTERING_WORLD" and instanceType == "arena") then
-	--	for i,v in pairs({
-	--		ArenaPrepFrame1Texture,
-	--		ArenaPrepFrame2Texture,
-	--		ArenaPrepFrame3Texture,
-	--		ArenaPrepFrame1SpecBorder,
-	--		ArenaPrepFrame2SpecBorder,
-	--		ArenaPrepFrame3SpecBorder,
-	--	}) do
-	--		v:SetVertexColor(.05, .05, .05)
-	--    end 		
+		end	
 	end 
 end
 

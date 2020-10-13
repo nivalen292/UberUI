@@ -1,32 +1,16 @@
-8.3.0.1 Updates:
-	Fixed some (not all) bugs with entering / exiting vehicles (stack overflow issue may still remain)
-	Fixed health bar scaling to fit vehicle frames
-	Fixed bugs with target & targetofTarget buff/debuff coloring
-	Fixed texturing for mana bars (when they are standard bars and not special textures (ex. Shadow Priest Insanity / DH Fury)
-	Created large health frames for minor enemies to differentiate them from normal enemies
-	Added checkbox for custom ui color
-	Changed order hall icon in bfa to be faction icons
-	Changed PVP icons to use Honor rank icons instead of faction icons with colorable background
-	Changed default bar texture away from the awful Blizz texture to Flat for cleaner default look (sorry blizz)
-	Added custom bar texture to XP / Artifact bars
-	Added options for Target Frame Coloring
-		- None: Leave target frames the same color as all other frames
-		- All: Color target frames based on character class or rarity
-		- Class: Color target frames only for charcter targets the color of their class
-		- Rare/Elite: Color target frames for Rare/Elite mobs with their color (gold/silver/black)
-8.3.0.2 Update:
-	Fixed some bugs with coloring non-large unit fames
-	Fixed coloring for focus frame pvp icon
-	Added custom textures to self, target, and focus castbars
-	Added custom textures to target, focus name background
-	Now, if target name not selected while using standard frames, name will show but background will be hidden
-8.3.0.3 Update:
-	Added texture to nameplate castbars
-	Added texturing to personal resource display manabar
-	Added option to enable or disable glossy actionbuttons
-8.3.0.4 Update:
-	Updated Elite / Rare / RareElite textures
-	Updates to raid frame textures
-8.3.0.5 Update:
-	Bug fix attempt with default blizzard texture and raid frames
-	Added option to turn off texturing of raid frames specifically
+9.0.1.0:
+	- Code changed for backdrop and borders. Updated code to made changes for the following...
+		-- buffs / debuffs
+		-- auras
+		-- actionbars
+		-- mninimap
+		-- tooltips
+	- Update positioning of debuffs slighly lower to not cause overlap when three rows of buffs exist
+	- Increase size of buff and debuff icons just a hair to increase visibility and have the syled icons look more like default size
+	- Update textures for player and target frames that were missing (ex. incoming heal & absorb)
+	- Added options to move name position inside or outside of frames for Target & Focus frame
+	- Fixed bug with pvp portrait showing when supposed to be hidden on non-large target frame
+	- Added Border to Role Icons with coloring for Player, Party, & Raid Frames.
+	- Disabled Hiding of 'NotPresentIcon' for Party Frames and added colored border
+	- Added more options for target frame coloring
+	- Added option to display target dragon portraits separately from target frame coloring

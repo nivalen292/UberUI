@@ -22,9 +22,7 @@ local general = CreateFrame("frame")
 general:RegisterEvent("PLAYER_LOGIN")
 general:SetScript("OnEvent", function(self, event)
 	uuidb.actionbars.overridecol = false
-	if uuidb.general.bartexture ~= "Blizzard" then
-		self:BarTexture(uuidb.general.bartexture)
-	end
+	self:BarTexture(uuidb.general.bartexture)
 	if uuidb.general.classcolorhealth then
 		self:HealthColor()
 	end
@@ -94,7 +92,11 @@ function general:MainMenuColor(color)
 		}) do
 		local frameAtlas = v:GetAtlas()
 		if frameAtlas ~= nil then
-			local txl, txr, txt, txb = select(4, GetAtlasInfo(frameAtlas))
+			local frameAtlasInfo = C_Texture.GetAtlasInfo(frameAtlas)
+			local txl = frameAtlasInfo.leftTexCoord
+			local txr = frameAtlasInfo.rightTexCoord
+			local txt = frameAtlasInfo.topTexCoord
+			local txb = frameAtlasInfo.bottomTexCoord
 			v:SetTexture("Interface\\AddOns\\Uber UI\\Textures\\MainMenuBar")
 			v:SetTexCoord(txl, txr, txt, txb)
 			v:SetVertexColor(color.r, color.g, color.b, color.a)
@@ -115,7 +117,11 @@ function general:Gryphons(color)
 		if uuidb.mainmenu.gryphon then
 			local frameAtlas = v:GetAtlas()
 			if frameAtlas ~= nil then
-				local txl, txr, txt, txb = select(4, GetAtlasInfo(frameAtlas))
+				local frameAtlasInfo = C_Texture.GetAtlasInfo(frameAtlas)
+				local txl = frameAtlasInfo.leftTexCoord
+				local txr = frameAtlasInfo.rightTexCoord
+				local txt = frameAtlasInfo.topTexCoord
+				local txb = frameAtlasInfo.bottomTexCoord
 				v:SetTexture("Interface\\AddOns\\Uber UI\\Textures\\MainMenuBar")
 				v:SetTexCoord(txl, txr, txt, txb)
 				if v == MainMenuBarArtFrame.RightEndCap then
@@ -135,7 +141,7 @@ end
 
 function general:BarTexture(value)
     local texture = uuidb.textures.statusbars[value]
-
+    
     local healthBars = HealthBars()
     local manaBars = ManaBars()
     local nonStatusBars = NonStatusBars()

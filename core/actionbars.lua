@@ -92,7 +92,7 @@ end
    --shadows+background
    if bu:GetFrameLevel() < 1 then bu:SetFrameLevel(1) end
    if uuidb.actionbars.showbg or uuidb.actionbars.showshadow then
-     bu.bg = CreateFrame("Frame", nil, bu)
+     bu.bg = CreateFrame("Frame", nil, bu, BackdropTemplateMixin and "BackdropTemplate")
     -- bu.bg:SetAllPoints(bu)
      bu.bg:SetPoint("TOPLEFT", bu, "TOPLEFT", -4, 4)
      bu.bg:SetPoint("BOTTOMRIGHT", bu, "BOTTOMRIGHT", 4, -4)
@@ -165,7 +165,7 @@ end
     nt:SetAllPoints(bu)
     --apply background
     if not bu.bg or uuidb.actionbars.overridecol then applyBackground(bu) end
-	bu.Back = CreateFrame("Frame", nil, bu)
+	bu.Back = CreateFrame("Frame", nil, bu, BackdropTemplateMixin and "BackdropTemplate")
 		bu.Back:SetPoint("TOPLEFT", bu, "TOPLEFT", -3, 3)
 		bu.Back:SetPoint("BOTTOMRIGHT", bu, "BOTTOMRIGHT", 3, -3)
 		bu.Back:SetFrameLevel(bu:GetFrameLevel() - 1)

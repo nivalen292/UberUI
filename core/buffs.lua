@@ -7,8 +7,8 @@ buffs = CreateFrame("frame")
 buffs:RegisterEvent("ADDON_LOADED")
 buffs:SetScript("OnEvent", function(self)
 
-  buff = uuidb.buffdebuff.buff
-  debuff = uuidb.buffdebuff.debuff
+  local buff = uuidb.buffdebuff.buff
+  local debuff = uuidb.buffdebuff.debuff
 
   --rewrite the oneletter shortcuts
   if uuidb.buffdebuff.oneletterabrev then
@@ -47,14 +47,17 @@ buffs:SetScript("OnEvent", function(self)
       bottom = 6,
     },
   }
+  if not rBFS_BuffDragFrame then
+    local bf = CreateFrame("Frame", "rBFS_BuffDragFrame", UIParent)
+    bf:SetSize(buff.button.size,buff.button.size)
+    bf:SetPoint(buff.pos.a1,buff.pos.af,buff.pos.a2,buff.pos.x,buff.pos.y)
+  end
 
-  local bf = CreateFrame("Frame", "rBFS_BuffDragFrame", UIParent)
-  bf:SetSize(buff.button.size,buff.button.size)
-  bf:SetPoint(buff.pos.a1,buff.pos.af,buff.pos.a2,buff.pos.x,buff.pos.y)
-
-  local df = CreateFrame("Frame", "rBFS_DebuffDragFrame", UIParent)
-  df:SetSize(debuff.button.size,debuff.button.size)
-  df:SetPoint(debuff.pos.a1,debuff.pos.af,debuff.pos.a2,debuff.pos.x,debuff.pos.y)
+  if not rBFS_DebuffDragFrame then
+    local df = CreateFrame("Frame", "rBFS_DebuffDragFrame", UIParent)
+    df:SetSize(debuff.button.size,debuff.button.size)
+    df:SetPoint(debuff.pos.a1,debuff.pos.af,debuff.pos.a2,debuff.pos.x,debuff.pos.y)
+  end
 end)
 
 local ceil, min, max = ceil, min, max
@@ -150,7 +153,7 @@ local function applySkin(b)
 
   --shadow
   if uui.background.show then
-    local back = CreateFrame("Frame", nil, b)
+    local back = CreateFrame("Frame", nil, b, BackdropTemplateMixin and "BackdropTemplate")
     back:SetPoint("TOPLEFT", b, "TOPLEFT", -uui.background.padding, uui.background.padding)
     back:SetPoint("BOTTOMRIGHT", b, "BOTTOMRIGHT", uui.background.padding, -uui.background.padding)
     back:SetFrameLevel(b:GetFrameLevel() - 1)
@@ -187,6 +190,7 @@ local function updateAllBuffAnchors()
   local buttonName  = "BuffButton"
   local numEnchants = BuffFrame.numEnchants
   local numBuffs    = BUFF_ACTUAL_DISPLAY
+  local currentPos = {rBFS_DebuffDragFrame:GetPoint()}
   local offset      = numEnchants
   local realIndex, previousButton, aboveButton
 
@@ -222,7 +226,6 @@ local function updateAllBuffAnchors()
         button:SetPoint("TOPRIGHT", previousButton, "TOPLEFT", -uuidb.buffdebuff.buff.colspacing, 0)
       end
       previousButton = button
-
     end
   end
   --calculate the height of the buff rows for the debuff frame calculation later

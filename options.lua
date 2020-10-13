@@ -182,6 +182,10 @@ Options:SetScript("OnShow", function(self)
 		UIDropDownMenu_AddButton(info)
 		info.text, info.arg1 = "Rare/Elite", "Rare/Elite"
 		UIDropDownMenu_AddButton(info)
+		info.text, info.arg1 = "Friendly/Hostile", "Friendly/Hostile"
+		UIDropDownMenu_AddButton(info)
+		info.text, info.arg1 = "Class/Friendly/Hostile", "Class/Friendly/Hostile"
+		UIDropDownMenu_AddButton(info)
 	end)
 
 	--Bar Texture Option
@@ -367,6 +371,61 @@ Options:SetScript("OnShow", function(self)
 		RaidColor()
 	end)
 
+	local TargetNameInside = CreateFrame("CheckButton", "$parentTargetNameInside", self, "InterfaceOptionsCheckButtonTemplate")
+	TargetNameInside:SetPoint("LEFT", TexRaid, "RIGHT", 200, 0)
+	TargetNameInside.Text:SetText("Target Name Inside")
+	TargetNameInside.tooltipText = "Toggles the target name above the frame or not for large frames"
+	TargetNameInside:SetScript("OnClick", function(this)
+		local checked = not not this:GetChecked()
+		PlaySound(checked and SOUND_ON or SOUND_OFF)
+		uuidb.targetframe.nameinside = checked
+		UberUI.general:ColorAllFrames()
+	end)
+
+	local FocusNameInside = CreateFrame("CheckButton", "$parentFocusNameInside", self, "InterfaceOptionsCheckButtonTemplate")
+	FocusNameInside:SetPoint("TOPLEFT", ArenaFrameCol, "BOTTOMLEFT", 0, -12)
+	FocusNameInside.Text:SetText("Focus Name Inside")
+	FocusNameInside.tooltipText = "Toggles the focus frame name above the frame or not for large frames"
+	FocusNameInside:SetScript("OnClick", function(this)
+		local checked = not not this:GetChecked()
+		PlaySound(checked and SOUND_ON or SOUND_OFF)
+		uuidb.focusframe.nameinside = checked
+		UberUI.misc:FocusName()
+	end)
+
+	local ColorDragonSeparate = CreateFrame("CheckButton", "$parentColorDragonSeparate", self, "InterfaceOptionsCheckButtonTemplate")
+	ColorDragonSeparate:SetPoint("LEFT", FocusNameInside, "RIGHT", 200, 0)
+	ColorDragonSeparate.Text:SetText("Color Dragons Separate")
+	ColorDragonSeparate.tooltipText = "Selecting this option will color the dragons on target frame separate from the frame color"
+	ColorDragonSeparate:SetScript("OnClick", function(this)
+		local checked = not not this:GetChecked()
+		PlaySound(checked and SOUND_ON or SOUND_OFF)
+		uuidb.targetframe.colordragon = checked
+		UberUI.general:ReworkColors(uuidb.general.customcolorval)
+	end)
+
+	local BlizzardArenaFrames = CreateFrame("CheckButton", "$parentBlizzardArenaFrames", self, "InterfaceOptionsCheckButtonTemplate")
+	BlizzardArenaFrames:SetPoint("LEFT", ColorDragonSeparate, "RIGHT", 200, 0)
+	BlizzardArenaFrames.Text:SetText("Hide Arena Frames")
+	BlizzardArenaFrames.tooltipText = "Selecting this option will hide the default blizzard arena frames"
+	BlizzardArenaFrames:SetScript("OnClick", function(this)
+		local checked = not not this:GetChecked()
+		PlaySound(checked and SOUND_ON or SOUND_OFF)
+		uuidb.miscframes.hidedefaultarena = checked
+		UberUI.arenaframes:HideArena()
+	end)
+
+	local NameplateNum = CreateFrame("CheckButton", "$parentNameplateNum", self, "InterfaceOptionsCheckButtonTemplate")
+	NameplateNum:SetPoint("TOPLEFT", FocusNameInside, "BOTTOMLEFT", 0, -12)
+	NameplateNum.Text:SetText("Nameplate Numbers")
+	NameplateNum.tooltipText = "Selecting this will change nameplate in arenas to show target number instead of name"
+	NameplateNum:SetScript("OnClick", function(this)
+		local checked = not not this:GetChecked()
+		PlaySound(checked and SOUND_ON or SOUND_OFF)
+		uuidb.miscframes.nameplatenumbers = checked
+		UberUI.arenaframes:NameplateNumbers()
+	end)
+
 	function self:refresh()
 		Gryphon:SetChecked(uuidb.mainmenu.gryphon)
 		Hotkey:SetChecked(uuidb.actionbars.hotkeys.show)
@@ -382,6 +441,11 @@ Options:SetScript("OnShow", function(self)
 		ArenaFrameCol:SetChecked(uuidb.general.colorarenat)
 		CustomColorCheck:SetChecked(uuidb.general.customcolor)
 		TexRaid:SetChecked(uuidb.miscframes.texraidframes)
+		TargetNameInside:SetChecked(uuidb.targetframe.nameinside)
+		FocusNameInside:SetChecked(uuidb.focusframe.nameinside)
+		ColorDragonSeparate:SetChecked(uuidb.targetframe.colordragon)
+		BlizzardArenaFrames:SetChecked(uuidb.miscframes.hidedefaultarena)
+		NameplateNum:SetChecked(uuidb.miscframes.nameplatenumbers)
 	end
 
 	self:refresh()

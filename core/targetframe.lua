@@ -103,6 +103,18 @@ function uui_TargetFrameStyleTargetFrame(self, forceNormalTexture)
 		TargetFrameTextureFramePrestigePortrait:SetAlpha(0)
 	end
 
+	if (uuidb.targetframe.colordragon and not TargetFrameTextureFrame.dragon) then
+		local parent = TargetFrameTextureFrame
+		local layer, sub = TargetFrameTextureFrameTexture:GetDrawLayer()
+		local point, rf, rp, ofsx, ofsy = TargetFrameTextureFrameTexture:GetPoint()
+		parent.dragon = parent:CreateTexture("TargetFrameTextureFrameDragon", "BACKGROUND", nil, 3)
+		parent.dragon:SetPoint(point, rf, rp, ofsx-25, ofsy)
+		parent.dragon:Hide()
+	elseif TargetFrameTextureFrame.dragon then
+		TargetFrameTextureFrame.dragon:Hide()
+	end
+
+
 	-- get color in use
 	if uuidb.general.customcolor or uuidb.general.classcolorframes then
 		colors = uuidb.general.customcolorval
@@ -112,20 +124,24 @@ function uui_TargetFrameStyleTargetFrame(self, forceNormalTexture)
 	-- style frames accordingly
 	local classification = UnitClassification(self.unit)
 	if uuidb.targetframe.largehealth then
-		TargetFrameTextureFrameName:SetPoint("CENTER", TargetFrameTextureFrame, "CENTER", -50, 36)
+		if uuidb.targetframe.nameinside then
+			TargetFrameTextureFrameName:SetPoint("CENTER", TargetFrameTextureFrame, "CENTER", -50, 20)
+		else
+			TargetFrameTextureFrameName:SetPoint("CENTER", TargetFrameTextureFrame, "CENTER", -50, 36)
+		end
 	end
+	if (uuidb.targetframe.colortargett == "All" or uuidb.targetframe.colortargett == "Friendly/Hostile" or uuidb.targetframe.colortargett == "Class/Friendly/Hostile") then
+		local red,green,_ = UnitSelectionColor(self.unit)
+		if (red == 0) then
+    	    colors = { r = 0, g = 1, b = 0}
+    	elseif (green == 0) then
+    	    colors = { r = 1, g = 0, b = 0}
+    	else
+    	    colors = { r = 1, g = 1, b = 0}
+    	end
+    end
 	if ( classification == "minus" ) then
 		self.borderTexture:SetTexture(frametexture.minus)
-		if uuidb.targetframe.colortargett == ("All") and not UnitIsPlayer(self.unit) then
-			local red,green,_ = UnitSelectionColor(self.unit)
-			if (red == 0) then
-        	    colors = { r = 0, g = 1, b = 0}
-        	elseif (green == 0) then
-        	    colors = { r = 1, g = 0, b = 0}
-        	else
-        	    colors = { r = 1, g = 1, b = 0}
-        	end
-        end
         if uuidb.targetframe.largehealth then
 			self.borderTexture:SetTexture(frametexture.minus)
 			self.threatIndicator:SetTexture(frametexture.minusflash)
@@ -156,11 +172,18 @@ function uui_TargetFrameStyleTargetFrame(self, forceNormalTexture)
 	elseif ( classification == "worldboss" or classification == "elite" ) then
 		self.borderTexture:SetTexture(frametexture.elite)
 		if (uuidb.targetframe.colortargett == "All" or uuidb.targetframe.colortargett == "Rare/Elite") then
-			colors = {r = 164/255, g = 143/255, b = 57/255}
+			colors = {r = 159/255, g = 115/255, b = 19/255}
 			TargetFrameTextureFramePrestigePortrait:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 			TargetFrameSpellBar.Border:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 		end
-		FocusFrameTextureFramePrestigePortrait:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
+		if TargetFrameTextureFrame.dragon then
+			if uuidb.targetframe.colordragon then
+				TargetFrameTextureFrame.dragon:SetTexture("Interface\\AddOns\\Uber UI\\textures\\target\\EliteDragon")
+				TargetFrameTextureFrame.dragon:Show()
+			else
+				TargetFrameTextureFrame.dragon:Hide()
+			end
+		end
 		TargetFrameTextureFramePrestigePortrait:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 		self.borderTexture:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 	elseif ( classification == "rareelite" ) then
@@ -170,7 +193,14 @@ function uui_TargetFrameStyleTargetFrame(self, forceNormalTexture)
 			TargetFrameTextureFramePrestigePortrait:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 			TargetFrameSpellBar.Border:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 		end
-		FocusFrameTextureFramePrestigePortrait:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
+		if TargetFrameTextureFrame.dragon then
+			if uuidb.targetframe.colordragon then
+				TargetFrameTextureFrame.dragon:SetTexture("Interface\\AddOns\\Uber UI\\textures\\target\\RareEliteDragon")
+				TargetFrameTextureFrame.dragon:Show()
+			else
+				TargetFrameTextureFrame.dragon:Hide()
+			end
+		end
 		TargetFrameTextureFramePrestigePortrait:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 		self.borderTexture:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 	elseif ( classification == "rare" ) then
@@ -180,39 +210,33 @@ function uui_TargetFrameStyleTargetFrame(self, forceNormalTexture)
 			TargetFrameTextureFramePrestigePortrait:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 			TargetFrameSpellBar.Border:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 		end
-		TargetFrameTextureFramePrestigePortrait:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
-		FocusFrameTextureFramePrestigePortrait:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
+		if TargetFrameTextureFrame.dragon then
+			if uuidb.targetframe.colordragon then
+				TargetFrameTextureFrame.dragon:SetTexture("Interface\\AddOns\\Uber UI\\textures\\target\\RareDragon")
+				TargetFrameTextureFrame.dragon:Show()
+			else
+				TargetFrameTextureFrame.dragon:Hide()
+			end
+		end
 		self.borderTexture:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 	else
-		if UnitIsPlayer(self.unit) and (uuidb.targetframe.colortargett == "All" or uuidb.targetframe.colortargett == "Class") then
+		if UnitIsPlayer(self.unit) and (uuidb.targetframe.colortargett == "All" or uuidb.targetframe.colortargett == "Class" or uuidb.targetframe.colortargett == "Class/Friendly/Hostile") then
 			colors = RAID_CLASS_COLORS[select(2, UnitClass(self.unit))]
-			FocusFrameTextureFramePrestigePortrait:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 			TargetFrameTextureFramePrestigePortrait:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 			TargetFrameSpellBar.Border:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
-		elseif uuidb.targetframe.colortargett == ("All") and not UnitIsPlayer(self.unit) then
-			local red,green,_ = UnitSelectionColor(self.unit)
-			if (red == 0) then
-        	    colors = { r = 0, g = 1, b = 0}
-        	elseif (green == 0) then
-        	    colors = { r = 1, g = 0, b = 0}
-        	else
-        	    colors = { r = 1, g = 1, b = 0}
-        	end
-        	FocusFrameTextureFramePrestigePortrait:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
-        	TargetFrameTextureFramePrestigePortrait:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
-           	TargetFrameSpellBar.Border:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 		end
-		FocusFrameTextureFramePrestigePortrait:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 		TargetFrameTextureFramePrestigePortrait:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 		self.borderTexture:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 		self.borderTexture:SetTexture(frametexture.targetingframe)
+		if not uuidb.miscframes.pvpicons then
+			TargetFrameTextureFramePrestigePortrait:SetAlpha(0)
+		end
 		TargetFrameToTTextureFrameTexture:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 	end
 end
 
 function targetframes:ClassColorTargetEnable()
 	hooksecurefunc("TargetofTarget_Update", self.PLAYER_TARGET_CHANGED)
-
 end
 
 function targetframes:PLAYER_TARGET_CHANGED()

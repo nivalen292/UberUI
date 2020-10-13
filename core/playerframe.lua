@@ -70,12 +70,32 @@ local function MiscFrames(color)
 		v:SetVertexColor(color.r, color.g, color.b, color.a)
     end
     CastingBarFrame.Border:SetTexture("Interface\\AddOns\\Uber UI\\textures\\castingbarborder")
+
+	for _,v in pairs({
+      TotemFrameTotem1,
+      TotemFrameTotem2,
+      TotemFrameTotem3,
+      TotemFrameTotem4
+	}) do
+	   for _,child in pairs({v:GetChildren()}) do
+	      local name = child:GetName()
+	      if name == nil then
+	         local regions = child:GetRegions()
+	         for _,region in pairs({regions}) do
+	            if region:GetTexture():find("TotemBorder") then
+	            	region:SetTexture("Interface\\AddOns\\Uber UI\\textures\\TotemBorder")
+	            	region:SetVertexColor(color.r, color.g, color.b, color.a)
+	            end
+	         end
+	      end
+	   end
+	end
 end
 
 local pcount = 0
  
 function uui_playerframes_LargeHealth(color)
-	if not (color) and uuidb.general.customcolor or uuidb.general.classcolorframes then
+	if uuidb.general.customcolor or uuidb.general.classcolorframes then
 		color = uuidb.general.customcolorval
 	else
 		color = uuidb.playerframe.color
@@ -148,6 +168,37 @@ function playerframes:Scale(value)
 	end
 end
 
+function playerframes:RoleIconBorder(color)
+	if uuidb.general.customcolor or uuidb.general.classcolorframes then
+		color = uuidb.general.customcolorval
+	else
+		color = uuidb.playerframe.color
+	end
+
+	if not _G["PlayerFrameRoleIconBorder"] then
+		local parent = PlayerFrameRoleIcon:GetParent()
+		local ri_layer, ri_sub = PlayerFrameRoleIcon:GetDrawLayer()
+		parent.roleIconBorder = parent:CreateTexture("PlayerFrameRoleIconBorder")
+		parent.roleIconBorder:SetPoint(PlayerFrameRoleIcon:GetPoint())
+		parent.roleIconBorder:SetTexture("Interface\\AddOns\\Uber UI\\textures\\ui-portraitroles")
+		parent.roleIconBorder:SetSize(PlayerFrameRoleIcon:GetSize())
+		parent.roleIconBorder:SetTexCoord(0, 0.296875, 0.015625, 0.3125)
+		parent.roleIconBorder:SetDrawLayer(ri_layer,ri_sub+1)
+		parent.roleIconBorder:SetVertexColor(color.r, color.g, color.b)
+		hooksecurefunc("PlayerFrame_UpdateRolesAssigned", function()
+			local role = UnitGroupRolesAssigned("player");
+			local parent = PlayerFrameRoleIcon:GetParent()
+			if ( role == "TANK" or role == "HEALER" or role == "DAMAGER") then
+				parent.roleIconBorder:Show();
+			else
+				parent.roleIconBorder:Hide();
+			end
+		end)
+	else
+		local parent = PlayerFrameRoleIcon:GetParent()
+		parent.roleIconBorder:SetVertexColor(color.r, color.g, color.b)
+	end
+end
 
 function playerframes:PetFrame()
 	hooksecurefunc("PetFrame_Update", function(self, override)
@@ -193,6 +244,7 @@ function playerframes:ReworkAllColor(color)
 		MiscFrames(color)
 		self:Name()
 		self:Scale(uuidb.playerframe.scale)
+		self:RoleIconBorder()
 	end
 end
 
