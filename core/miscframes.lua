@@ -15,12 +15,9 @@ misc:SetScript("OnEvent", function(self,event)
 			RaidColor()
 			hooksecurefunc("CompactRaidFrameContainer_LayoutFrames", RaidColor)
 		end
-<<<<<<< HEAD
-=======
 	end
 	if (event == "PLAYER_FOCUS_CHANGED") then
 		self:FocusFrame()
->>>>>>> 9.0-update
 	end
 	misc:ExtraBars()
 	if not (IsAddOnLoaded("VuhDo")) then
