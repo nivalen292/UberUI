@@ -63,10 +63,7 @@ function misc:NameplateTexture()
 				frame.totalAbsorb:SetVertexColor(.6, .9, .9, 1)
 				if frame.castBar ~= nil then
 					frame.castBar:SetStatusBarTexture(texture)
-<<<<<<< HEAD
-=======
 					frame.castBar.Flash:SetTexture(texture)
->>>>>>> 9.0-update
 				end
 			end
 		end
@@ -94,10 +91,7 @@ function misc:ExtraBars()
 			v:SetStatusBarTexture(texture)
 		end
 		ClassNameplateManaBarFrame.ManaCostPredictionBar:SetTexture(texture)
-<<<<<<< HEAD
-=======
 		GameTooltipStatusBarTexture:SetTexture(texture)
->>>>>>> 9.0-update
 	end	
 end
 
@@ -155,8 +149,6 @@ function RaidColor(color)
 						if region:GetName():find("Border") then
 							region:SetVertexColor(color.r, color.g, color.b, color.a)
 						end
-<<<<<<< HEAD
-=======
 					end
 				end
 				if not _G["CompactRaidFrame"..m].roleIconBorder then
@@ -183,7 +175,6 @@ function RaidColor(color)
 						if region:GetName():find("Border") then
 							region:SetVertexColor(color.r, color.g, color.b, color.a)
 						end
->>>>>>> 9.0-update
 					end
 				end
 				if not _G["CompactPartyFrameMember"..m].roleIconBorder then
