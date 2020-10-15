@@ -14,3 +14,9 @@
 	- Disabled Hiding of 'NotPresentIcon' for Party Frames and added colored border
 	- Added more options for target frame coloring
 	- Added option to display target dragon portraits separately from target frame coloring
+
+9.0.1.1:
+	- Hotfix unassigned hotkey text
+
+9.0.1.2:
+	- Hotfix SpellFlyout (pet summon bar) errors
