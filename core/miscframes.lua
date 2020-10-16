@@ -164,7 +164,6 @@ function RaidColor(color)
 					_G["CompactRaidFrame"..m].roleIconBorder:Hide()
 				end
 				if uuidb.general.bartexture ~= "Blizzard" and uuidb.miscframes.texraidframes then
-					print('hit texture raid frame 167')
 					frame.healthBar:SetStatusBarTexture(texture)
 					frame.powerBar:SetStatusBarTexture(texture)
 				end
