@@ -148,7 +148,7 @@ end
 function auras:TargetSpellIcon()
 	if UnitExists('target') then
 		local u = 'target'
-		if uuidb.targetframe.colortargett == ("All") then
+		if (uuidb.targetframe.colortargett == "All" or uuidb.targetframe.colortargett == "Class" or uuidb.targetframe.colortargett == "Class/Friendly/Hostile") then
 			if UnitIsConnected(u) and UnitIsPlayer(u) then
 				colors = RAID_CLASS_COLORS[select(2, UnitClass(u))]
 			else
