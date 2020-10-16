@@ -53,7 +53,7 @@ local nthook = false
 function misc:NameplateTexture()
 	if nthook then return end
 	hooksecurefunc("CompactUnitFrame_UpdateHealthColor", function(frame)
-		if not frame:IsForbidden() and frame.healthBar ~= nil and not (frame:GetName() ~= nil and string.find(frame:GetName(), "CompactRaid")) then
+		if not frame:IsForbidden() and frame.healthBar ~= nil and not (frame:GetName() ~= nil and frame:GetName():find("CompactRaid")) then
 			if uuidb.general.bartexture ~= "Blizzard" then
 				local texture = uuidb.textures.statusbars[uuidb.general.bartexture]
 				frame.healthBar:SetStatusBarTexture(texture)
