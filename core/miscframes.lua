@@ -53,7 +53,7 @@ local nthook = false
 function misc:NameplateTexture()
 	if nthook then return end
 	hooksecurefunc("CompactUnitFrame_UpdateHealthColor", function(frame)
-		if not frame:IsForbidden() and frame.healthBar ~= nil then
+		if not frame:IsForbidden() and frame.healthBar ~= nil and not (frame:GetName() ~= nil and string.find(frame:GetName(), "CompactRaid")) then
 			if uuidb.general.bartexture ~= "Blizzard" then
 				local texture = uuidb.textures.statusbars[uuidb.general.bartexture]
 				frame.healthBar:SetStatusBarTexture(texture)
@@ -125,7 +125,7 @@ function RaidColor(color)
 						end
 					end
 				end
-				if not _G["CompactRaidGroup"..g.."Member"..m].roleIconBorder then
+				if not _G["CompactRaidGroup"..g.."Member"..m].roleIconBorder and uuidb.miscframes.texraidframes then
 					_G["CompactRaidGroup"..g.."Member"..m].roleIcon:SetDrawLayer("ARTWORK",1)
 					local size = _G["CompactRaidGroup"..g.."Member"..m.."RoleIcon"]:GetHeight()
 					_G["CompactRaidGroup"..g.."Member"..m].roleIconBorder = _G["CompactRaidGroup"..g.."Member"..m]:CreateTexture("CompactRaidGroup"..g.."Member"..m.."RoleIconBorder")
@@ -151,7 +151,7 @@ function RaidColor(color)
 						end
 					end
 				end
-				if not _G["CompactRaidFrame"..m].roleIconBorder then
+				if not _G["CompactRaidFrame"..m].roleIconBorder and uuidb.miscframes.texraidframes then
 					_G["CompactRaidFrame"..m].roleIcon:SetDrawLayer("ARTWORK",1)
 					local size = _G["CompactRaidFrame"..m.."RoleIcon"]:GetHeight()
 					_G["CompactRaidFrame"..m].roleIconBorder = _G["CompactRaidFrame"..m]:CreateTexture("CompactRaidFrame"..m.."RoleIconBorder")
@@ -164,6 +164,7 @@ function RaidColor(color)
 					_G["CompactRaidFrame"..m].roleIconBorder:Hide()
 				end
 				if uuidb.general.bartexture ~= "Blizzard" and uuidb.miscframes.texraidframes then
+					print('hit texture raid frame 167')
 					frame.healthBar:SetStatusBarTexture(texture)
 					frame.powerBar:SetStatusBarTexture(texture)
 				end
@@ -177,7 +178,7 @@ function RaidColor(color)
 						end
 					end
 				end
-				if not _G["CompactPartyFrameMember"..m].roleIconBorder then
+				if not _G["CompactPartyFrameMember"..m].roleIconBorder and uuidb.miscframes.texraidframes then
 					_G["CompactPartyFrameMember"..m].roleIcon:SetDrawLayer("ARTWORK",1)
 					local size = _G["CompactPartyFrameMember"..m.."RoleIcon"]:GetHeight();
 					_G["CompactPartyFrameMember"..m].roleIconBorder = _G["CompactPartyFrameMember"..m]:CreateTexture("CompactPartyFrameMember"..m.."RoleIconBorder")
@@ -286,6 +287,12 @@ function misc:TooltipColor(color)
 		end
 	end)
 	hooksecurefunc("SharedTooltip_SetBackdropStyle", function(self, style)
+		local _, itemLink = self:GetItem();
+		if itemLink then
+			if C_AzeriteEmpoweredItem.IsAzeriteEmpoweredItemByID(itemLink) or C_AzeriteItem.IsAzeriteItemByID(itemLink) then
+				return
+			end
+		end
 		if uuidb.general.customcolor or uuidb.general.classcolorframes then
 			color = uuidb.general.customcolorval
 		else
