@@ -73,7 +73,7 @@ function minimap:GarrisonBtn(color)
 					gb.border.texture:SetSize(45,50)
 				end
 			end
-		elseif (garrisonType <= Enum.GarrisonType_7_0) then
+		elseif (garrisonType <= Enum.GarrisonType.Type_7_0) then
 			self:GetNormalTexture():SetTexture(nil)
 			self:GetPushedTexture():SetTexture(nil)
 			if not gb then
