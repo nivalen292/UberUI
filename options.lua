@@ -426,6 +426,17 @@ Options:SetScript("OnShow", function(self)
 		UberUI.arenaframes:NameplateNumbers()
 	end)
 
+	local MenuBackground = CreateFrame("CheckButton", "$parentMenuBackground", self, "InterfaceOptionsCheckButtonTemplate")
+	MenuBackground:SetPoint("LEFT", NameplateNum, "RIGHT", 200, 0)
+	MenuBackground.Text:SetText("Show Actionbar Background")
+	MenuBackground.tooltipText = "De-Selecting this will hide the main Actionbar background"
+	MenuBackground:SetScript("OnClick", function(this)
+		local checked = not not this:GetChecked()
+		PlaySound(checked and SOUND_ON or SOUND_OFF)
+		uuidb.general.menuBackground = checked
+		UberUI.general:HideMainMenuBackground()
+	end)
+
 	function self:refresh()
 		Gryphon:SetChecked(uuidb.mainmenu.gryphon)
 		Hotkey:SetChecked(uuidb.actionbars.hotkeys.show)
@@ -446,6 +457,7 @@ Options:SetScript("OnShow", function(self)
 		ColorDragonSeparate:SetChecked(uuidb.targetframe.colordragon)
 		BlizzardArenaFrames:SetChecked(uuidb.miscframes.hidedefaultarena)
 		NameplateNum:SetChecked(uuidb.miscframes.nameplatenumbers)
+		MenuBackground:SetChecked(uuidb.general.menuBackground)
 	end
 
 	self:refresh()

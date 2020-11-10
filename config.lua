@@ -88,6 +88,7 @@ local defaults = {
     font              = STANDARD_TEXT_FONT,
     bartexture        = "Flat",
     forcemanabar      = false,
+    menuBackground    = true,
   },
   mainmenu = {
     gryphon           = true,

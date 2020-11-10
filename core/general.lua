@@ -79,7 +79,7 @@ function general:MainMenuColor(color)
 		color = uuidb.mainmenu.mainbarcolor
 	end
 
-	for _,v in pairs({
+	elements = {
 		MainMenuBarArtFrameBackground.BackgroundLarge,
 		MainMenuBarArtFrameBackground.BackgroundSmall,
 		SlidingActionBarTexture0,
@@ -89,7 +89,9 @@ function general:MainMenuColor(color)
 		StatusTrackingBarManager.SingleBarSmall,
 		StatusTrackingBarManager.SingleBarSmallUpper,
 		MicroButtonAndBagsBar.MicroBagBar,
-		}) do
+		}
+
+	for _,v in pairs(elements) do
 		local frameAtlas = v:GetAtlas()
 		if frameAtlas ~= nil then
 			local frameAtlasInfo = C_Texture.GetAtlasInfo(frameAtlas)
@@ -104,7 +106,27 @@ function general:MainMenuColor(color)
 			v:SetVertexColor(color.r, color.g, color.b, color.a)
 		end
 	end
+
+	if (IsAddOnLoaded("XarUI")or not uuidb.general.menuBackground) then
+		self.HideMainMenuBackground()
+	end
 end
+
+function general:HideMainMenuBackground()
+	elements = {
+		MainMenuBarArtFrameBackground.BackgroundLarge,
+		MainMenuBarArtFrameBackground.BackgroundSmall,
+	}
+
+	for _,v in pairs(elements) do
+		if (not IsAddOnLoaded("XarUI") and uuidb.general.menuBackground) then
+			v:SetAlpha(1)
+		else
+			v:SetAlpha(0)
+		end
+	end
+end
+
 
 function general:Gryphons(color)
 	if not (color) then
