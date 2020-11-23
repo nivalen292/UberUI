@@ -6,3 +6,5 @@
 	- Bug Fixes
 9.0.1.5:
 	- Added integration with XarUI and added option to hide Actionbar Background
+9.0.2:
+	- No additional features, simply updating to show current for 9.0.2
