@@ -70,9 +70,10 @@ local buffFrameHeight = 0
 ---------------------------------------
 
 --apply aura frame texture func
-local function applySkin(b)
+local function applySkin(b, db)
   if not b then return end
   --button name
+  db = db or false
   local name = b:GetName()
   --check the button type
   local tempenchant, consolidated, debuff, buff = false, false, false, false
@@ -94,8 +95,20 @@ local function applySkin(b)
     backdrop = backdropBuff
   end
 
+  if uuidb.actionbars.gloss then
+    btex = uui.border.texture
+  else
+    btex = uuidb.textures.buttons.light
+  end
+
   --check class coloring options
-  if uuidb.general.customcolor or uuidb.general.classcolorframes then
+  if db ~= false and uuidb.buffdebuff.colorauras and debuff then
+    bordercolor = DebuffTypeColor[db]
+    backgroundcolor = DebuffTypeColor[db]
+  elseif uuidb.buffdebuff.colorauras and debuff then
+    bordercolor = DebuffTypeColor['none']
+    backgroundcolor = DebuffTypeColor['none']
+  elseif uuidb.general.customcolor or uuidb.general.classcolorframes then
     bordercolor = uuidb.general.customcolorval
     backgroundcolor = uuidb.general.customcolorval
   else
@@ -129,7 +142,7 @@ local function applySkin(b)
 
   --border
   local border = _G[name.."Border"] or b:CreateTexture(name.."Border", "BACKGROUND", nil, -7)
-  border:SetTexture(uui.border.texture)
+  border:SetTexture(btex)
   border:SetTexCoord(0,1,0,1)
   border:SetDrawLayer("BACKGROUND",-7)
   if tempenchant then
@@ -171,7 +184,9 @@ local function updateDebuffAnchors(buttonName,index)
   local button = _G[buttonName..index]
   if not button then return end
   --apply skin
-  if not button.styled then applySkin(button) end
+  local _, _, _, db = UnitDebuff('player', index)
+  applySkin(button, db)
+  -- if not button.styled then applySkin(button, db) end
   --position button
   button:ClearAllPoints()
   if index == 1 then

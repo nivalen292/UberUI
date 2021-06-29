@@ -437,6 +437,25 @@ Options:SetScript("OnShow", function(self)
 		UberUI.general:HideMainMenuBackground()
 	end)
 
+	local ColorTargetAuras = CreateFrame("CheckButton", "$parentColorTargetAuras", self, "InterfaceOptionsCheckButtonTemplate")
+	ColorTargetAuras:SetPoint("LEFT", MenuBackground, "RIGHT", 200, 0)
+	ColorTargetAuras.Text:SetText("Color Auras")
+	ColorTargetAuras.tooltipText = "Selecting this will color target/focus auras by type"
+	ColorTargetAuras:SetScript("OnClick", function(this)
+		local checked = not not this:GetChecked()
+		PlaySound(checked and SOUND_ON or SOUND_OFF)
+		uuidb.auras.colorauras = checked
+	end)
+
+	local ColorBuffDebuff = CreateFrame("CheckButton", "$parentColorBuffDebuff", self, "InterfaceOptionsCheckButtonTemplate")
+	ColorBuffDebuff:SetPoint("TOPLEFT", NameplateNum, "BOTTOMLEFT", 0, -12)
+	ColorBuffDebuff.Text:SetText("Color Debuffs")
+	ColorBuffDebuff.tooltipText = "Selecting this will color debuffs by type"
+	ColorBuffDebuff:SetScript("OnClick", function(this)
+		local checked = not not this:GetChecked()
+		uuidb.buffdebuff.colorauras = checked
+	end)
+
 	function self:refresh()
 		Gryphon:SetChecked(uuidb.mainmenu.gryphon)
 		Hotkey:SetChecked(uuidb.actionbars.hotkeys.show)
@@ -458,6 +477,8 @@ Options:SetScript("OnShow", function(self)
 		BlizzardArenaFrames:SetChecked(uuidb.miscframes.hidedefaultarena)
 		NameplateNum:SetChecked(uuidb.miscframes.nameplatenumbers)
 		MenuBackground:SetChecked(uuidb.general.menuBackground)
+		ColorTargetAuras:SetChecked(uuidb.auras.colorauras)
+		ColorBuffDebuff:SetChecked(uuidb.buffdebuff.colorauras)
 	end
 
 	self:refresh()

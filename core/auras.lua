@@ -32,42 +32,59 @@ local backdrop = {
  ---------------------------------------
 
 --apply aura frame texture func
-local function applySkin(b, color)
+local function applySkin(b, color, dbtype)
 	if not b then return end
 	--button name
 	local u = b.unit
 	local name = b:GetName()
 	if (name:match("Debuff")) then
 		b.debuff = true
+		if dbtype ~= nil then
+			color = DebuffTypeColor[dbtype]
+		else
+			color = DebuffTypeColor["none"]
+		end
 	else
 		b.buff = true
+		if dbtype ~= false then
+			b.Stealable:Show()
+			color = { r = 255/255, g = 255/255, b = 123/255 }
+		end
 	end
+
+	if uuidb.actionbars.gloss then
+        btex = uuidb.textures.buttons.normal
+    else
+        btex = uuidb.textures.buttons.light
+    end
 
 	local colors = color
 	local classification = UnitClassification(u)
-	if (uuidb.targetframe.colortargett == "All" or uuidb.targetframe.colortargett == "Class" or uuidb.targetframe.colortargett == "Class/Friendly/Hostile") and (UnitIsConnected(u) and UnitIsPlayer(u)) then
-		colors = RAID_CLASS_COLORS[select(2, UnitClass(u))]
-	elseif (uuidb.targetframe.colortargett == "All" or uuidb.targetframe.colortargett == "Rare/Elite") and (classification == 'elite' or classification == 'worldboss' or classification == 'rare' or classification == 'rareelite') then
-		if ( classification == "worldboss" or classification == "elite" ) then
-			colors = {r = 159/255, g = 115/255, b = 19/255}
-		elseif ( classification == "rareelite" ) then
-			colors = {r = 65/255, g = 66/255, b = 73/255}
-		elseif ( classification == "rare" ) then
-			colors = {r = 173/255, g = 166/255, b = 156/255}
+	if uuidb.auras.colorauras == false then
+		if (uuidb.targetframe.colortargett == "All" or uuidb.targetframe.colortargett == "Class" or uuidb.targetframe.colortargett == "Class/Friendly/Hostile") and (UnitIsConnected(u) and UnitIsPlayer(u)) then
+			colors = RAID_CLASS_COLORS[select(2, UnitClass(u))]
+		elseif (uuidb.targetframe.colortargett == "All" or uuidb.targetframe.colortargett == "Rare/Elite") and (classification == 'elite' or classification == 'worldboss' or classification == 'rare' or classification == 'rareelite') then
+			if ( classification == "worldboss" or classification == "elite" ) then
+				colors = {r = 159/255, g = 115/255, b = 19/255}
+			elseif ( classification == "rareelite" ) then
+				colors = {r = 65/255, g = 66/255, b = 73/255}
+			elseif ( classification == "rare" ) then
+				colors = {r = 173/255, g = 166/255, b = 156/255}
+			end
+		elseif (uuidb.targetframe.colortargett == "All" or uuidb.targetframe.colortargett == "Friendly/Hostile" or uuidb.targetframe.colortargett == "Class/Friendly/Hostile") then
+			local red,green,_ = UnitSelectionColor(u)
+			if (red == 0) then
+				colors = { r = 0, g = 1, b = 0}
+			elseif (green == 0) then
+				colors = { r = 1, g = 0, b = 0}
+			else
+				colors = { r = 1, g = 1, b = 0}
+			end
+		elseif uuidb.general.customcolor or uuidb.general.classcolorframesor then
+			colors = uuidb.general.customcolorval
+		else
+			colors = uuidb.auras.color
 		end
-	elseif (uuidb.targetframe.colortargett == "All" or uuidb.targetframe.colortargett == "Friendly/Hostile" or uuidb.targetframe.colortargett == "Class/Friendly/Hostile") then
-		local red,green,_ = UnitSelectionColor(u)
-		if (red == 0) then
-    	    colors = { r = 0, g = 1, b = 0}
-    	elseif (green == 0) then
-    	    colors = { r = 1, g = 0, b = 0}
-    	else
-    	    colors = { r = 1, g = 1, b = 0}
-    	end
-	elseif uuidb.general.customcolor or uuidb.general.classcolorframesor then
-		colors = uuidb.general.customcolorval
-	else
-		colors = uuidb.auras.color
 	end
 
 	if b and b.styled then
@@ -82,7 +99,7 @@ local function applySkin(b, color)
 	b.icon = icon
 	--border
 	local border = _G[name.."Border"] or b:CreateTexture(name.."Border", "BACKGROUND", nil, -7)
-	border:SetTexture("Interface\\AddOns\\Uber UI\\textures\\gloss")
+	border:SetTexture(btex)
 	border:SetTexCoord(0, 1, 0, 1)
 	border:SetDrawLayer("BACKGROUND",- 7)
 	border:ClearAllPoints()
@@ -115,13 +132,19 @@ local function applycastSkin(b, color)
 		b.parent = FocusFrameSpellBar
 	end
 
+	if uuidb.actionbars.gloss then
+        btex = uuidb.textures.buttons.normal
+    else
+        btex = uuidb.textures.buttons.light
+    end
+
 	-- frame
 	frame = CreateFrame("Frame", nil, b.parent)
 	--icon
 	b:SetTexCoord(0.2, 0.8, 0.2, 0.8)
 	--border
 	local border = frame:CreateTexture(nil, "BACKGROUND")
-	border:SetTexture("Interface\\AddOns\\Uber UI\\textures\\glosslight")
+	border:SetTexture(btex)
 	border:SetTexCoord(0, 1, 0, 1)
 	border:SetDrawLayer("BACKGROUND",- 7)
 	border:ClearAllPoints()
@@ -198,19 +221,23 @@ function auras:ReworkAllColors(color)
 	hooksecurefunc("TargetFrame_UpdateAuras", function(self)
 		for i = 1, MAX_TARGET_BUFFS do
 			b = _G["TargetFrameBuff"..i]
-			applySkin(b, color)
+			local _, _, _, _, _, _, _, steal = UnitBuff('target', i)
+			applySkin(b, color, steal)
 		end
 		for i = 1, MAX_TARGET_DEBUFFS do
 			b = _G["TargetFrameDebuff"..i]
-			applySkin(b, color)
+			local _, _, _, db = UnitDebuff('target', i)
+			applySkin(b, color, db)
 		end
 		for i = 1, MAX_TARGET_BUFFS do
 			b = _G["FocusFrameBuff"..i]
-			applySkin(b, color)
+			local _, _, _, _, _, _, _, steal = UnitBuff('focus', i)
+			applySkin(b, color, steal)
 		end
 		for i = 1, MAX_TARGET_DEBUFFS do
 			b = _G["FocusFrameDebuff"..i]
-			applySkin(b, color)
+			local _, _, _, db = UnitDebuff('focus', i)
+			applySkin(b, color, db)
 		end
 	end)
 end

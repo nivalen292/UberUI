@@ -34,23 +34,25 @@ function arenaframes:HideArena()
 	end
 end
 
-local nn = false
+uui_nn_hook = false
 function arenaframes:NameplateNumbers()
 	local U=UnitIsUnit 
-	if not nn and uuidb.miscframes.nameplatenumbers then
+	if not uui_nn_hook and uuidb.miscframes.nameplatenumbers then
 		hooksecurefunc("CompactUnitFrame_UpdateName", function(F)
-			if IsActiveBattlefieldArena() and F.unit:find("nameplate") then 
-				for i=1,5 do 
-					if U(F.unit,"arena"..i) then 
-						F.name:SetText(i)
-						F.name:SetTextColor(1,1,0)
-						break
+			if IsActiveBattlefieldArena() then
+				if F.unit:find("nameplate") then 
+					for i=1,3 do
+						if U(F.unit,"arena"..i) then 
+							F.name:SetText(i)
+							F.name:SetTextColor(1,1,0)
+							break
+						end
 					end
 				end
 			end
 		end)
 	end
-	local nn = true
+	uui_nn_hook = true
 end
 
 function arenaframes:Color(color)

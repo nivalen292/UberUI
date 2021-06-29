@@ -186,6 +186,7 @@ function uui_TargetFrameStyleTargetFrame(self, forceNormalTexture)
 		end
 		TargetFrameTextureFramePrestigePortrait:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 		self.borderTexture:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
+		TargetFrameSpellBar.Border:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 	elseif ( classification == "rareelite" ) then
 		self.borderTexture:SetTexture(frametexture.rareelite)
 		if (uuidb.targetframe.colortargett == "All" or uuidb.targetframe.colortargett == "Rare/Elite") then
@@ -203,6 +204,7 @@ function uui_TargetFrameStyleTargetFrame(self, forceNormalTexture)
 		end
 		TargetFrameTextureFramePrestigePortrait:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 		self.borderTexture:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
+		TargetFrameSpellBar.Border:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 	elseif ( classification == "rare" ) then
 		self.borderTexture:SetTexture(frametexture.rare)
 		if (uuidb.targetframe.colortargett == "All" or uuidb.targetframe.colortargett == "Rare/Elite") then
@@ -219,6 +221,7 @@ function uui_TargetFrameStyleTargetFrame(self, forceNormalTexture)
 			end
 		end
 		self.borderTexture:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
+		TargetFrameSpellBar.Border:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 	else
 		if UnitIsPlayer(self.unit) and (uuidb.targetframe.colortargett == "All" or uuidb.targetframe.colortargett == "Class" or uuidb.targetframe.colortargett == "Class/Friendly/Hostile") then
 			colors = RAID_CLASS_COLORS[select(2, UnitClass(self.unit))]
@@ -227,11 +230,13 @@ function uui_TargetFrameStyleTargetFrame(self, forceNormalTexture)
 		end
 		TargetFrameTextureFramePrestigePortrait:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 		self.borderTexture:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
+		TargetFrameSpellBar.Border:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 		self.borderTexture:SetTexture(frametexture.targetingframe)
 		if not uuidb.miscframes.pvpicons then
 			TargetFrameTextureFramePrestigePortrait:SetAlpha(0)
 		end
 		TargetFrameToTTextureFrameTexture:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
+		TargetFrameSpellBar.Border:SetVertexColor(colors.r, colors.g, colors.b, colors.a)
 	end
 end
 

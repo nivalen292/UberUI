@@ -18,6 +18,7 @@ misc:SetScript("OnEvent", function(self,event)
 	end
 	if (event == "PLAYER_FOCUS_CHANGED") then
 		self:FocusFrame()
+		self:pvpicons()
 	end
 	misc:ExtraBars()
 	if not (IsAddOnLoaded("VuhDo")) then
@@ -115,7 +116,7 @@ function RaidColor(color)
 				end
 			end
 		end
-		for m = 1, 5 do
+		for m = 1, MEMBERS_PER_RAID_GROUP do
 			local frame = _G["CompactRaidGroup"..g.."Member"..m]
 			if frame and uuidb.miscframes.raidgroupcolor then
 				if not erf then

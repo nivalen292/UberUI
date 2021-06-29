@@ -114,6 +114,7 @@ local defaults = {
     colorfocust       = false,
     colortott         = false,
     colordragon       = true,
+    colorauras        = true,
   },
   focusframe = {
     nameinside        = true,
@@ -126,6 +127,7 @@ local defaults = {
     oneletterabbrev   = true,
     tooltipscale      = 1.2,
     buffsanddebuffs   = false,
+    colorauras        = true,
     buff = {
       pos               = {a1 = "TOPRIGHT", af = "Minimap", a2 = "TOPLEFT", x = -35, y = 0 },
       gap               = 30,
@@ -204,6 +206,7 @@ local defaults = {
     edgesize            = 2,
     insets              = {l = 4, r = 4, t = 4, b = 4},
     color               = {r = 0, g = 0, b = 0, a = .9},
+    colorauras          = true,
   },
   actionbars = {
     showbg              = true,
