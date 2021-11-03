@@ -1,3 +1,7 @@
 9.1:
 	- Fix arena nameplate number bug causing c stack overflow by accidentaly duplicating hooksecurefunc
 	- Add options to independently color buffs and target auras by spell type 
+
+9.1.5:
+	- Added option to hide group name for raid grops (ie. Group 1, Group 2)
+	- fix texturing for main menu bar / micro bag bar

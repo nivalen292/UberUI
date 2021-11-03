@@ -105,9 +105,22 @@ function RaidColor(color)
 	else
 		color = uuidb.playerframe.color
 	end
+	local showTitle = uuidb.miscframes.raidtitle
 
 	local texture = uuidb.textures.statusbars[uuidb.general.bartexture]
+	if showTitle == false and (IsInRaid() == false and IsInGroup()) then
+		local title = _G["CompactPartyFrameTitle"]
+		if title then
+			CompactPartyFrame.title:Hide()
+		end
+	end
 	for g = 1, NUM_RAID_GROUPS do
+		if showTitle == false then
+			local title = _G["CompactRaidGroup"..g.."Title"]
+			if title then
+				title:Hide()
+			end
+		end
 		local group = _G["CompactRaidGroup"..g.."BorderFrame"]
 		if group then
 			for _, region in pairs({group:GetRegions()}) do
@@ -286,20 +299,20 @@ function misc:TooltipColor(color)
 			shoppingTooltip2:SetBackdropBorderColor(color.r, color.g, color.b, color.a)
 		end
 	end)
-	hooksecurefunc("SharedTooltip_SetBackdropStyle", function(self, style)
-		local _, itemLink = self:GetItem();
-		if itemLink then
-			if C_AzeriteEmpoweredItem.IsAzeriteEmpoweredItemByID(itemLink) or C_AzeriteItem.IsAzeriteItemByID(itemLink) then
-				return
-			end
-		end
-		if uuidb.general.customcolor or uuidb.general.classcolorframes then
-			color = uuidb.general.customcolorval
-		else
-			color = uuidb.playerframe.color
-		end
-		self:SetBackdropBorderColor(color.r, color.g, color.b, color.a)
-	end)
+	-- hooksecurefunc("SharedTooltip_SetBackdropStyle", function(self, style)
+	-- 	local _, itemLink = self:GetItem();
+	-- 	if itemLink then
+	-- 		if C_AzeriteEmpoweredItem.IsAzeriteEmpoweredItemByID(itemLink) or C_AzeriteItem.IsAzeriteItemByID(itemLink) then
+	-- 			return
+	-- 		end
+	-- 	end
+	-- 	if uuidb.general.customcolor or uuidb.general.classcolorframes then
+	-- 		color = uuidb.general.customcolorval
+	-- 	else
+	-- 		color = uuidb.playerframe.color
+	-- 	end
+	-- 	self:SetBackdropBorderColor(color.r, color.g, color.b, color.a)
+	-- end)
 	tthookset = true
 end
 
