@@ -299,20 +299,22 @@ function misc:TooltipColor(color)
 			shoppingTooltip2:SetBackdropBorderColor(color.r, color.g, color.b, color.a)
 		end
 	end)
-	-- hooksecurefunc("SharedTooltip_SetBackdropStyle", function(self, style)
-	-- 	local _, itemLink = self:GetItem();
-	-- 	if itemLink then
-	-- 		if C_AzeriteEmpoweredItem.IsAzeriteEmpoweredItemByID(itemLink) or C_AzeriteItem.IsAzeriteItemByID(itemLink) then
-	-- 			return
-	-- 		end
-	-- 	end
-	-- 	if uuidb.general.customcolor or uuidb.general.classcolorframes then
-	-- 		color = uuidb.general.customcolorval
-	-- 	else
-	-- 		color = uuidb.playerframe.color
-	-- 	end
-	-- 	self:SetBackdropBorderColor(color.r, color.g, color.b, color.a)
-	-- end)
+	hooksecurefunc("SharedTooltip_SetBackdropStyle", function(self, style)
+		local _, itemLink = self:GetItem();
+		if itemLink then
+			if C_AzeriteEmpoweredItem.IsAzeriteEmpoweredItemByID(itemLink) or C_AzeriteItem.IsAzeriteItemByID(itemLink) then
+				return
+			end
+		end
+		if uuidb.general.customcolor or uuidb.general.classcolorframes then
+			color = uuidb.general.customcolorval
+		else
+			color = uuidb.playerframe.color
+		end
+		if self.NineSlice then
+			self.NineSlice:SetBorderColor(color.r, color.g, color.b, color.a)
+		end
+	end)
 	tthookset = true
 end
 

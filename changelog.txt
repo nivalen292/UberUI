@@ -5,3 +5,4 @@
 9.1.5:
 	- Added option to hide group name for raid grops (ie. Group 1, Group 2)
 	- fix texturing for main menu bar / micro bag bar
+	- fix tooltip border coloring with new mixin
