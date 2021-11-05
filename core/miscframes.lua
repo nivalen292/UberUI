@@ -287,18 +287,6 @@ end
 local tthookset = false
 function misc:TooltipColor(color)
 	if tthookset then return end
-	hooksecurefunc("GameTooltip_ShowCompareItem", function(self, anchorFrame)
-		if uuidb.general.customcolor or uuidb.general.classcolorframes then
-			color = uuidb.general.customcolorval
-		else
-			color = uuidb.playerframe.color
-		end
-		if (self) then
-			local shoppingTooltip1, shoppingTooltip2 = unpack(self.shoppingTooltips)
-			shoppingTooltip1:SetBackdropBorderColor(color.r, color.g, color.b, color.a)
-			shoppingTooltip2:SetBackdropBorderColor(color.r, color.g, color.b, color.a)
-		end
-	end)
 	hooksecurefunc("SharedTooltip_SetBackdropStyle", function(self, style)
 		local _, itemLink = self:GetItem();
 		if itemLink then
