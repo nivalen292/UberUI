@@ -6,3 +6,5 @@
 	- Added option to hide group name for raid grops (ie. Group 1, Group 2)
 	- fix texturing for main menu bar / micro bag bar
 	- fix tooltip border coloring with new mixin
+9.1.5.2
+	- Update logic for entering & exiting vehicles to fix bug with Player Frame

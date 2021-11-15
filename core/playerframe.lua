@@ -7,23 +7,25 @@ playerframes:RegisterEvent("PLAYER_LOGIN")
 playerframes:RegisterEvent("PLAYER_ENTERING_WORLD")
 playerframes:RegisterEvent("UNIT_ENTERED_VEHICLE")
 playerframes:RegisterEvent("UNIT_EXITED_VEHICLE")
-playerframes:SetScript("OnEvent", function(self,event)
-if not ((IsAddOnLoaded("EasyFrames")) or (IsAddOnLoaded("Shadowed Unit Frames")) or (IsAddOnLoaded("PitBull Unit Frames 4.0")) or (IsAddOnLoaded("X-Perl UnitFrames"))) then
-end
-if uuidb.general.customcolor or uuidb.general.classcolorframes then
-	playerframes:ReworkAllColor(color)
-end
-player = uuidb.playerframe
+playerframes:SetScript("OnEvent", function(self,event,unitTarget,showVehicleFrame)
+	if not ((IsAddOnLoaded("EasyFrames")) or (IsAddOnLoaded("Shadowed Unit Frames")) or (IsAddOnLoaded("PitBull Unit Frames 4.0")) or (IsAddOnLoaded("X-Perl UnitFrames"))) then
+	end
+	if uuidb.general.customcolor or uuidb.general.classcolorframes then
+		playerframes:ReworkAllColor(color)
+	end
+	player = uuidb.playerframe
 
-if uuidb.playerframe.largehealth then
-	hooksecurefunc("PlayerFrame_ToPlayerArt", uui_playerframes_LargeHealth)
-end
+	if uuidb.playerframe.largehealth then
+		hooksecurefunc("PlayerFrame_ToPlayerArt", uui_playerframes_LargeHealth)
+	end
 
-current_v_state = UnitInVehicle("Player")
-prev_v_state = false
-if current_v_state ~= prev_v_state and uuidb.playerframe.largehealth then
-	uui_playerframes_LargeHealth()
-end
+	if (event == "UNIT_ENTERED_VEHICLE" and unitTarget == "player") then
+		v_frame = showVehicleFrame
+		uui_playerframes_LargeHealth()
+	elseif (event == "UNIT_EXITED_VEHICLE" and unitTarget == "player") then
+		v_frame = false
+		uui_playerframes_LargeHealth()
+	end
 end)
 
 local function MiscFrames(color)
@@ -101,7 +103,7 @@ function uui_playerframes_LargeHealth(color)
 		color = uuidb.playerframe.color
 	end
 
-	if uuidb.playerframe.largehealth and not UnitInVehicle("Player") then
+	if uuidb.playerframe.largehealth and not v_frame then
 		PlayerFrameTexture:SetTexture("Interface\\Addons\\Uber UI\\textures\\target\\targetingframebig")
 		PlayerFrameTexture:SetVertexColor(color.r, color.g, color.b, color.a)
 		PlayerFrameGroupIndicatorText:ClearAllPoints()
@@ -134,7 +136,7 @@ function uui_playerframes_LargeHealth(color)
 		PlayerFrameManaBar.FullPowerFrame.SpikeFrame.BigSpikeGlow:ClearAllPoints()
 		PlayerFrameManaBar.FullPowerFrame.SpikeFrame.BigSpikeGlow:SetPoint("CENTER",PlayerFrameManaBar.FullPowerFrame,"RIGHT",5,-4)
 		PlayerFrameManaBar.FullPowerFrame.SpikeFrame.BigSpikeGlow:SetSize(30, 50)
-	elseif uuidb.playerframe.largehealth and UnitInVehicle("Player") and (PlayerFrame.state == "vehicle" or PlayerFrameTexture:GetTexture() ~= "Interface\\Addons\\Uber UI\\textures\\target\\targetingframebig") then
+	elseif uuidb.playerframe.largehealth and v_frame then
 		PlayerFrameHealthBar:SetHeight(12)
 		PlayerFrameHealthBar.LeftText:ClearAllPoints()
 		PlayerFrameHealthBar.LeftText:SetPoint("LEFT", PlayerFrameHealthBar, "LEFT", 10, 0)
