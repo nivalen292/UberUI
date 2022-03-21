@@ -8,3 +8,6 @@
 	- fix tooltip border coloring with new mixin
 9.1.5.2
 	- Update logic for entering & exiting vehicles to fix bug with Player Frame
+9.2
+	- Update Vehicle passenger frame health text misalignment (ex. Spires of Ascension)
+	- Show name on vehicle frames

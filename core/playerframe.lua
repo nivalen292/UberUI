@@ -19,8 +19,8 @@ playerframes:SetScript("OnEvent", function(self,event,unitTarget,showVehicleFram
 		hooksecurefunc("PlayerFrame_ToPlayerArt", uui_playerframes_LargeHealth)
 	end
 
-	if (event == "UNIT_ENTERED_VEHICLE" and unitTarget == "player") then
-		v_frame = showVehicleFrame
+	if (event == "UNIT_ENTERED_VEHICLE" and unitTarget == "player" and PlayerFrame.state == "vehicle") then
+		v_frame = true
 		uui_playerframes_LargeHealth()
 	elseif (event == "UNIT_EXITED_VEHICLE" and unitTarget == "player") then
 		v_frame = false
@@ -103,7 +103,9 @@ function uui_playerframes_LargeHealth(color)
 		color = uuidb.playerframe.color
 	end
 
+	-- print(v_frame, showVehicleFrame)
 	if uuidb.playerframe.largehealth and not v_frame then
+		playerframes:Name()
 		PlayerFrameTexture:SetTexture("Interface\\Addons\\Uber UI\\textures\\target\\targetingframebig")
 		PlayerFrameTexture:SetVertexColor(color.r, color.g, color.b, color.a)
 		PlayerFrameGroupIndicatorText:ClearAllPoints()
@@ -137,6 +139,7 @@ function uui_playerframes_LargeHealth(color)
 		PlayerFrameManaBar.FullPowerFrame.SpikeFrame.BigSpikeGlow:SetPoint("CENTER",PlayerFrameManaBar.FullPowerFrame,"RIGHT",5,-4)
 		PlayerFrameManaBar.FullPowerFrame.SpikeFrame.BigSpikeGlow:SetSize(30, 50)
 	elseif uuidb.playerframe.largehealth and v_frame then
+		playerframes:Name()
 		PlayerFrameHealthBar:SetHeight(12)
 		PlayerFrameHealthBar.LeftText:ClearAllPoints()
 		PlayerFrameHealthBar.LeftText:SetPoint("LEFT", PlayerFrameHealthBar, "LEFT", 10, 0)
@@ -159,7 +162,9 @@ function uui_playerframes_LargeHealth(color)
 end
 
 function playerframes:Name()
-	if uuidb.playerframe.largehealth then
+	if PlayerFrame.state == "vehicle" then
+		PlayerName:Show()
+	elseif uuidb.playerframe.largehealth then
 		PlayerName:Hide()
 	end
 end
