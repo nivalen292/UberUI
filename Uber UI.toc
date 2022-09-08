@@ -7,15 +7,16 @@
 ## Notes: Darkens the default UI
 ## SavedVariables: UberuiDB
 
-config.lua
-options.lua
+# config.lua
+# options.lua
 
-core\playerframe.lua
-core\targetframe.lua
+# core\playerframe.lua
+# core\targetframe.lua
+# core\minimap.lua
+# core\buffs.lua
+# core\auras.lua
+# core\miscframes.lua
+# core\arenaframes.lua
+# core\general.lua
+# core\actionbars.lua
 core\minimap.lua
-core\buffs.lua
-core\auras.lua
-core\miscframes.lua
-core\arenaframes.lua
-core\general.lua
-core\actionbars.lua
