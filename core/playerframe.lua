@@ -25,6 +25,7 @@ function playerframes:Color()
     PlayerFrame.PlayerFrameContainer.FrameTexture:SetVertexColor(dc.r, dc.g, dc.b, dc.a);
     PlayerCastingBarFrame.Border:SetVertexColor(dc.r, dc.g, dc.b, dc.a);
     PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual.PrestigePortrait:SetVertexColor(dc.r, dc.g, dc.b, dc.a);
+    PetFrameTexture:SetVertexColor(dc.r, dc.g, dc.b, dc.a);
 
     self:ColorTotems();
     self:ColorHolyPower();
@@ -39,6 +40,8 @@ function playerframes:HealthBarColor()
         PlayerFrameHealthBar:SetStatusBarDesaturated(false);
         PlayerFrameHealthBar:SetStatusBarColor(0, 1, 0, 1);
     end
+    PetFrameHealthBar:SetStatusBarDesaturated(false);
+    PetFrameHealthBar:SetStatusBarColor(0, 1, 0, 1);
 end
 
 function playerframes:HealthManaBarTexture()
@@ -51,6 +54,14 @@ function playerframes:HealthManaBarTexture()
             PlayerFrameManaBar:SetStatusBarTexture(texture);
             local pc = PowerBarColor[playerPowerType];
             PlayerFrameManaBar:SetStatusBarColor(pc.r, pc.g, pc.b);
+        end
+
+        PetFrameHealthBar:SetStatusBarTexture(texture);
+        local petPowerType = UnitPowerType("pet");
+        if (petPowerType < 4) then
+            PetFrameManaBar:SetStatusBarTexture(texture);
+            local pc = PowerBarColor[petPowerType];
+            PetFrameManaBar:SetStatusBarColor(pc.r, pc.g, pc.b);
         end
     end
 end
