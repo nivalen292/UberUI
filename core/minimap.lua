@@ -1,16 +1,16 @@
 local addon, ns = ...
 local minimap = {}
 
-minimap = CreateFrame("Frame")
-minimap:RegisterEvent("PLAYER_LOGIN")
+minimap = CreateFrame("frame")
+-- minimap:RegisterEvent("ADDON_LOADED")
+-- minimap:RegisterEvent("PLAYER_LOGIN")
+minimap:RegisterEvent("PLAYER_ENTERING_WORLD")
 minimap:SetScript("OnEvent", function(self, event)
-    if not (IsAddOnLoaded("SexyMap")) then
-    end
-    minimap:Color()
+    self:Color()
 end)
-
-function minimap:Color()
-    MinimapCompassTexture:SetVertexColor(.4, .4, .4, 1)
+function minimap.Color()
+    local dc = uuidb.general.darkencolor
+    MinimapCompassTexture:SetVertexColor(dc.r, dc.g, dc.b, dc.a)
 end
 
 UberUI.minimap = minimap

@@ -1,22 +1,20 @@
-## Interface: 90200
-## Version: 9.2.0.0
+## Interface: 10200
+## Version: 10.0.2.0
 
-## Author: lorti, Uberlicious
+## Author: Uberlicious
 ## Notes: Darkens and modifies original Blizzard UI.
 ## Title: Uber UI
 ## Notes: Darkens the default UI
 ## SavedVariables: UberuiDB
 
-# config.lua
-# options.lua
+config.lua
+options.lua
 
-# core\playerframe.lua
-# core\targetframe.lua
-# core\minimap.lua
-# core\buffs.lua
-# core\auras.lua
-# core\miscframes.lua
-# core\arenaframes.lua
-# core\general.lua
-# core\actionbars.lua
+core\playerframe.lua
+core\targetframe.lua
+core\miscframes.lua
+core\partyframes.lua
+core\arenaframes.lua
+core\actionbars.lua
 core\minimap.lua
+core\buffsandauras.lua
