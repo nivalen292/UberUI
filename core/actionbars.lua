@@ -34,6 +34,7 @@ function actionbars:Color()
 
     for i = 1, 10 do
         _G["StanceButton" .. i .. "NormalTexture"]:SetVertexColor(dc.r, dc.g, dc.b, dc.a);
+        _G["PetActionButton" .. i .. "NormalTexture"]:SetVertexColor(dc.r, dc.g, dc.b, dc.a);
     end
 
     for _, border in pairs({ MainMenuBar.BorderArt:GetRegions() }) do
