@@ -81,8 +81,8 @@ Options:SetScript("OnShow", function(self)
     BarTextures:SetPoint("LEFT", Darkness, "RIGHT", 180, 0)
     BarTextures.text = BarTextures:CreateFontString(nil, nil, "GameFontHighlight")
     BarTextures.text:SetPoint("LEFT", BarTextures, "RIGHT", -15, 24)
-    BarTextures.text:SetText("Bar Textures (requires reload when reverting to Blizzard)")
-    BarTextures.tooltipText = "Changing and reverting to Blizzard requires a reload"
+    BarTextures.text:SetText("Bar Textures (requires reload to correctly hook)")
+    BarTextures.tooltipText = "Requires reload"
     function BarTextures:SetValue(value)
         local texture = value;
         uuidb.general.texture = texture;
