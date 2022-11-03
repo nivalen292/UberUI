@@ -6,8 +6,15 @@
 10.0.2.1:
 - forgotten pet bar coloring
 
-10.0.2.2
+10.0.2.2:
 - update for health bar flashing red when using custom texture
 - re-add some additional options
 - redo entire options menu appearance
 - fix some bugs, probably make more
+
+10.0.2.3:
+- color for bartender action buttons
+- color for player vehicle frame
+
+10.0.2.4:
+- hotfix for focus frame with wrong health bar texture

@@ -124,7 +124,6 @@ function targetframes:HealthManaBarTexture()
         targetFrame.TotalAbsorbBar:SetTexture(texture);
         targetFrame.TotalAbsorbBar:SetVertexColor(.7, .9, .9, 1);
 
-        FocusFrame.TargetFrameContent.TargetFrameContentMain.HealthBar:SetStatusBarTexture(texture);
         FocusFrame.TargetFrameContent.TargetFrameContentMain.MyHealPredictionBar:SetTexture(texture);
         FocusFrame.TargetFrameContent.TargetFrameContentMain.OtherHealPredictionBar:SetTexture(texture);
         FocusFrame.TargetFrameContent.TargetFrameContentMain.TotalAbsorbBar:SetTexture(texture);

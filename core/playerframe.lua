@@ -30,6 +30,7 @@ end)
 function playerframes:Color()
     local dc = uuidb.general.darkencolor;
     PlayerFrame.PlayerFrameContainer.FrameTexture:SetVertexColor(dc.r, dc.g, dc.b, dc.a);
+    PlayerFrame.PlayerFrameContainer.VehicleFrameTexture:SetVertexColor(dc.r, dc.g, dc.b, dc.a);
     PlayerCastingBarFrame.Border:SetVertexColor(dc.r, dc.g, dc.b, dc.a);
     PetFrameTexture:SetVertexColor(dc.r, dc.g, dc.b, dc.a);
 

@@ -14,12 +14,31 @@ local bartender4 = IsAddOnLoaded("Bartender4")
 
 local actionbars = CreateFrame("frame")
 actionbars:RegisterEvent("ADDON_LOADED")
+actionbars:RegisterEvent("PLAYER_ENTERING_WORLD")
 actionbars:SetScript("OnEvent", function(self, event)
     self:Color();
 end)
 
 function actionbars:Color()
     local dc = uuidb.general.darkencolor;
+
+    --bartender4 styling
+    if bartender4 then
+        --print("Bartender4 found")
+        for i = 1, 120 do
+            if (_G["BT4Button" .. i]) then
+                _G["BT4Button" .. i .. "NormalTexture"]:SetVertexColor(dc.r, dc.g, dc.b, dc.a);
+            end
+            if (_G["BT4PetButton" .. i]) then
+                _G["BT4PetButton" .. i .. "NormalTexture"]:SetVertexColor(dc.r, dc.g, dc.b, dc.a);
+            end
+
+            if (_G["BT4StanceButton" .. i]) then
+                _G["BT4StanceButton" .. i .. "NormalTexture"]:SetVertexColor(dc.r, dc.g, dc.b, dc.a);
+            end
+        end
+    end
+
     for i = 1, 12 do
         _G["ActionButton" .. i .. "NormalTexture"]:SetVertexColor(dc.r, dc.g, dc.b, dc.a);
         _G["ActionButton" .. i].RightDivider:SetVertexColor(dc.r, dc.g, dc.b, dc.a);
