@@ -4,6 +4,7 @@ local playerframes = {}
 local class = UnitClass("player")
 local classcolor = RAID_CLASS_COLORS[select(2, UnitClass("player"))]
 local defaultTex = PlayerFrameHealthBar:GetStatusBarTexture()
+local pvphook = false;
 
 playerframes = CreateFrame("frame")
 playerframes:RegisterEvent("ADDON_LOADED")
@@ -18,18 +19,25 @@ playerframes:SetScript("OnEvent", function(self)
     playerframes:Color();
     playerframes:HealthBarColor();
     playerframes:HealthManaBarTexture();
+    if (not pvphook) then
+        pvphook = true;
+        hooksecurefunc("PlayerFrame_UpdatePvPStatus", function(self)
+            playerframes:PvPIcon();
+        end);
+    end
 end)
 
 function playerframes:Color()
     local dc = uuidb.general.darkencolor;
     PlayerFrame.PlayerFrameContainer.FrameTexture:SetVertexColor(dc.r, dc.g, dc.b, dc.a);
     PlayerCastingBarFrame.Border:SetVertexColor(dc.r, dc.g, dc.b, dc.a);
-    PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual.PrestigePortrait:SetVertexColor(dc.r, dc.g, dc.b, dc.a);
     PetFrameTexture:SetVertexColor(dc.r, dc.g, dc.b, dc.a);
 
     self:ColorTotems();
     self:ColorHolyPower();
     self:ColorComboPoints();
+    self:ColorAlternateMana();
+    self:PvPIcon();
 end
 
 function playerframes:HealthBarColor()
@@ -45,9 +53,16 @@ function playerframes:HealthBarColor()
 end
 
 function playerframes:HealthManaBarTexture()
+    local playerFrame = PlayerFrame.PlayerFrameContent.PlayerFrameContentMain;
     if (uuidb.general.texture ~= "Blizzard") then
         local texture = uuidb.statusbars[uuidb.general.texture];
         PlayerFrameHealthBar:SetStatusBarTexture(texture);
+        playerFrame.HealAbsorbBar:SetTexture(texture);
+        playerFrame.MyHealPredictionBar:SetTexture(texture);
+        playerFrame.OtherHealPredictionBar:SetTexture(texture);
+        playerFrame.TotalAbsorbBar:SetTexture(texture);
+        playerFrame.TotalAbsorbBar:SetVertexColor(.7, .9, .9, 1);
+        PlayerFrameHealthBar.AnimatedLossBar:SetStatusBarTexture(texture);
 
         local playerPowerType = UnitPowerType("player");
         if (playerPowerType < 4) then
@@ -55,6 +70,7 @@ function playerframes:HealthManaBarTexture()
             local pc = PowerBarColor[playerPowerType];
             PlayerFrameManaBar:SetStatusBarColor(pc.r, pc.g, pc.b);
         end
+        PlayerFrameHealthBar.styled = true;
 
         PetFrameHealthBar:SetStatusBarTexture(texture);
         local petPowerType = UnitPowerType("pet");
@@ -63,6 +79,33 @@ function playerframes:HealthManaBarTexture()
             local pc = PowerBarColor[petPowerType];
             PetFrameManaBar:SetStatusBarColor(pc.r, pc.g, pc.b);
         end
+    else
+        local texture = uuidb.statusbars.Minimalist;
+        playerFrame.HealAbsorbBar:SetTexture(texture);
+        playerFrame.MyHealPredictionBar:SetTexture(texture);
+        playerFrame.OtherHealPredictionBar:SetTexture(texture);
+        playerFrame.TotalAbsorbBar:SetTexture(texture);
+        playerFrame.TotalAbsorbBar:SetVertexColor(.7, .9, .9, 1);
+    end
+end
+
+function playerframes:PvPIcon(unhide)
+    local pvpIcon = PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual.PVPIcon;
+    local prestigePortrait = PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual.PrestigePortrait;
+    local prestigeBadge = PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual.PrestigeBadge;
+    local dc = uuidb.general.darkencolor;
+    if (uuidb.general.hidehonor) then
+        prestigePortrait:Hide();
+        prestigeBadge:Hide();
+        pvpIcon:Hide();
+    else
+        prestigePortrait:SetVertexColor(dc.r, dc.g, dc.b, dc.a)
+    end
+
+    if (unhide and UnitIsPVP("player")) then
+        prestigePortrait:Show();
+        prestigeBadge:Show();
+        pvpIcon:Show();
     end
 end
 
@@ -78,6 +121,13 @@ function playerframes:ColorTotems()
             end
         end
     end
+end
+
+function playerframes:ColorAlternateMana()
+    local dc = uuidb.general.darkencolor;
+    PlayerFrameAlternateManaBarBorder:SetVertexColor(dc.r, dc.g, dc.b, dc.a);
+    PlayerFrameAlternateManaBarLeftBorder:SetVertexColor(dc.r, dc.g, dc.b, dc.a);
+    PlayerFrameAlternateManaBarRightBorder:SetVertexColor(dc.r, dc.g, dc.b, dc.a);
 end
 
 function playerframes:ColorHolyPower()

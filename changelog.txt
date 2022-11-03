@@ -1,4 +1,13 @@
-10.0:
+10.0.2.0:
 - update frames to be dark
 - trim the fat
 - everything has changed, expect bugs
+
+10.0.2.1:
+- forgotten pet bar coloring
+
+10.0.2.2
+- update for health bar flashing red when using custom texture
+- re-add some additional options
+- redo entire options menu appearance
+- fix some bugs, probably make more

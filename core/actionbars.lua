@@ -30,11 +30,66 @@ function actionbars:Color()
         _G["MultiBar5Button" .. i .. "NormalTexture"]:SetVertexColor(dc.r, dc.g, dc.b, dc.a);
         _G["MultiBar6Button" .. i .. "NormalTexture"]:SetVertexColor(dc.r, dc.g, dc.b, dc.a);
         _G["MultiBar7Button" .. i .. "NormalTexture"]:SetVertexColor(dc.r, dc.g, dc.b, dc.a);
-    end
+        if (i < 11) then
+            _G["StanceButton" .. i .. "NormalTexture"]:SetVertexColor(dc.r, dc.g, dc.b, dc.a);
+            _G["PetActionButton" .. i .. "NormalTexture"]:SetVertexColor(dc.r, dc.g, dc.b, dc.a);
+        end
 
-    for i = 1, 10 do
-        _G["StanceButton" .. i .. "NormalTexture"]:SetVertexColor(dc.r, dc.g, dc.b, dc.a);
-        _G["PetActionButton" .. i .. "NormalTexture"]:SetVertexColor(dc.r, dc.g, dc.b, dc.a);
+        if (uuidb.general.hidehotkeys) then
+            _G["ActionButton" .. i .. "HotKey"]:Hide();
+            _G["MultiBarBottomLeftButton" .. i .. "HotKey"]:Hide();
+            _G["MultiBarBottomRightButton" .. i .. "HotKey"]:Hide();
+            _G["MultiBarRightButton" .. i .. "HotKey"]:Hide();
+            _G["MultiBarLeftButton" .. i .. "HotKey"]:Hide();
+            _G["MultiBar5Button" .. i .. "HotKey"]:Hide();
+            _G["MultiBar6Button" .. i .. "HotKey"]:Hide();
+            _G["MultiBar7Button" .. i .. "HotKey"]:Hide();
+            if (i < 11) then
+                _G["StanceButton" .. i .. "HotKey"]:Hide();
+                _G["PetActionButton" .. i .. "HotKey"]:Hide();
+            end
+        else
+            _G["ActionButton" .. i .. "HotKey"]:Show();
+            _G["MultiBarBottomLeftButton" .. i .. "HotKey"]:Show();
+            _G["MultiBarBottomRightButton" .. i .. "HotKey"]:Show();
+            _G["MultiBarRightButton" .. i .. "HotKey"]:Show();
+            _G["MultiBarLeftButton" .. i .. "HotKey"]:Show();
+            _G["MultiBar5Button" .. i .. "HotKey"]:Show();
+            _G["MultiBar6Button" .. i .. "HotKey"]:Show();
+            _G["MultiBar7Button" .. i .. "HotKey"]:Show();
+            if (i < 11) then
+                _G["StanceButton" .. i .. "HotKey"]:Show();
+                _G["PetActionButton" .. i .. "HotKey"]:Show();
+            end
+        end
+
+        if (uuidb.general.hidemacros) then
+            _G["ActionButton" .. i .. "Name"]:Hide();
+            _G["MultiBarBottomLeftButton" .. i .. "Name"]:Hide();
+            _G["MultiBarBottomRightButton" .. i .. "Name"]:Hide();
+            _G["MultiBarRightButton" .. i .. "Name"]:Hide();
+            _G["MultiBarLeftButton" .. i .. "Name"]:Hide();
+            _G["MultiBar5Button" .. i .. "Name"]:Hide();
+            _G["MultiBar6Button" .. i .. "Name"]:Hide();
+            _G["MultiBar7Button" .. i .. "Name"]:Hide();
+            if (i < 11) then
+                _G["StanceButton" .. i .. "Name"]:Hide();
+                _G["PetActionButton" .. i .. "Name"]:Hide();
+            end
+        else
+            _G["ActionButton" .. i .. "Name"]:Show();
+            _G["MultiBarBottomLeftButton" .. i .. "Name"]:Show();
+            _G["MultiBarBottomRightButton" .. i .. "Name"]:Show();
+            _G["MultiBarRightButton" .. i .. "Name"]:Show();
+            _G["MultiBarLeftButton" .. i .. "Name"]:Show();
+            _G["MultiBar5Button" .. i .. "Name"]:Show();
+            _G["MultiBar6Button" .. i .. "Name"]:Show();
+            _G["MultiBar7Button" .. i .. "Name"]:Show();
+            if (i < 11) then
+                _G["StanceButton" .. i .. "Name"]:Show();
+                _G["PetActionButton" .. i .. "Name"]:Show();
+            end
+        end
     end
 
     for _, border in pairs({ MainMenuBar.BorderArt:GetRegions() }) do

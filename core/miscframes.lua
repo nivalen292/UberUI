@@ -29,6 +29,7 @@ function misc:NameplateTexture()
             frame.otherHealPrediction:SetTexture(texture);
             frame.totalAbsorb:SetTexture(texture);
             frame.totalAbsorb:SetVertexColor(.6, .9, .9, 1);
+            frame.selectionHighlight:SetAlpha(0);
         end
     end)
     ClassNameplateManaBarFrame:SetStatusBarTexture(texture);

@@ -15,6 +15,7 @@ targetframes:SetScript("OnEvent", function(self, event)
     targetframes:Color();
     targetframes:HealthBarColor();
     targetframes:HealthManaBarTexture();
+    targetframes:PvPIcon();
 end)
 
 function targetframes:Color()
@@ -26,7 +27,13 @@ function targetframes:Color()
     FocusFrameSpellBar.Border:SetVertexColor(dc.r, dc.g, dc.b, dc.a);
 
     TargetFrameToT.FrameTexture:SetVertexColor(dc.r, dc.g, dc.b, dc.a);
-    TargetFrame.TargetFrameContent.TargetFrameContentContextual.PrestigePortrait:SetVertexColor(dc.r, dc.g, dc.b, dc.a);
+    FocusFrameToT.FrameTexture:SetVertexColor(dc.r, dc.g, dc.b, dc.a);
+
+    if (uuidb.general.hiderepcolor) then
+        TargetFrame.TargetFrameContent.TargetFrameContentMain.ReputationColor:Hide();
+    else
+        TargetFrame.TargetFrameContent.TargetFrameContentMain.ReputationColor:Show();
+    end
 end
 
 function targetframes:HealthBarColor()
@@ -61,11 +68,24 @@ function targetframes:HealthBarColor()
 end
 
 function targetframes:HealthManaBarTexture()
+    local targetFrame = TargetFrame.TargetFrameContent.TargetFrameContentMain;
     if (uuidb.general.texture ~= "Blizzard") then
         local texture = uuidb.statusbars[uuidb.general.texture];
         TargetFrame.TargetFrameContent.TargetFrameContentMain.HealthBar:SetStatusBarTexture(texture);
+        targetFrame.MyHealPredictionBar:SetTexture(texture);
+        targetFrame.OtherHealPredictionBar:SetTexture(texture);
+        targetFrame.TotalAbsorbBar:SetTexture(texture);
+        targetFrame.TotalAbsorbBar:SetVertexColor(.7, .9, .9, 1);
+
         FocusFrame.TargetFrameContent.TargetFrameContentMain.HealthBar:SetStatusBarTexture(texture);
+        FocusFrame.TargetFrameContent.TargetFrameContentMain.MyHealPredictionBar:SetTexture(texture);
+        FocusFrame.TargetFrameContent.TargetFrameContentMain.OtherHealPredictionBar:SetTexture(texture);
+        FocusFrame.TargetFrameContent.TargetFrameContentMain.TotalAbsorbBar:SetTexture(texture);
+        FocusFrame.TargetFrameContent.TargetFrameContentMain.TotalAbsorbBar:SetVertexColor(.6, .9, .9, 1);
+
         TargetFrameToT.HealthBar:SetStatusBarTexture(texture);
+
+        FocusFrameToT.HealthBar:SetStatusBarTexture(texture);
 
         -- Color bar accordingly
         -- https://wowpedia.fandom.com/wiki/API_UnitPowerDisplayMod
@@ -89,6 +109,46 @@ function targetframes:HealthManaBarTexture()
             local pc = PowerBarColor[totPowerType];
             TargetFrameToT.ManaBar:SetStatusBarColor(pc.r, pc.g, pc.b);
         end
+
+        local focusTotPowerType = UnitPowerType("focustarget");
+        if (focusTotPowerType < 4) then
+            FocusFrameToT.ManaBar:SetStatusBarTexture(texture);
+            local pc = PowerBarColor[focusTotPowerType];
+            FocusFrameToT.ManaBar:SetStatusBarColor(pc.r, pc.g, pc.b);
+        end
+    else
+        local texture = uuidb.statusbars.Minimalist;
+        targetFrame.HealAbsorbBar:SetTexture(texture);
+        targetFrame.MyHealPredictionBar:SetTexture(texture);
+        targetFrame.OtherHealPredictionBar:SetTexture(texture);
+        targetFrame.TotalAbsorbBar:SetTexture(texture);
+        targetFrame.TotalAbsorbBar:SetVertexColor(.7, .9, .9, 1);
+
+        FocusFrame.TargetFrameContent.TargetFrameContentMain.HealthBar:SetStatusBarTexture(texture);
+        FocusFrame.TargetFrameContent.TargetFrameContentMain.MyHealPredictionBar:SetTexture(texture);
+        FocusFrame.TargetFrameContent.TargetFrameContentMain.OtherHealPredictionBar:SetTexture(texture);
+        FocusFrame.TargetFrameContent.TargetFrameContentMain.TotalAbsorbBar:SetTexture(texture);
+        FocusFrame.TargetFrameContent.TargetFrameContentMain.TotalAbsorbBar:SetVertexColor(.6, .9, .9, 1);
+    end
+end
+
+function targetframes:PvPIcon(unhide)
+    local pvpIcon = TargetFrame.TargetFrameContent.TargetFrameContentContextual.PvpIcon;
+    local prestigePortrait = TargetFrame.TargetFrameContent.TargetFrameContentContextual.PrestigePortrait;
+    local prestigeBadge = TargetFrame.TargetFrameContent.TargetFrameContentContextual.PrestigeBadge;
+    local dc = uuidb.general.darkencolor;
+    if (uuidb.general.hidehonor) then
+        prestigePortrait:Hide();
+        prestigeBadge:Hide();
+        pvpIcon:Hide();
+    else
+        prestigePortrait:SetVertexColor(dc.r, dc.g, dc.b, dc.a);
+    end
+
+    if (unhide and UnitIsPVP("target")) then
+        prestigePortrait:Show();
+        prestigeBadge:Show();
+        pvpIcon:Show();
     end
 end
 
