@@ -9,7 +9,6 @@
 local addon, ns = ...
 UberUI = {}
 uuidb = {}
-local config = {};
 
 local classcolor = RAID_CLASS_COLORS[select(2, UnitClass("player"))]
 -----------------------------
@@ -17,11 +16,20 @@ local classcolor = RAID_CLASS_COLORS[select(2, UnitClass("player"))]
 -----------------------------
 
 --generate a holder for the config data
-local UberUI = CreateFrame("Frame")
-UberUI:SetScript("OnEvent", function(self, event, ...) return self[event] and self[event](self, ...) end)
+UberUI = CreateFrame("Frame")
+UberUI:RegisterEvent("VARIABLES_LOADED")
 UberUI:RegisterEvent("ADDON_LOADED")
 UberUI:RegisterEvent("PLAYER_LOGIN")
 UberUI:RegisterEvent("PLAYER_LOGOUT")
+UberUI:SetScript("OnEvent", function(self, event)
+    if (event == "ADDON_LOADED" or event == "VARIABLES_LOADED") then
+        self:Init();
+    end
+
+    if (event == "PLAYER_LOGOUT") then
+        self:Save();
+    end
+end)
 
 local defaults = {
     statusbars = {
@@ -42,20 +50,45 @@ local defaults = {
         Flat        = "Interface\\AddOns\\Uber UI\\textures\\statusbars\\flat",
     },
     general = {
-        classcolorhealth = true;
-        darkencolor      = { r = .4, g = .4, b = .4, a = 1 };
-        texture          = "Blizzard";
-        arenanumbers     = true;
-        hidearenaframes  = false;
-        border           = "Interface\\AddOns\\Uber UI\\textures\\border";
-        hidehotkeys      = false;
-        hidemacros       = false;
-        hidehonor        = false;
-        hiderepcolor     = true;
-    }
+        classcolorhealth   = true;
+        darkencolor        = { r = .4, g = .4, b = .4, a = 1 };
+        texture            = "Blizzard";
+        arenanumbers       = true;
+        hidearenaframes    = false;
+        border             = "Interface\\AddOns\\Uber UI\\textures\\border";
+        hidehotkeys        = false;
+        hidemacros         = false;
+        hidehonor          = false;
+        hiderepcolor       = true;
+        hostilitycolor     = true;
+        ccpersonalresource = true;
+        hidenameplateglow  = false;
+    },
+    playerframes = {
+        classcolor = true,
+    },
+    targetframes = {
+        classcolorenemy = true,
+        classcolorfriendly = true,
+    },
+    focusframes = {
+        classcolorenemy = true,
+        classcolorfriendly = true,
+    },
+    arenaframes = {
+        hideframes = false,
+        classcolor = true,
+    },
+    partyframes = {
+        classcolor = true,
+    },
 }
 
-function UberUI:ADDON_LOADED()
+function UberUI:GetDefaults()
+    return defaults;
+end
+
+function UberUI:Init()
     local function initDB(def, tbl, saved)
         if type(def) ~= "table" then return {} end
         if type(tbl) ~= "table" then tbl = {} end
@@ -75,7 +108,7 @@ function UberUI:ADDON_LOADED()
     uuidb = initDB(defaults, uuidb, UberuiDB)
 end
 
-function UberUI:PLAYER_LOGOUT()
+function UberUI:Save()
     local function updateSave(def, tbl, saved)
         if type(def) ~= "table" then return {} end
         if type(tbl) ~= "table" then tbl = {} end
@@ -109,19 +142,3 @@ function UberUI:PLAYER_LOGOUT()
 
     UberuiDB = cleanupSave(UberuiDB)
 end
-
------------------------------
--- SLASH COMMAND
------------------------------
-
-SlashCmdList.UBERUI = function(msg)
-    msg = msg:lower()
-    if msg == "options" then
-        uuiopt:ShowOptions()
-    else
-        InterfaceOptionsFrame_OpenToCategory(addon)
-        InterfaceOptionsFrame_OpenToCategory(addon)
-    end
-end
-SLASH_UBERUI1 = "/uui"
-Slash_UBERUI2 = "/uberui"

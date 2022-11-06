@@ -19,12 +19,6 @@ playerframes:SetScript("OnEvent", function(self)
     playerframes:Color();
     playerframes:HealthBarColor();
     playerframes:HealthManaBarTexture();
-    if (not pvphook) then
-        pvphook = true;
-        hooksecurefunc("PlayerFrame_UpdatePvPStatus", function(self)
-            playerframes:PvPIcon();
-        end);
-    end
 end)
 
 function playerframes:Color()
@@ -42,7 +36,7 @@ function playerframes:Color()
 end
 
 function playerframes:HealthBarColor()
-    if uuidb.general.classcolorhealth then
+    if uuidb.playerframes.classcolor then
         PlayerFrameHealthBar:SetStatusBarDesaturated(true);
         PlayerFrameHealthBar:SetStatusBarColor(classcolor.r, classcolor.g, classcolor.b, classcolor.a);
     else
@@ -53,9 +47,9 @@ function playerframes:HealthBarColor()
     PetFrameHealthBar:SetStatusBarColor(0, 1, 0, 1);
 end
 
-function playerframes:HealthManaBarTexture()
+function playerframes:HealthManaBarTexture(force)
     local playerFrame = PlayerFrame.PlayerFrameContent.PlayerFrameContentMain;
-    if (uuidb.general.texture ~= "Blizzard") then
+    if (uuidb.general.texture ~= "Blizzard" or force) then
         local texture = uuidb.statusbars[uuidb.general.texture];
         PlayerFrameHealthBar:SetStatusBarTexture(texture);
         playerFrame.HealAbsorbBar:SetTexture(texture);
@@ -80,6 +74,7 @@ function playerframes:HealthManaBarTexture()
             local pc = PowerBarColor[petPowerType];
             PetFrameManaBar:SetStatusBarColor(pc.r, pc.g, pc.b);
         end
+    elseif (true) then
     else
         local texture = uuidb.statusbars.Minimalist;
         playerFrame.HealAbsorbBar:SetTexture(texture);
@@ -90,24 +85,8 @@ function playerframes:HealthManaBarTexture()
     end
 end
 
-function playerframes:PvPIcon(unhide)
-    local pvpIcon = PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual.PVPIcon;
-    local prestigePortrait = PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual.PrestigePortrait;
-    local prestigeBadge = PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual.PrestigeBadge;
-    local dc = uuidb.general.darkencolor;
-    if (uuidb.general.hidehonor) then
-        prestigePortrait:Hide();
-        prestigeBadge:Hide();
-        pvpIcon:Hide();
-    else
-        prestigePortrait:SetVertexColor(dc.r, dc.g, dc.b, dc.a)
-    end
-
-    if (unhide and UnitIsPVP("player")) then
-        prestigePortrait:Show();
-        prestigeBadge:Show();
-        pvpIcon:Show();
-    end
+function playerframes:PvPIcon()
+    UberUI.general:PvPIcon(PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual);
 end
 
 function playerframes:ColorTotems()

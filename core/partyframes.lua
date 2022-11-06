@@ -24,16 +24,15 @@ function partyframes:Color()
 end
 
 function partyframes:HealthBarColor()
-    if (uuidb.general.classcolorhealth) then
-        for _, p in pairs({ PartyFrame:GetChildren() }) do
-            if (p.HealthBar ~= nil) then
-                local idx = p.unit;
-                if (UnitIsConnected(idx)) then
-                    local classColor = RAID_CLASS_COLORS[select(2, UnitClass(idx))];
-                    if (classColor ~= nil) then
-                        p.HealthBar:SetStatusBarDesaturated(true);
-                        p.HealthBar:SetStatusBarColor(classColor.r, classColor.g, classColor.b, classColor.a);
-                    end
+    if (not uuidb.partyframes.classcolor) then return end
+    for _, p in pairs({ PartyFrame:GetChildren() }) do
+        if (p.HealthBar ~= nil) then
+            local idx = p.unit;
+            if (UnitIsConnected(idx)) then
+                local classColor = RAID_CLASS_COLORS[select(2, UnitClass(idx))];
+                if (classColor ~= nil) then
+                    p.HealthBar:SetStatusBarDesaturated(true);
+                    p.HealthBar:SetStatusBarColor(classColor.r, classColor.g, classColor.b, classColor.a);
                 end
             end
         end

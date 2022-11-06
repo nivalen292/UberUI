@@ -8,10 +8,14 @@
 ## SavedVariables: UberuiDB
 
 config.lua
+customsetting.xml
+customsetting.lua
 options.lua
 
+core\generalfunctions.lua
 core\playerframe.lua
 core\targetframe.lua
+core\focusframe.lua
 core\miscframes.lua
 core\partyframes.lua
 core\arenaframes.lua

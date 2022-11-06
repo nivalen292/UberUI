@@ -17,4 +17,9 @@
 - color for player vehicle frame
 
 10.0.2.4:
-- hotfix for focus frame with wrong health bar texture
+- hotfix for focus frame with wrong health bar texture when using blizzard textures
+
+10.0.2.5:
+- fix options menu items that were deprecated
+- add options for hostility (green, red, yellow) color
+- add options to individually select which frames get colored

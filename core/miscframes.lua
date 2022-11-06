@@ -22,6 +22,11 @@ function misc:NameplateTexture()
         if not frame:IsForbidden() and frame.healthBar ~= nil and
             not
             (frame:GetName() ~= nil and (frame:GetName():find("CompactRaid") or frame:GetName():find("CompactParty"))) then
+            local player = UnitIsUnit(frame.unit, "player");
+            if (player and uuidb.general.ccpersonalresource) then
+                local classColor = RAID_CLASS_COLORS[select(2, UnitClass("player"))];
+                frame.healthBar:SetStatusBarColor(classColor.r, classColor.g, classColor.b);
+            end
             local texture = uuidb.statusbars[uuidb.general.texture];
             frame.healthBar:SetStatusBarTexture(texture);
             frame.healthBar:SetStatusBarDesaturated(true);
@@ -29,11 +34,13 @@ function misc:NameplateTexture()
             frame.otherHealPrediction:SetTexture(texture);
             frame.totalAbsorb:SetTexture(texture);
             frame.totalAbsorb:SetVertexColor(.6, .9, .9, 1);
-            frame.selectionHighlight:SetAlpha(0);
+            if (uuidb.general.hidenameplateglow) then
+                frame.selectionHighlight:SetAlpha(0);
+            else
+                frame.selectionHighlight:SetAlpha(.2);
+            end
         end
     end)
-    ClassNameplateManaBarFrame:SetStatusBarTexture(texture);
-    ClassNameplateManaBarFrame:SetStatusBarDesaturated(true);
     nthook = true
 end
 
@@ -52,6 +59,7 @@ function misc:AllFramesColor()
     self:EndCaps();
     UberUI.playerframes:Color();
     UberUI.targetframes:Color();
+    UberUI.focusframes:Color();
     UberUI.minimap:Color();
     UberUI.actionbars:Color();
 end
@@ -59,11 +67,15 @@ end
 function misc:AllFramesHealthColor()
     UberUI.playerframes:HealthBarColor();
     UberUI.targetframes:HealthBarColor();
+    UberUI.focusframes:HealthBarColor();
+    UberUI.partyframes:HealthBarColor();
+    UberUI.arenaframes:LoopFrames();
 end
 
 function misc:AllFramesHealthManaTexture()
     UberUI.playerframes:HealthManaBarTexture();
     UberUI.targetframes:HealthManaBarTexture();
+    UberUI.focusframes:HealthManaBarTexture();
     UberUI.partyframes:HealthManaBarTexture();
 end
 
