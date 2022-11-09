@@ -74,9 +74,8 @@ function playerframes:HealthManaBarTexture(force)
             local pc = PowerBarColor[petPowerType];
             PetFrameManaBar:SetStatusBarColor(pc.r, pc.g, pc.b);
         end
-    elseif (true) then
-    else
-        local texture = uuidb.statusbars.Minimalist;
+    elseif (uuidb.general.secondarybartextures) then
+        local texture = uuidb.statusbars[uuidb.general.secondarybartexture];
         playerFrame.HealAbsorbBar:SetTexture(texture);
         playerFrame.MyHealPredictionBar:SetTexture(texture);
         playerFrame.OtherHealPredictionBar:SetTexture(texture);

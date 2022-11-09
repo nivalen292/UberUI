@@ -57,6 +57,7 @@ local function GetOptions()
     local container = Settings.CreateControlTextContainer();
     local c = 0;
     for bar in pairs(UberUI:GetDefaults().statusbars) do
+        bar = gsub(bar, "_", " ");
         container:Add(bar, bar);
         c = c + 1;
     end
@@ -66,13 +67,14 @@ end
 local defaultValue = "Blizzard";
 local function getValue()
     if (uuidb.general) then
-        return uuidb.general.texture;
+        return gsub(uuidb.general.texture, "_", " ");
     else
         return defaultValue;
     end
 end
 
 local function setValue(self, value)
+    value = gsub(value, " ", "_");
     uuidb.general.texture = value;
     UberUI.misc:AllFramesHealthManaTexture();
     UberUI.playerframes:HealthManaBarTexture(true);
@@ -81,6 +83,63 @@ end
 local setting = Settings.RegisterAddOnSetting(category, name, variable, Settings.VarType.Number, defaultValue)
 setting.GetValue, setting.SetValue, setting.Commit = getValue, setValue, commitValue;
 Settings.CreateDropDown(category, setting, GetOptions, tooltip);
+
+-- Secondary Bar Textures
+local cbvariable, cbname = "SecondaryBarTextures", "Secondary Bar Textures";
+local cbtooltip = "Enable changing secondary bar textures independently ex. AbsorbBar, HealingPredictionBar\n\n|cffff0000Requires reload to properly attach \n\nBlizzard option is not accurate until reload"
+-- checkbox
+local defaultValue = true;
+local function cbgetValue()
+    if (uuidb.general) then
+        return uuidb.general.secondarybartextures;
+    else
+        return defaultValue;
+    end
+end
+
+local function cbsetValue(self, value)
+    uuidb.general.secondarybartextures = value;
+end
+
+local cbsetting = Settings.RegisterAddOnSetting(category, name, variable, Settings.VarType.Boolean, defaultValue)
+cbsetting.GetValue, cbsetting.SetValue, cbsetting.Commit = cbgetValue, cbsetValue, commitValue;
+-- drop down
+local ddvariable, ddname = "SecondaryTexture", "Secondary Bar Texture";
+local ddtooltip = "Set your desired status bar texture for secondary bars\n\n|cffff0000Requires reload to properly attach \n\nBlizzard option is not accurate until reload";
+local function ddGetOptions()
+    local ddcontainer = Settings.CreateControlTextContainer();
+    local c = 0;
+    for bar in pairs(UberUI:GetDefaults().statusbars) do
+        container:Add(bar, bar);
+        c = c + 1;
+    end
+    return container:GetData();
+end
+
+local dddefaultValue = "Blizzard";
+local function ddgetValue()
+    if (uuidb.general) then
+        return gsub(uuidb.general.secondarybartexture, "_", " ");
+    else
+        return defaultValue;
+    end
+end
+
+local function ddsetValue(self, value)
+    value = gsub(value, " ", "_");
+    uuidb.general.secondarybartexture = value;
+    UberUI.misc:AllFramesHealthManaTexture();
+end
+
+local ddsetting = Settings.RegisterAddOnSetting(category, ddname, ddvariable, Settings.VarType.Number, dddefaultValue)
+ddsetting.GetValue, ddsetting.SetValue, ddsetting.Commit = ddgetValue, ddsetValue, commitValue;
+
+--Settings.CreateCheckBox(category, setting, tooltip);
+local cbdd = CreateSettingsCheckBoxDropDownInitializer(cbsetting, cbname, cbtooltip, ddsetting, GetOptions,
+    ddname, ddtooltip)
+layout:AddInitializer(cbdd);
+
+
 
 -- Arena Nameplate Numbers
 local variable, name = "ArenaNameplateNumbers", "Arena Nameplate Numbers";

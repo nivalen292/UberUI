@@ -1,5 +1,6 @@
 local addon, ns = ...
 
+--SettingsCheckBoxMixin = CreateFromMixins(CallbackRegistryMixin, DefaultTooltipMixin);
 SettingsButtonWithButtonControlMixin = CreateFromMixins(SettingsListElementMixin);
 function SettingsButtonWithButtonControlMixin:OnLoad()
     SettingsListElementMixin.OnLoad(self);
@@ -23,11 +24,14 @@ function SettingsButtonWithButtonControlMixin:Init(initializer)
         self.Button1:SetPoint("LEFT", self, "CENTER", -80, 0);
         self.Tooltip:Show();
     end
+    ---@diagnostic disable-next-line: param-type-mismatch
     self.Button2:SetPoint("LEFT", self.Button1, "RIGHT", 5, 0);
 end
 
 function SettingsButtonWithButtonControlMixin:Release()
+    ---@diagnostic disable-next-line: param-type-mismatch
     self.Button1:SetScript("OnClick", nil);
+    ---@diagnostic disable-next-line: param-type-mismatch
     self.Button2:SetScript("OnClick", nil);
     SettingsListElementMixin.Release(self);
 end

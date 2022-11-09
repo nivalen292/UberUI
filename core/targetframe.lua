@@ -65,8 +65,8 @@ function targetframes:HealthManaBarTexture()
             local pc = PowerBarColor[totPowerType];
             TargetFrameToT.ManaBar:SetStatusBarColor(pc.r, pc.g, pc.b);
         end
-    else
-        local texture = uuidb.statusbars.Minimalist;
+    elseif (uuidb.general.secondarybartextures) then
+        local texture = uuidb.statusbars[uuidb.general.secondarybartexture];
         targetFrame.HealAbsorbBar:SetTexture(texture);
         targetFrame.MyHealPredictionBar:SetTexture(texture);
         targetFrame.OtherHealPredictionBar:SetTexture(texture);

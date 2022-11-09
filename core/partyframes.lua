@@ -40,22 +40,30 @@ function partyframes:HealthBarColor()
 end
 
 function partyframes:HealthManaBarTexture()
-    if (uuidb.general.texture ~= "Blizzard") then
-        for _, p in pairs({ PartyFrame:GetChildren() }) do
-            if (p.HealthBar ~= nil) then
-                local idx = p.unit;
-                if (UnitIsConnected(idx)) then
-                    local classColor = RAID_CLASS_COLORS[select(2, UnitClass(idx))];
-                    if (classColor ~= nil) then
-                        local texture = uuidb.statusbars[uuidb.general.texture];
-                        p.HealthBar:SetStatusBarTexture(texture);
-                        local partyPowerType = UnitPowerType(idx);
-                        if (partyPowerType < 4) then
-                            p.ManaBar:SetStatusBarTexture(texture);
-                            local pc = PowerBarColor[partyPowerType];
-                            p.ManaBar:SetStatusBarColor(pc.r, pc.g, pc.b);
-                        end
+    for _, p in pairs({ PartyFrame:GetChildren() }) do
+        if (p.HealthBar ~= nil) then
+            local idx = p.unit;
+            if (UnitIsConnected(idx)) then
+                local classColor = RAID_CLASS_COLORS[select(2, UnitClass(idx))];
+                if (uuidb.general.texture ~= "Blizzard") then
+                    local texture = uuidb.statusbars[uuidb.general.texture];
+                    p.HealthBar:SetStatusBarTexture(texture);
+                    p.MyHealPredictionBar:SetTexture(texture);
+                    p.OtherHealPredictionBar:SetTexture(texture);
+                    p.TotalAbsorbBar:SetTexture(texture);
+                    p.TotalAbsorbBar:SetVertexColor(.6, .9, .9, 1);
+                    local partyPowerType = UnitPowerType(idx);
+                    if (partyPowerType < 4) then
+                        p.ManaBar:SetStatusBarTexture(texture);
+                        local pc = PowerBarColor[partyPowerType];
+                        p.ManaBar:SetStatusBarColor(pc.r, pc.g, pc.b);
                     end
+                elseif (uuidb.general.secondarybartextures) then
+                    local texture = uuidb.statusbars[uuidb.general.secondarybartexture];
+                    p.MyHealPredictionBar:SetTexture(texture);
+                    p.OtherHealPredictionBar:SetTexture(texture);
+                    p.TotalAbsorbBar:SetTexture(texture);
+                    p.TotalAbsorbBar:SetVertexColor(.6, .9, .9, 1);
                 end
             end
         end

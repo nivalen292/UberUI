@@ -65,8 +65,8 @@ function focusframes:HealthManaBarTexture()
             local pc = PowerBarColor[focusTotPowerType];
             FocusFrameToT.ManaBar:SetStatusBarColor(pc.r, pc.g, pc.b);
         end
-    else
-        local texture = uuidb.statusbars.Minimalist;
+    elseif (uuidb.general.secondarybartextures) then
+        local texture = uuidb.statusbars[uuidb.general.secondarybartexture];
         focusFrame.HealAbsorbBar:SetTexture(texture);
         focusFrame.MyHealPredictionBar:SetTexture(texture);
         focusFrame.OtherHealPredictionBar:SetTexture(texture);

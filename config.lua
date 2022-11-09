@@ -33,36 +33,39 @@ end)
 
 local defaults = {
     statusbars = {
-        Blizzard    = "Interface\\AddOns\\Uber UI\\textures\\statusbars\\nameplate",
-        BlizzardOld = "Interface\\AddOns\\Uber UI\\textures\\statusbars\\blizzard",
-        Minimalist  = "Interface\\AddOns\\Uber UI\\textures\\statusbars\\Minimalist",
-        Ace         = "Interface\\AddOns\\Uber UI\\textures\\statusbars\\Ace",
-        Aluminum    = "Interface\\AddOns\\Uber UI\\textures\\statusbars\\Aluminum",
-        Banto       = "Interface\\AddOns\\Uber UI\\textures\\statusbars\\banto",
-        Charcoal    = "Interface\\AddOns\\Uber UI\\textures\\statusbars\\Charcoal",
-        Glaze       = "Interface\\AddOns\\Uber UI\\textures\\statusbars\\glaze",
-        Litestep    = "Interface\\AddOns\\Uber UI\\textures\\statusbars\\LiteStep",
-        Otravi      = "Interface\\AddOns\\Uber UI\\textures\\statusbars\\otravi",
-        Perl        = "Interface\\AddOns\\Uber UI\\textures\\statusbars\\perl",
-        Smooth      = "Interface\\AddOns\\Uber UI\\textures\\statusbars\\smooth",
-        Striped     = "Interface\\AddOns\\Uber UI\\textures\\statusbars\\striped",
-        Swag        = "Interface\\AddOns\\Uber UI\\textures\\statusbars\\swag",
-        Flat        = "Interface\\AddOns\\Uber UI\\textures\\statusbars\\flat",
+        Blizzard      = "Interface\\AddOns\\Uber UI\\textures\\statusbars\\nameplate",
+        Blizzard_Flat = "Interface\\AddOns\\Uber UI\\textures\\statusbars\\nameplate",
+        Blizzard_Old  = "Interface\\AddOns\\Uber UI\\textures\\statusbars\\blizzard",
+        Minimalist    = "Interface\\AddOns\\Uber UI\\textures\\statusbars\\Minimalist",
+        Ace           = "Interface\\AddOns\\Uber UI\\textures\\statusbars\\Ace",
+        Aluminum      = "Interface\\AddOns\\Uber UI\\textures\\statusbars\\Aluminum",
+        Banto         = "Interface\\AddOns\\Uber UI\\textures\\statusbars\\banto",
+        Charcoal      = "Interface\\AddOns\\Uber UI\\textures\\statusbars\\Charcoal",
+        Glaze         = "Interface\\AddOns\\Uber UI\\textures\\statusbars\\glaze",
+        Litestep      = "Interface\\AddOns\\Uber UI\\textures\\statusbars\\LiteStep",
+        Otravi        = "Interface\\AddOns\\Uber UI\\textures\\statusbars\\otravi",
+        Perl          = "Interface\\AddOns\\Uber UI\\textures\\statusbars\\perl",
+        Smooth        = "Interface\\AddOns\\Uber UI\\textures\\statusbars\\smooth",
+        Striped       = "Interface\\AddOns\\Uber UI\\textures\\statusbars\\striped",
+        Swag          = "Interface\\AddOns\\Uber UI\\textures\\statusbars\\swag",
+        Flat          = "Interface\\AddOns\\Uber UI\\textures\\statusbars\\flat",
     },
     general = {
-        classcolorhealth   = true;
-        darkencolor        = { r = .4, g = .4, b = .4, a = 1 };
-        texture            = "Blizzard";
-        arenanumbers       = true;
-        hidearenaframes    = false;
-        border             = "Interface\\AddOns\\Uber UI\\textures\\border";
-        hidehotkeys        = false;
-        hidemacros         = false;
-        hidehonor          = false;
-        hiderepcolor       = true;
-        hostilitycolor     = true;
-        ccpersonalresource = true;
-        hidenameplateglow  = false;
+        classcolorhealth     = true;
+        darkencolor          = { r = .4, g = .4, b = .4, a = 1 };
+        texture              = "Blizzard";
+        secondarybartexture  = "Blizzard";
+        arenanumbers         = true;
+        hidearenaframes      = false;
+        border               = "Interface\\AddOns\\Uber UI\\textures\\border";
+        hidehotkeys          = false;
+        hidemacros           = false;
+        hidehonor            = false;
+        hiderepcolor         = true;
+        hostilitycolor       = true;
+        ccpersonalresource   = true;
+        hidenameplateglow    = false;
+        secondarybartextures = false;
     },
     playerframes = {
         classcolor = true,
