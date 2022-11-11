@@ -43,7 +43,7 @@ function targetframes:HealthManaBarTexture()
     local targetFrame = TargetFrame.TargetFrameContent.TargetFrameContentMain;
     if (uuidb.general.texture ~= "Blizzard") then
         local texture = uuidb.statusbars[uuidb.general.texture];
-        TargetFrame.TargetFrameContent.TargetFrameContentMain.HealthBar:SetStatusBarTexture(texture);
+        targetFrame.HealthBar:SetStatusBarTexture(texture);
         targetFrame.MyHealPredictionBar:SetTexture(texture);
         targetFrame.OtherHealPredictionBar:SetTexture(texture);
         targetFrame.TotalAbsorbBar:SetTexture(texture);
@@ -54,9 +54,9 @@ function targetframes:HealthManaBarTexture()
         -- https://wowpedia.fandom.com/wiki/API_UnitPowerDisplayMod
         local targetPowerType = UnitPowerType("target");
         if (targetPowerType < 4) then
-            TargetFrame.TargetFrameContent.TargetFrameContentMain.ManaBar:SetStatusBarTexture(texture);
+            targetFrame.ManaBar:SetStatusBarTexture(texture);
             local pc = PowerBarColor[targetPowerType];
-            TargetFrame.TargetFrameContent.TargetFrameContentMain.ManaBar:SetStatusBarColor(pc.r, pc.g, pc.b);
+            targetFrame.ManaBar:SetStatusBarColor(pc.r, pc.g, pc.b);
         end
 
         local totPowerType = UnitPowerType("targettarget");

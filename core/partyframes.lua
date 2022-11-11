@@ -48,10 +48,10 @@ function partyframes:HealthManaBarTexture()
                 if (uuidb.general.texture ~= "Blizzard") then
                     local texture = uuidb.statusbars[uuidb.general.texture];
                     p.HealthBar:SetStatusBarTexture(texture);
-                    p.MyHealPredictionBar:SetTexture(texture);
-                    p.OtherHealPredictionBar:SetTexture(texture);
-                    p.TotalAbsorbBar:SetTexture(texture);
-                    p.TotalAbsorbBar:SetVertexColor(.6, .9, .9, 1);
+                    p.myHealPredictionBar:SetTexture(texture);
+                    p.otherHealPredictionBar:SetTexture(texture);
+                    p.totalAbsorbBar:SetTexture(texture);
+                    p.totalAbsorbBar:SetVertexColor(.6, .9, .9, 1);
                     local partyPowerType = UnitPowerType(idx);
                     if (partyPowerType < 4) then
                         p.ManaBar:SetStatusBarTexture(texture);
@@ -60,10 +60,10 @@ function partyframes:HealthManaBarTexture()
                     end
                 elseif (uuidb.general.secondarybartextures) then
                     local texture = uuidb.statusbars[uuidb.general.secondarybartexture];
-                    p.MyHealPredictionBar:SetTexture(texture);
-                    p.OtherHealPredictionBar:SetTexture(texture);
-                    p.TotalAbsorbBar:SetTexture(texture);
-                    p.TotalAbsorbBar:SetVertexColor(.6, .9, .9, 1);
+                    p.myHealPredictionBar:SetTexture(texture);
+                    p.otherHealPredictionBar:SetTexture(texture);
+                    p.totalAbsorbBar:SetTexture(texture);
+                    p.totalAbsorbBar:SetVertexColor(.6, .9, .9, 1);
                 end
             end
         end

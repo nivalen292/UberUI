@@ -23,3 +23,9 @@
 - fix options menu items that were deprecated
 - add options for hostility (green, red, yellow) color
 - add options to individually select which frames get colored
+
+10.0.2.6:
+- fix bug with secondary bar textures on playerframe
+
+10.0.2.6:
+- fix bug with partyframe textures causing lua error
