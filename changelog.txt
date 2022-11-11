@@ -27,5 +27,5 @@
 10.0.2.6:
 - fix bug with secondary bar textures on playerframe
 
-10.0.2.6:
+10.0.2.7:
 - fix bug with partyframe textures causing lua error
