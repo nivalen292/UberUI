@@ -25,9 +25,12 @@ function buffsandauras:ColorBuffs()
     for _, v in ipairs({ BuffFrame.AuraContainer:GetChildren() }) do
         if not v.styled and v.Icon then
             iconSize = v.Icon:GetSize() + 1;
+            -- cut and size icon to fit the border better
+            v.Icon:SetSize(iconSize - 2.2, iconSize - 2.2);
+            v.Icon:SetTexCoord(.05, .95, .05, .95);
             v.NormalTexture = CreateFrame("Frame", "BuffAuraBorder", v)
             v.NormalTexture:SetSize(iconSize + iconPadding, iconSize + iconPadding)
-            v.NormalTexture:SetPoint("TOPLEFT", v, "TOPLEFT", -1, 1);
+            v.NormalTexture:SetPoint("CENTER", v.Icon, "CENTER", 2, -2);
             v.NormalTexture.texture = v.NormalTexture:CreateTexture("BuffNormalTexture", "OVERLAY");
             v.NormalTexture.texture:SetAllPoints()
             v.NormalTexture.texture:SetAtlas(tx)
@@ -86,8 +89,8 @@ function buffsandauras:ColorAuras()
                     v.Count:SetPoint("BOTTOMRIGHT", v, "BOTTOMRIGHT", 1, 0);
                 end
                 v.NormalTexture.texture = v.NormalTexture:CreateTexture(nil, "OVERLAY");
-                v.NormalTexture.texture:SetAtlas(tx);
                 v.NormalTexture.texture:SetAllPoints();
+                v.NormalTexture.texture:SetAtlas(tx);
                 v.NormalTexture.texture:SetVertexColor(dc.r, dc.g, dc.b, dc.a);
                 v.styled = true;
             elseif ((v.styled and v.Stealable and v.Stealable:IsShown()) or
@@ -96,7 +99,7 @@ function buffsandauras:ColorAuras()
             elseif (v.styled) then
                 v.NormalTexture:Show()
                 local iconSize = v.Icon:GetSize();
-                v.NormalTexture:SetSize(iconSize + 4, iconSize + 4);
+                v.NormalTexture:SetSize(iconSize + 5, iconSize + 5);
             end
         end
     end

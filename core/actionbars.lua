@@ -39,76 +39,40 @@ function actionbars:Color()
         end
     end
 
-    for i = 1, 12 do
-        _G["ActionButton" .. i .. "NormalTexture"]:SetVertexColor(dc.r, dc.g, dc.b, dc.a);
-        _G["ActionButton" .. i].RightDivider:SetVertexColor(dc.r, dc.g, dc.b, dc.a);
-        _G["MultiBarBottomLeftButton" .. i .. "NormalTexture"]:SetVertexColor(dc.r, dc.g, dc.b, dc.a);
-        _G["MultiBarBottomRightButton" .. i .. "NormalTexture"]:SetVertexColor(dc.r, dc.g, dc.b, dc.a);
-        _G["MultiBarRightButton" .. i .. "NormalTexture"]:SetVertexColor(dc.r, dc.g, dc.b, dc.a);
-        _G["MultiBarLeftButton" .. i .. "NormalTexture"]:SetVertexColor(dc.r, dc.g, dc.b, dc.a);
-        _G["MultiBar5Button" .. i .. "NormalTexture"]:SetVertexColor(dc.r, dc.g, dc.b, dc.a);
-        _G["MultiBar6Button" .. i .. "NormalTexture"]:SetVertexColor(dc.r, dc.g, dc.b, dc.a);
-        _G["MultiBar7Button" .. i .. "NormalTexture"]:SetVertexColor(dc.r, dc.g, dc.b, dc.a);
-        if (i < 11) then
-            _G["StanceButton" .. i .. "NormalTexture"]:SetVertexColor(dc.r, dc.g, dc.b, dc.a);
-            _G["PetActionButton" .. i .. "NormalTexture"]:SetVertexColor(dc.r, dc.g, dc.b, dc.a);
-        end
+    local function modButton(button)
+        local action = button.action;
+        if (action == nil) then return end
+        local texture = GetActionTexture(action);
 
+        button.NormalTexture:SetVertexColor(dc.r, dc.g, dc.b, dc.a);
         if (uuidb.general.hidehotkeys) then
-            _G["ActionButton" .. i .. "HotKey"]:Hide();
-            _G["MultiBarBottomLeftButton" .. i .. "HotKey"]:Hide();
-            _G["MultiBarBottomRightButton" .. i .. "HotKey"]:Hide();
-            _G["MultiBarRightButton" .. i .. "HotKey"]:Hide();
-            _G["MultiBarLeftButton" .. i .. "HotKey"]:Hide();
-            _G["MultiBar5Button" .. i .. "HotKey"]:Hide();
-            _G["MultiBar6Button" .. i .. "HotKey"]:Hide();
-            _G["MultiBar7Button" .. i .. "HotKey"]:Hide();
-            if (i < 11) then
-                _G["StanceButton" .. i .. "HotKey"]:Hide();
-                _G["PetActionButton" .. i .. "HotKey"]:Hide();
-            end
-        else
-            _G["ActionButton" .. i .. "HotKey"]:Show();
-            _G["MultiBarBottomLeftButton" .. i .. "HotKey"]:Show();
-            _G["MultiBarBottomRightButton" .. i .. "HotKey"]:Show();
-            _G["MultiBarRightButton" .. i .. "HotKey"]:Show();
-            _G["MultiBarLeftButton" .. i .. "HotKey"]:Show();
-            _G["MultiBar5Button" .. i .. "HotKey"]:Show();
-            _G["MultiBar6Button" .. i .. "HotKey"]:Show();
-            _G["MultiBar7Button" .. i .. "HotKey"]:Show();
-            if (i < 11) then
-                _G["StanceButton" .. i .. "HotKey"]:Show();
-                _G["PetActionButton" .. i .. "HotKey"]:Show();
-            end
+            button.HotKey:Hide();
+        elseif (texture) then
+            button.HotKey:Show();
         end
 
         if (uuidb.general.hidemacros) then
-            _G["ActionButton" .. i .. "Name"]:Hide();
-            _G["MultiBarBottomLeftButton" .. i .. "Name"]:Hide();
-            _G["MultiBarBottomRightButton" .. i .. "Name"]:Hide();
-            _G["MultiBarRightButton" .. i .. "Name"]:Hide();
-            _G["MultiBarLeftButton" .. i .. "Name"]:Hide();
-            _G["MultiBar5Button" .. i .. "Name"]:Hide();
-            _G["MultiBar6Button" .. i .. "Name"]:Hide();
-            _G["MultiBar7Button" .. i .. "Name"]:Hide();
-            if (i < 11) then
-                _G["StanceButton" .. i .. "Name"]:Hide();
-                _G["PetActionButton" .. i .. "Name"]:Hide();
-            end
+            button.Name:Hide();
         else
-            _G["ActionButton" .. i .. "Name"]:Show();
-            _G["MultiBarBottomLeftButton" .. i .. "Name"]:Show();
-            _G["MultiBarBottomRightButton" .. i .. "Name"]:Show();
-            _G["MultiBarRightButton" .. i .. "Name"]:Show();
-            _G["MultiBarLeftButton" .. i .. "Name"]:Show();
-            _G["MultiBar5Button" .. i .. "Name"]:Show();
-            _G["MultiBar6Button" .. i .. "Name"]:Show();
-            _G["MultiBar7Button" .. i .. "Name"]:Show();
-            if (i < 11) then
-                _G["StanceButton" .. i .. "Name"]:Show();
-                _G["PetActionButton" .. i .. "Name"]:Show();
-            end
+            button.Name:Shwo();
         end
+    end
+
+    for i = 1, 12 do
+        modButton(_G["ActionButton" .. i]);
+        modButton(_G["MultiBarBottomLeftButton" .. i]);
+        modButton(_G["MultiBarBottomRightButton" .. i]);
+        modButton(_G["MultiBarRightButton" .. i]);
+        modButton(_G["MultiBarLeftButton" .. i]);
+        modButton(_G["MultiBar5Button" .. i]);
+        modButton(_G["MultiBar6Button" .. i]);
+        modButton(_G["MultiBar7Button" .. i]);
+        if (i < 11) then
+            modButton(_G["StanceButton" .. i]);
+            modButton(_G["PetActionButton" .. i]);
+        end
+
+        _G["ActionButton" .. i].RightDivider:SetVertexColor(dc.r, dc.g, dc.b, dc.a);
     end
 
     for _, border in pairs({ MainMenuBar.BorderArt:GetRegions() }) do
