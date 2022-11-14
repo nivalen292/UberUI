@@ -54,7 +54,7 @@ function actionbars:Color()
         if (uuidb.general.hidemacros) then
             button.Name:Hide();
         else
-            button.Name:Shwo();
+            button.Name:Show();
         end
     end
 
