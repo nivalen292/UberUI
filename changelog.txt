@@ -33,3 +33,6 @@
 10.0.2.7.1: (hotfixes)
 - actionbars displaying range indicator when no ability is slotted and no keybind
 - player buffs border incorrectly anchored when buff anchoring changed in the blizzard settings
+
+10.0.2.7.2: (hotfix)
+- fix typo in actionbar script
