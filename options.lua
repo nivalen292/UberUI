@@ -17,10 +17,9 @@ local function commitValue()
     UberUI:Save();
 end
 
+if (settingsLoaded) then return end --make sure we're only initializing settings once
 local category, layout = Settings.RegisterVerticalLayoutCategory("Uber UI");
 Settings.RegisterAddOnCategory(category);
-
-if (settingsLoaded) then return end --make sure we're only initializing settings once
 
 -- DarknessLevel
 local variable, name, tooltip = "DarknessLevel", "Darkness Level", "Set your desired level of darkness";
@@ -84,11 +83,65 @@ local setting = Settings.RegisterAddOnSetting(category, name, variable, Settings
 setting.GetValue, setting.SetValue, setting.Commit = getValue, setValue, commitValue;
 Settings.CreateDropDown(category, setting, GetOptions, tooltip);
 
+-- Raid Bar Textures
+local cbvariable, cbname = "RaidBarTextures", "Raid Bar Textures";
+local cbtooltip = "Retexture Raid & Raid Party Frames Separately from general texture"
+-- checkbox
+local defaultValue = false;
+local function cbgetValue()
+    if (uuidb.general) then
+        return uuidb.general.raidbartextures;
+    else
+        return defaultValue;
+    end
+end
+
+local function cbsetValue(self, value)
+    uuidb.general.raidbartextures = value;
+end
+
+local cbsetting = Settings.RegisterAddOnSetting(category, cbname, cbvariable, Settings.VarType.Boolean, defaultValue)
+cbsetting.GetValue, cbsetting.SetValue, cbsetting.Commit = cbgetValue, cbsetValue, commitValue;
+-- drop down
+local ddvariable, ddname = "RaidTexture", "Raid Bar Texture";
+local ddtooltip = "Set your desired status bar texture for secondary bars\n\n|cffff0000Requires reload to properly attach \n\nBlizzard option is not accurate until reload";
+local function ddGetOptions()
+    local ddcontainer = Settings.CreateControlTextContainer();
+    local c = 0;
+    for bar in pairs(UberUI:GetDefaults().statusbars) do
+        container:Add(bar, bar);
+        c = c + 1;
+    end
+    return container:GetData();
+end
+
+local dddefaultValue = "Blizzard";
+local function ddgetValue()
+    if (uuidb.general) then
+        return gsub(uuidb.general.raidbartexture, "_", " ");
+    else
+        return defaultValue;
+    end
+end
+
+local function ddsetValue(self, value)
+    value = gsub(value, " ", "_");
+    uuidb.general.raidbartexture = value;
+    UberUI.misc:AllFramesHealthManaTexture();
+end
+
+local ddsetting = Settings.RegisterAddOnSetting(category, ddname, ddvariable, Settings.VarType.Number, dddefaultValue)
+ddsetting.GetValue, ddsetting.SetValue, ddsetting.Commit = ddgetValue, ddsetValue, commitValue;
+
+local cbdd = CreateSettingsCheckBoxDropDownInitializer(cbsetting, cbname, cbtooltip, ddsetting, GetOptions,
+    ddname, ddtooltip)
+layout:AddInitializer(cbdd);
+
 -- Secondary Bar Textures
 local cbvariable, cbname = "SecondaryBarTextures", "Secondary Bar Textures";
 local cbtooltip = "Enable changing secondary bar textures independently ex. AbsorbBar, HealingPredictionBar\n\n|cffff0000Requires reload to properly attach \n\nBlizzard option is not accurate until reload"
 -- checkbox
-local defaultValue = true;
+local defaultValue = false;
 local function cbgetValue()
     if (uuidb.general) then
         return uuidb.general.secondarybartextures;
@@ -101,7 +154,7 @@ local function cbsetValue(self, value)
     uuidb.general.secondarybartextures = value;
 end
 
-local cbsetting = Settings.RegisterAddOnSetting(category, name, variable, Settings.VarType.Boolean, defaultValue)
+local cbsetting = Settings.RegisterAddOnSetting(category, cbname, cbvariable, Settings.VarType.Boolean, defaultValue)
 cbsetting.GetValue, cbsetting.SetValue, cbsetting.Commit = cbgetValue, cbsetValue, commitValue;
 -- drop down
 local ddvariable, ddname = "SecondaryTexture", "Secondary Bar Texture";
@@ -134,12 +187,9 @@ end
 local ddsetting = Settings.RegisterAddOnSetting(category, ddname, ddvariable, Settings.VarType.Number, dddefaultValue)
 ddsetting.GetValue, ddsetting.SetValue, ddsetting.Commit = ddgetValue, ddsetValue, commitValue;
 
---Settings.CreateCheckBox(category, setting, tooltip);
 local cbdd = CreateSettingsCheckBoxDropDownInitializer(cbsetting, cbname, cbtooltip, ddsetting, GetOptions,
     ddname, ddtooltip)
 layout:AddInitializer(cbdd);
-
-
 
 -- Arena Nameplate Numbers
 local variable, name = "ArenaNameplateNumbers", "Arena Nameplate Numbers";
@@ -582,14 +632,24 @@ local setting = Settings.RegisterAddOnSetting(category, name, variable, Settings
 setting.GetValue, setting.SetValue, setting.Commit = getValue, setValue, commitValue;
 Settings.CreateCheckBox(category, setting, tooltip);
 
-local Reload = CreateFrame("Button", "$parentReload", SettingsPanel.CloseButton, "UIPanelButtonTemplate")
-Reload:SetPoint("RIGHT", SettingsPanel.CloseButton, "LEFT", -5, 0);
-Reload:SetSize(SettingsPanel.CloseButton:GetSize());
-Reload:SetText("Reload UI");
+hooksecurefunc(SettingsPanel, "DisplayCategory", function(self, category)
+    local header = SettingsPanel.Container.SettingsList.Header;
+    if (category:GetName() == "Uber UI" and not header.UUI_Reload) then
+        header.UUI_Reload = CreateFrame("Button", nil, header, "UIPanelButtonTemplate")
+        header.UUI_Reload:SetPoint("RIGHT", header.DefaultsButton, "LEFT", -5, 0);
+        header.UUI_Reload:SetSize(header.DefaultsButton:GetSize());
+        header.UUI_Reload:SetFrameStrata("HIGH");
+        header.UUI_Reload:SetText("Reload UI");
 
-Reload:SetScript("OnClick", function(self, button, down)
-    SettingsPanel:Hide();
-    ReloadUI();
+        header.UUI_Reload:SetScript("OnClick", function(self, button, down)
+            SettingsPanel:Hide();
+            ReloadUI();
+        end)
+    elseif (category:GetName() == "Uber UI" and header.UUI_Reload) then
+        header.UUI_Reload:Show();
+    elseif (header.UUI_Reload) then
+        header.UUI_Reload:Hide();
+    end
 end)
 
 settingsLoaded = true;
