@@ -1,5 +1,5 @@
-## Interface: 10200
-## Version: 10.0.2.0
+## Interface: 10005
+## Version: 10.0.5
 
 ## Author: Uberlicious
 ## Notes: Darkens and modifies original Blizzard UI.

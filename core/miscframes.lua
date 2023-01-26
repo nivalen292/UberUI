@@ -61,8 +61,9 @@ function misc:EndCaps()
 end
 
 function misc:StatusTrackingBars()
-    StatusTrackingBarManager.BottomBarFrameTexture:SetVertexColor(.4, .4, .4, 1);
-    StatusTrackingBarManager.TopBarFrameTexture:SetVertexColor(.4, .4, .4, 1)
+    local dc = uuidb.general.darkencolor;
+    MainStatusTrackingBarContainer.BarFrameTexture:SetVertexColor(dc.r, dc.g, dc.b, dc.a);
+    SecondaryStatusTrackingBarContainer.BarFrameTexture:SetVertexColor(dc.r, dc.g, dc.b, dc.a);
 end
 
 function misc:AllFramesColor()
