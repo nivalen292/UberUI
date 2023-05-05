@@ -1,10 +1,11 @@
-## Interface: 10005
-## Version: 10.0.5
+## Interface: 100100
+## Version: 10.1.0
 
 ## Author: Uberlicious
 ## Notes: Darkens and modifies original Blizzard UI.
 ## Title: Uber UI
 ## Notes: Darkens the default UI
+## IconTexture: Interface/Addons/Uber UI/logo_32x32.blp
 ## SavedVariables: UberuiDB
 
 config.lua

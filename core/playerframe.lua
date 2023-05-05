@@ -96,7 +96,6 @@ function playerframes:ColorTotems()
                 for _, reg in pairs({ items:GetRegions() }) do
                     reg:SetVertexColor(dc.r, dc.g, dc.b, dc.a)
                 end
-
             end
         end
     end
@@ -117,14 +116,15 @@ end
 
 function playerframes:ColorHolyPower()
     local dc = uuidb.general.darkencolor;
-    PaladinPowerBarFrameBG:SetVertexColor(dc.r, dc.g, dc.b, dc.a);
-    PaladinPowerBarFrameBankBG:SetVertexColor(dc.r, dc.g, dc.b, dc.a);
+    PaladinPowerBarFrame.Background:SetVertexColor(dc.r, dc.g, dc.b, dc.a);
+    PaladinPowerBarFrame.ActiveTexture:SetVertexColor(dc.r, dc.g, dc.b, dc.a);
 end
 
 function playerframes:ColorComboPoints()
     local dc = uuidb.general.darkencolor;
-    for _, cp in pairs({ ComboPointPlayerFrame:GetChildren() }) do
-        cp.PointOff:SetVertexColor(dc.r, dc.g, dc.b, dc.a);
+    for _, cp in pairs({ RogueComboPointBarFrame:GetChildren() }) do
+        cp.BGInactive:SetVertexColor(dc.r, dc.g, dc.b, dc.a);
+        cp.BGActive:SetVertexColor(dc.r, dc.g, dc.b, dc.a);
     end
 end
 
