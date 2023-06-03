@@ -37,6 +37,10 @@
         "CompactRaidFrameManager",
         "TargetFrameToT",
         "TargetFrameSpellBar",
-        "PaladinPowerBarFrame"
+        "PaladinPowerBarFrame",
+        "WarlockPowerFrame",
+        "RogueComboPointBarFrame",
+        "MainStatusTrackingBarContainer",
+        "SecondaryStatusTrackingBarContainer"
     ]
 }

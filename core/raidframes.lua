@@ -34,6 +34,7 @@ function raidframes:HealthManaBarTexture()
                     local member = _G[group:GetName() .. "Member" .. m];
                     if (member ~= nil) then
                         member.healthBar:SetStatusBarTexture(texture);
+                        member.healthBar:SetFrameLevel(member:GetParent():GetFrameLevel() + 2);
                     end
                 end
             end
