@@ -3,7 +3,8 @@ local focusframes = {}
 
 --[[
 	Local Variables
-]] --
+]]
+   --
 local focusframes = CreateFrame("frame")
 focusframes:RegisterEvent("ADDON_LOADED")
 focusframes:RegisterEvent("PLAYER_LOGIN")

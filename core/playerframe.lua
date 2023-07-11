@@ -23,6 +23,7 @@ end)
 function playerframes:Color()
     local dc = uuidb.general.darkencolor;
     PlayerFrame.PlayerFrameContainer.FrameTexture:SetVertexColor(dc.r, dc.g, dc.b, dc.a);
+    PlayerFrame.PlayerFrameContainer.AlternatePowerFrameTexture:SetVertexColor(dc.r, dc.g, dc.b, dc.a);
     PlayerFrame.PlayerFrameContainer.VehicleFrameTexture:SetVertexColor(dc.r, dc.g, dc.b, dc.a);
     PlayerCastingBarFrame.Border:SetVertexColor(dc.r, dc.g, dc.b, dc.a);
     PetFrameTexture:SetVertexColor(dc.r, dc.g, dc.b, dc.a);
@@ -36,7 +37,7 @@ function playerframes:Color()
     elseif (class == "Warlock") then
         self:ColorSoulShards();
     end
-    self:ColorAlternateMana();
+    self:ColorAlternatePower();
     self:PvPIcon();
 end
 
@@ -107,17 +108,13 @@ function playerframes:ColorTotems()
     end
 end
 
-function playerframes:ColorAlternateMana()
+function playerframes:ColorAlternatePower()
     local dc = uuidb.general.darkencolor;
-    PlayerFrameAlternateManaBarBorder:SetVertexColor(dc.r, dc.g, dc.b, dc.a);
-    PlayerFrameAlternateManaBarLeftBorder:SetVertexColor(dc.r, dc.g, dc.b, dc.a);
-    PlayerFrameAlternateManaBarRightBorder:SetVertexColor(dc.r, dc.g, dc.b, dc.a);
-
     local texture = uuidb.statusbars[uuidb.general.texture];
     local pc = PowerBarColor[0];
-    PlayerFrameAlternateManaBar:SetStatusBarTexture(texture);
-    PlayerFrameAlternateManaBar:SetStatusBarDesaturated(true);
-    PlayerFrameAlternateManaBar:SetStatusBarColor(pc.r, pc.g, pc.b);
+    AlternatePowerBar:SetStatusBarTexture(texture);
+    AlternatePowerBar:SetStatusBarDesaturated(true);
+    AlternatePowerBar:SetStatusBarColor(pc.r, pc.g, pc.b);
 end
 
 function playerframes:ColorHolyPower()

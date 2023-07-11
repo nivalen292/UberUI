@@ -90,6 +90,7 @@ function partyframes:ColorTextureCompactPartyFrames()
         for i = 1, MEMBERS_PER_RAID_GROUP do
             local member = _G["CompactPartyFrameMember" .. i];
             member.healthBar:SetStatusBarTexture(texture);
+            member.healthBar:SetFrameLevel(member:GetParent():GetFrameLevel() + 2);
         end
     end
     if (uuidb.general.secondarybartextures and uuidb.general.secondarybartexture == "Blizzard") then return end
@@ -112,7 +113,7 @@ end
 function partyframes:AddHooks()
     -- hook to keep party frame updated with textures
     if (hookParty == false) then
-        hooksecurefunc("CompactPartyFrame_RefreshMembers", function(self)
+        CompactPartyFrame:HookScript("OnEvent", function(self)
             partyframes:ColorTextureCompactPartyFrames();
         end)
         hookParty = true;

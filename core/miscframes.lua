@@ -89,7 +89,7 @@ function misc:AllFramesHealthManaTexture()
     UberUI.focusframes:HealthManaBarTexture();
     UberUI.partyframes:HealthManaBarTexture();
     UberUI.raidframes:HealthManaBarTexture();
-    UberUI.playerframes:ColorAlternateMana();
+    UberUI.playerframes:ColorAlternatePower();
     UberUI.arenaframes:LoopFrames();
 end
 
