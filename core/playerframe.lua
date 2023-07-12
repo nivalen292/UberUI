@@ -14,6 +14,9 @@ playerframes:RegisterEvent("ACTIONBAR_UPDATE_STATE")
 playerframes:RegisterEvent("PVP_WORLDSTATE_UPDATE")
 playerframes:RegisterEvent("UNIT_ENTERED_VEHICLE")
 playerframes:RegisterEvent("UNIT_EXITED_VEHICLE")
+playerframes:RegisterEvent("UNIT_AURA")
+playerframes:RegisterEvent("PLAYER_LOSES_VEHICLE_DATA")
+playerframes:RegisterEvent("PLAYER_GAINS_VEHICLE_DATA")
 playerframes:SetScript("OnEvent", function(self)
     playerframes:Color();
     playerframes:HealthBarColor();

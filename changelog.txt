@@ -1,2 +1,6 @@
-10.0.5:
-- Bug fixes for changing of xp / honor bars
+10.1.5.0: Bug Fixes
+- fix bug that occurred when playerframe elements were renamed
+- fix bug and hook from party frames being reworked
+
+10.1.5.1: Bug Fix
+- fix bug that caused mana frame to revert when mounting
