@@ -50,7 +50,8 @@ local function Register()
     -- BarTexture
     do
         local variable, name = "BarTextures", "Health Bar Textures";
-        local tooltip = "Set your desired status bar texture for health & mana bars\n\n|cffff0000Requires reload to properly attach \n\nBlizzard option is not accurate until reload";
+        local tooltip =
+        "Set your desired status bar texture for health & mana bars\n\n|cffff0000Requires reload to properly attach \n\nBlizzard option is not accurate until reload";
         local function GetOptions()
             local container = Settings.CreateControlTextContainer();
             local c = 0;
@@ -106,7 +107,8 @@ local function Register()
         cbsetting.GetValue, cbsetting.SetValue, cbsetting.Commit = cbgetValue, cbsetValue, commitValue;
         -- drop down
         local ddvariable, ddname = "RaidTexture", "Raid Bar Texture";
-        local ddtooltip = "Set your desired status bar texture for secondary bars\n\n|cffff0000Requires reload to properly attach \n\nBlizzard option is not accurate until reload";
+        local ddtooltip =
+        "Set your desired status bar texture for secondary bars\n\n|cffff0000Requires reload to properly attach \n\nBlizzard option is not accurate until reload";
         local function GetOptions()
             local container = Settings.CreateControlTextContainer();
             local c = 0;
@@ -145,7 +147,8 @@ local function Register()
     -- -- Secondary Bar Textures
     do
         local cbvariable, cbname = "SecondaryBarTextures", "Secondary Bar Textures";
-        local cbtooltip = "Enable changing secondary bar textures independently ex. AbsorbBar, HealingPredictionBar\n\n|cffff0000Requires reload to properly attach \n\nBlizzard option is not accurate until reload"
+        local cbtooltip =
+        "Enable changing secondary bar textures independently ex. AbsorbBar, HealingPredictionBar\n\n|cffff0000Requires reload to properly attach \n\nBlizzard option is not accurate until reload"
         -- checkbox
         local defaultValue = false;
         local function cbgetValue()
@@ -165,7 +168,8 @@ local function Register()
         cbsetting.GetValue, cbsetting.SetValue, cbsetting.Commit = cbgetValue, cbsetValue, commitValue;
         -- drop down
         local ddvariable, ddname = "SecondaryTexture", "Secondary Bar Texture";
-        local ddtooltip = "Set your desired status bar texture for secondary bars\n\n|cffff0000Requires reload to properly attach \n\nBlizzard option is not accurate until reload";
+        local ddtooltip =
+        "Set your desired status bar texture for secondary bars\n\n|cffff0000Requires reload to properly attach \n\nBlizzard option is not accurate until reload";
         local function GetOptions()
             local container = Settings.CreateControlTextContainer();
             local c = 0;
@@ -369,7 +373,8 @@ local function Register()
     -- Hostility Color
     do
         local variable, name = "HostilityColor", "Color By Hostility";
-        local tooltip = "Color all healthbars according to hostility \n\n|cffff0000Enemy\n|cff00ff00Friendly\n|cffffff00Neutral\n\n|cffff0000This setting will be overwritten in respective frames that have class colring enabled when targeting an player";
+        local tooltip =
+        "Color all healthbars according to hostility \n\n|cffff0000Enemy\n|cff00ff00Friendly\n|cffffff00Neutral\n\n|cffff0000This setting will be overwritten in respective frames that have class colring enabled when targeting an player";
         local defaultValue = false;
         local function getValue()
             if (uuidb.general) then
@@ -607,7 +612,6 @@ local function Register()
         end
 
         local function setValue(self, value)
-            print(self);
             uuidb.partyframes.classcolor = value;
             UberUI.partyframes:Color();
         end
@@ -626,8 +630,8 @@ SettingsRegistrar:AddRegistrant(Register)
 hooksecurefunc(SettingsPanel, "DisplayCategory", function(self, category)
     local header = SettingsPanel.Container.SettingsList.Header;
     if ((category:GetID() == Settings.UBERUI_CATEGORY_ID or
-        (category:HasParentCategory() and category:GetParentCategory():GetID() == Settings.UBERUI_CATEGORY_ID))
-        and not header.UUI_Reload) then
+                (category:HasParentCategory() and category:GetParentCategory():GetID() == Settings.UBERUI_CATEGORY_ID))
+            and not header.UUI_Reload) then
         header.UUI_Reload = CreateFrame("Button", nil, header, "UIPanelButtonTemplate")
         header.UUI_Reload:SetPoint("RIGHT", header.DefaultsButton, "LEFT", -5, 0);
         header.UUI_Reload:SetSize(header.DefaultsButton:GetSize());
@@ -639,13 +643,18 @@ hooksecurefunc(SettingsPanel, "DisplayCategory", function(self, category)
             ReloadUI();
         end)
     elseif ((category:GetID() == Settings.UBERUI_CATEGORY_ID or
-        (category:HasParentCategory() and category:GetParentCategory():GetID() == Settings.UBERUI_CATEGORY_ID))
-        and header.UUI_Reload) then
+                (category:HasParentCategory() and category:GetParentCategory():GetID() == Settings.UBERUI_CATEGORY_ID))
+            and header.UUI_Reload) then
         header.UUI_Reload:Show();
     elseif (header.UUI_Reload) then
         header.UUI_Reload:Hide();
     end
 end)
+
+-- for addon compartment (in .toc)
+function OpenUUISettings()
+    Settings.OpenToCategory(Settings.UBERUI_CATEGORY_ID);
+end
 
 -- ---------------------------
 -- SLASH COMMAND

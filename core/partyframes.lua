@@ -5,11 +5,10 @@ local hookParty = false;
 
 partyframes = CreateFrame("frame")
 partyframes:RegisterEvent("ADDON_LOADED")
-partyframes:RegisterEvent("PLAYER_LOGIN")
 partyframes:RegisterEvent("PLAYER_ENTERING_WORLD")
 partyframes:RegisterEvent("GROUP_ROSTER_UPDATE")
-partyframes:RegisterEvent("RAID_ROSTER_UPDATE")
-partyframes:RegisterEvent("PLAYER_LEAVE_COMBAT")
+partyframes:RegisterEvent("UNIT_PET");
+
 partyframes:SetScript("OnEvent", function(self, event)
     partyframes:Color();
     partyframes:HealthBarColor();
@@ -78,46 +77,14 @@ function partyframes:ColorDefaultPartyFrames()
 end
 
 function partyframes:ColorTextureCompactPartyFrames()
-    local dc = uuidb.general.darkencolor;
-    local texture = uuidb.general.raidbartextures and uuidb.statusbars[uuidb.general.raidbartexture] or
-        uuidb.statusbars[uuidb.general.texture]
-    for _, v in pairs({ CompactPartyFrame.borderFrame:GetRegions() }) do
-        v:SetVertexColor(dc.r, dc.g, dc.b, dc.a);
-    end
-
-    if (uuidb.general.raidbartextures and uuidb.general.raidbartexture == "Blizzard") then return end
-    if (uuidb.general.raidbartextures or uuidb.general.texture ~= "Blizzard") then
-        for i = 1, MEMBERS_PER_RAID_GROUP do
-            local member = _G["CompactPartyFrameMember" .. i];
-            member.healthBar:SetStatusBarTexture(texture);
-            member.healthBar:SetFrameLevel(member:GetParent():GetFrameLevel() + 2);
-        end
-    end
-    if (uuidb.general.secondarybartextures and uuidb.general.secondarybartexture == "Blizzard") then return end
-    if (uuidb.general.secondarybartextures or uuidb.general.texture ~= "Blizzard") then
-        for i = 1, MEMBERS_PER_RAID_GROUP do
-            local member = _G["CompactPartyFrameMember" .. i];
-            local texture = uuidb.general.secondarybartextures and
-                uuidb.statusbars[uuidb.general.secondarybartexture] or
-                uuidb.general.raidbartextures and
-                uuidb.statusbars[uuidb.general.raidbartexture] or
-                uuidb.statusbars[uuidb.general.texture];
-            member.myHealPrediction:SetTexture(texture);
-            member.otherHealPrediction:SetTexture(texture);
-            member.totalAbsorb:SetTexture(texture);
-            member.totalAbsorb:SetVertexColor(.6, .9, .9, 1);
-        end
+    for i = 1, MEMBERS_PER_RAID_GROUP do
+        local member = _G["CompactPartyFrameMember" .. i]
+        UberUI.cuf.default(member)
     end
 end
 
 function partyframes:AddHooks()
     -- hook to keep party frame updated with textures
-    if (hookParty == false) then
-        CompactPartyFrame:HookScript("OnEvent", function(self)
-            partyframes:ColorTextureCompactPartyFrames();
-        end)
-        hookParty = true;
-    end
 end
 
 UberUI.partyframes = partyframes

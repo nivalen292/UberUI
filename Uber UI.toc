@@ -6,6 +6,7 @@
 ## Title: Uber UI
 ## Notes: Darkens the default UI
 ## IconTexture: Interface/Addons/Uber UI/logo_32x32.blp
+## AddonCompartmentFunc: OpenUUISettings
 ## SavedVariables: UberuiDB
 
 config.lua
@@ -16,6 +17,7 @@ core\playerframe.lua
 core\targetframe.lua
 core\focusframe.lua
 core\miscframes.lua
+core\compactunitframe.lua
 core\partyframes.lua
 core\arenaframes.lua
 core\raidframes.lua

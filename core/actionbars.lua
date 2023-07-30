@@ -24,7 +24,6 @@ function actionbars:Color()
 
     --bartender4 styling
     if bartender4 then
-        --print("Bartender4 found")
         for i = 1, 120 do
             if (_G["BT4Button" .. i]) then
                 _G["BT4Button" .. i .. "NormalTexture"]:SetVertexColor(dc.r, dc.g, dc.b, dc.a);

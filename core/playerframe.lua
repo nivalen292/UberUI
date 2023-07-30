@@ -17,6 +17,10 @@ playerframes:RegisterEvent("UNIT_EXITED_VEHICLE")
 playerframes:RegisterEvent("UNIT_AURA")
 playerframes:RegisterEvent("PLAYER_LOSES_VEHICLE_DATA")
 playerframes:RegisterEvent("PLAYER_GAINS_VEHICLE_DATA")
+playerframes:RegisterEvent("PVP_MATCH_ACTIVE")
+playerframes:RegisterEvent("ARENA_PREP_OPPONENT_SPECIALIZATIONS")
+playerframes:RegisterEvent("ARENA_OPPONENT_UPDATE")
+playerframes:RegisterEvent("ZONE_CHANGED_NEW_AREA")
 playerframes:SetScript("OnEvent", function(self)
     playerframes:Color();
     playerframes:HealthBarColor();
@@ -34,6 +38,7 @@ function playerframes:Color()
     if (class == "Shaman") then
         self:ColorTotems();
     elseif (class == "Paladin") then
+        self:ColorTotems();
         self:ColorHolyPower();
     elseif (class == "Rogue") then
         self:ColorComboPoints();
@@ -91,6 +96,7 @@ function playerframes:HealthManaBarTexture(force)
         healthBar.OtherHealPredictionBar:SetTexture(texture);
         healthBar.TotalAbsorbBar:SetTexture(texture);
         healthBar.TotalAbsorbBar:SetVertexColor(.7, .9, .9, 1);
+        manaBar.ManaCostPredictionBar:SetTexture(texture);
     end
 end
 
@@ -101,13 +107,7 @@ end
 function playerframes:ColorTotems()
     local dc = uuidb.general.darkencolor;
     for _, totems in pairs({ TotemFrame:GetChildren() }) do
-        for _, items in pairs({ totems:GetChildren() }) do
-            if (items:GetChildren() == nil) then
-                for _, reg in pairs({ items:GetRegions() }) do
-                    reg:SetVertexColor(dc.r, dc.g, dc.b, dc.a)
-                end
-            end
-        end
+        totems.Border:SetVertexColor(dc.r, dc.g, dc.b, dc.a);
     end
 end
 

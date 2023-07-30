@@ -28,31 +28,9 @@ function raidframes:HealthManaBarTexture()
             for _, borderSection in pairs({ group.borderFrame:GetRegions() }) do
                 borderSection:SetVertexColor(dc.r, dc.g, dc.b, dc.a);
             end
-            if (uuidb.general.raidbartextures and uuidb.general.raidbartexture == "Blizzard") then return end
-            if (uuidb.general.raidbartextures or uuidb.general.texture ~= "Blizzard") then
-                for m = 1, MEMBERS_PER_RAID_GROUP do
-                    local member = _G[group:GetName() .. "Member" .. m];
-                    if (member ~= nil) then
-                        member.healthBar:SetStatusBarTexture(texture);
-                        member.healthBar:SetFrameLevel(member:GetParent():GetFrameLevel() + 2);
-                    end
-                end
-            end
-            if (not uuidb.general.secondarybartextures and not uuidb.general.secondarybartexture == "Blizzard") then
-                if (uuidb.general.secondarybartextures or uuidb.general.texture ~= "Blizzard") then
-                    for i = 1, MEMBERS_PER_RAID_GROUP do
-                        local member = _G[group:GetName() .. "Member" .. i];
-                        local texture = uuidb.general.secondarybartextures and
-                            uuidb.statusbars[uuidb.general.secondarybartexture] or
-                            uuidb.general.raidbartextures and
-                            uuidb.statusbars[uuidb.general.raidbartexture] or
-                            uuidb.statusbars[uuidb.general.texture];
-                        member.myHealPrediction:SetTexture(texture);
-                        member.otherHealPrediction:SetTexture(texture);
-                        member.totalAbsorb:SetTexture(texture);
-                        member.totalAbsorb:SetVertexColor(.6, .9, .9, 1);
-                    end
-                end
+            for m = 1, MEMBERS_PER_RAID_GROUP do
+                local member = _G[group:GetName() .. "Member" .. m];
+                UberUI.cuf.default(member)
             end
         end
     end
@@ -61,12 +39,12 @@ end
 function raidframes:AddHooks()
     -- hook to  make sure raid gets textured on show event
 
-    if (hookRaid == false) then
-        CompactRaidFrameManager.container:HookScript("OnShow", function(self)
-            raidframes:HealthManaBarTexture();
-        end)
-        hookRaid = true;
-    end
+    -- if (hookRaid == false) then
+    --     CompactRaidFrameManager.container:HookScript("OnShow", function(self)
+    --         raidframes:HealthManaBarTexture();
+    --     end)
+    --     hookRaid = true;
+    -- end
 end
 
 UberUI.raidframes = raidframes;
