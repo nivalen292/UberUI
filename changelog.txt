@@ -4,3 +4,11 @@
 
 10.1.5.1: Bug Fix
 - fix bug that caused mana frame to revert when mounting
+
+10.1.5.2: Fixes
+    Features:
+        - Color and texture default blizzard arena frames
+
+    Fixes:
+        - fix party and raid frames randomly reverting textures
+        - fix hiding arena frames

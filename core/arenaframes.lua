@@ -15,45 +15,37 @@ arenaframes:SetScript("OnEvent", function(self, event, addon)
     arenaframes:HideArena();
 end)
 
+local origParent = nil
+
+function arenaframes:HideFrame(frame)
+    frame:SetScript("OnShow", frame.Hide)
+    frame:Hide()
+end
+
+function arenaframes:ShowFrame(frame)
+    frame:SetScript("OnShow", frame.Show)
+    frame:Show()
+end
+
 function arenaframes:HideArena()
     if (CompactArenaFrame == nil) then return end
     if (uuidb.general.hidearenaframes) then
-        for _, f in pairs({ CompactArenaFrame:GetChildren() }) do
-            for _, frame in pairs({ f:GetChildren() }) do
-                frame:SetAlpha(0)
-                frame:Hide()
-            end
-
-            if (f.CastingBarFrame and f.hookShow ~= true) then
-                f.CastingBarFrame:HookScript("OnShow", function(self)
-                    self:Hide();
-                end)
-                f.hookShow = true
-            end
-
-            for _, frame in pairs({ f:GetRegions() }) do
-                frame:SetAlpha(0)
-                frame:Hide()
-            end
+        arenaframes:HideFrame(arenaframes)
+        local f = _G["CompactArenaFrame"]
+        if origParent == nil then
+            origParent = f:GetParent()
         end
+        if not f then return end
+        f:SetParent(arenaframes)
+        arenaframes:HideFrame(f)
     else
-        for _, f in pairs({ CompactArenaFrame:GetChildren() }) do
-            for _, frame in pairs({ f:GetChildren() }) do
-                frame:SetAlpha(1)
-                frame:Show()
-            end
-
-            if (f.CastingBarFrame and f.hookShow == true and f.hookHide ~= true) then
-                f.CastingBarFrame:HookScript("OnShow", function(self)
-                    self:Show();
-                end)
-                f.hookHide = true
-            end
-
-            for _, frame in pairs({ f:GetRegions() }) do
-                frame:SetAlpha(1)
-                frame:Show()
-            end
+        if origParent ~= nil then
+            arenaframes:ShowFrame(arenaframes)
+            local f = _G["CompactArenaFrame"]
+            if not f then return end
+            f:SetParent(origParent)
+            arenaframes:ShowFrame(f)
+            origParent = nil
         end
     end
 end
