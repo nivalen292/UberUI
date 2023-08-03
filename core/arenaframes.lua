@@ -2,13 +2,9 @@ local addon, ns = ...
 arenaframes = {}
 
 local arenaframes = CreateFrame("Frame")
-arenaframes:RegisterEvent("ADDON_LOADED")
-arenaframes:RegisterEvent("PLAYER_LOGIN")
 arenaframes:RegisterEvent("PLAYER_ENTERING_WORLD")
-arenaframes:RegisterEvent("PVP_MATCH_ACTIVE")
+arenaframes:RegisterEvent("ZONE_CHANGED_NEW_AREA")
 arenaframes:RegisterEvent("ARENA_PREP_OPPONENT_SPECIALIZATIONS")
-arenaframes:RegisterEvent("ARENA_OPPONENT_UPDATE")
-arenaframes:RegisterEvent("GROUP_ROSTER_UPDATE")
 arenaframes:SetScript("OnEvent", function(self, event, addon)
     arenaframes:LoopFrames();
     arenaframes:NameplateNumbers();
@@ -22,31 +18,14 @@ function arenaframes:HideFrame(frame)
     frame:Hide()
 end
 
-function arenaframes:ShowFrame(frame)
-    frame:SetScript("OnShow", frame.Show)
-    frame:Show()
-end
-
 function arenaframes:HideArena()
     if (CompactArenaFrame == nil) then return end
     if (uuidb.general.hidearenaframes) then
         arenaframes:HideFrame(arenaframes)
         local f = _G["CompactArenaFrame"]
-        if origParent == nil then
-            origParent = f:GetParent()
-        end
         if not f then return end
         f:SetParent(arenaframes)
         arenaframes:HideFrame(f)
-    else
-        if origParent ~= nil then
-            arenaframes:ShowFrame(arenaframes)
-            local f = _G["CompactArenaFrame"]
-            if not f then return end
-            f:SetParent(origParent)
-            arenaframes:ShowFrame(f)
-            origParent = nil
-        end
     end
 end
 
