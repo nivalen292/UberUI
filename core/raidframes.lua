@@ -15,7 +15,6 @@ raidframes:SetScript("OnEvent", function(self, event)
     elseif (event ~= "PLAYER_REGEN_ENABLED") then
         raidframes:HealthManaBarTexture()
     end
-    raidframes:AddHooks();
 end)
 
 function raidframes:HealthManaBarTexture()
@@ -34,17 +33,6 @@ function raidframes:HealthManaBarTexture()
             end
         end
     end
-end
-
-function raidframes:AddHooks()
-    -- hook to  make sure raid gets textured on show event
-
-    -- if (hookRaid == false) then
-    --     CompactRaidFrameManager.container:HookScript("OnShow", function(self)
-    --         raidframes:HealthManaBarTexture();
-    --     end)
-    --     hookRaid = true;
-    -- end
 end
 
 UberUI.raidframes = raidframes;

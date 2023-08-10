@@ -229,7 +229,7 @@ local function Register()
 
         -- HideArenaFrames
         local variable, name = "HideArenaFrames", "Hide Arena Frames";
-        local tooltip = "Force hide default blizzard arena frames"
+        local tooltip = "Force hide default blizzard arena frames.\n\n|cffff0000Requires reload on unhiding"
         local defaultValue = false;
         local function getValue()
             if (uuidb.general) then

@@ -5,21 +5,23 @@ local arenaframes = CreateFrame("Frame")
 arenaframes:RegisterEvent("PLAYER_ENTERING_WORLD")
 arenaframes:RegisterEvent("ZONE_CHANGED_NEW_AREA")
 arenaframes:RegisterEvent("ARENA_PREP_OPPONENT_SPECIALIZATIONS")
+arenaframes:RegisterEvent("ARENA_OPPONENT_UPDATE")
 arenaframes:SetScript("OnEvent", function(self, event, addon)
     arenaframes:LoopFrames();
     arenaframes:NameplateNumbers();
-    arenaframes:HideArena();
+    if InCombatLockdown() == false then
+        arenaframes:HideArena();
+    end
 end)
 
-local origParent = nil
 
 function arenaframes:HideFrame(frame)
+    if not frame then return end
     frame:SetScript("OnShow", frame.Hide)
     frame:Hide()
 end
 
 function arenaframes:HideArena()
-    if (CompactArenaFrame == nil) then return end
     if (uuidb.general.hidearenaframes) then
         arenaframes:HideFrame(arenaframes)
         local f = _G["CompactArenaFrame"]
