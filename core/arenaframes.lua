@@ -5,29 +5,38 @@ local arenaframes = CreateFrame("Frame")
 arenaframes:RegisterEvent("PLAYER_ENTERING_WORLD")
 arenaframes:RegisterEvent("ZONE_CHANGED_NEW_AREA")
 arenaframes:RegisterEvent("ARENA_PREP_OPPONENT_SPECIALIZATIONS")
-arenaframes:RegisterEvent("ARENA_OPPONENT_UPDATE")
 arenaframes:SetScript("OnEvent", function(self, event, addon)
     arenaframes:LoopFrames();
     arenaframes:NameplateNumbers();
-    if InCombatLockdown() == false then
-        arenaframes:HideArena();
-    end
+    arenaframes:SetVisibility();
 end)
 
+local point, relativeTo, relativePoint, offsetX, offsetY;
 
-function arenaframes:HideFrame(frame)
-    if not frame then return end
-    frame:SetScript("OnShow", frame.Hide)
-    frame:Hide()
+function arenaframes:ShowArenaFrames()
+    CompactArenaFrame:SetScale(1);
+    CompactArenaFrame:ClearAllPoints();
+    CompactArenaFrame:SetPoint(point, relativeTo, relativePoint, offsetX, offsetY);
+    CompactArenaFrame:SetFrameStrata("LOW");
 end
 
 function arenaframes:HideArena()
-    if (uuidb.general.hidearenaframes) then
-        arenaframes:HideFrame(arenaframes)
-        local f = _G["CompactArenaFrame"]
-        if not f then return end
-        f:SetParent(arenaframes)
-        arenaframes:HideFrame(f)
+    if point == nil then
+        point, relativeTo, relativePoint, offsetX, offsetY = CompactArenaFrame:GetPoint();
+    end
+    CompactArenaFrame:SetScale(.0001);
+    CompactArenaFrame:ClearAllPoints();
+    CompactArenaFrame:SetPoint(MinimapCluster.MinimapContainer:GetPoint());
+    CompactArenaFrame:SetFrameStrata("BACKGROUND");
+end
+
+function arenaframes:SetVisibility()
+    if uuidb.general.hidearenaframes == true then
+        arenaframes:HideArena();
+    end
+
+    if not uuidb.general.hidearenaframes and CompactArenaFrame:GetScale() ~= 1 then
+        arenaframes:ShowArenaFrames();
     end
 end
 

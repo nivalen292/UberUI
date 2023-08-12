@@ -241,7 +241,7 @@ local function Register()
 
         local function setValue(self, value)
             uuidb.general.hidearenaframes = value;
-            UberUI.arenaframes:HideArena();
+            UberUI.arenaframes:SetVisibility();
         end
 
         local setting = Settings.RegisterAddOnSetting(category, name, variable, Settings.VarType.Boolean, defaultValue)

@@ -66,6 +66,7 @@
         "ShouldShowPartyFrames",
         "UISpecialFrames",
         "UIWidgetManager",
-        "MEMBERS"
+        "MEMBERS",
+        "MinimapCluster"
     ]
 }
