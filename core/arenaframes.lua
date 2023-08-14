@@ -15,10 +15,12 @@ end)
 local point, relativeTo, relativePoint, offsetX, offsetY;
 
 function arenaframes:ShowArenaFrames()
-    CompactArenaFrame:SetScale(1);
-    CompactArenaFrame:ClearAllPoints();
-    CompactArenaFrame:SetPoint(point, relativeTo, relativePoint, offsetX, offsetY);
-    CompactArenaFrame:SetFrameStrata("LOW");
+    if CompactArenaFrame:GetScale() ~= 1 then
+        CompactArenaFrame:SetScale(1);
+        CompactArenaFrame:ClearAllPoints();
+        CompactArenaFrame:SetPoint(point, relativeTo, relativePoint, offsetX, offsetY);
+        CompactArenaFrame:SetFrameStrata("LOW");
+    end
 end
 
 function arenaframes:HideArena()
@@ -36,7 +38,7 @@ function arenaframes:SetVisibility()
         arenaframes:HideArena();
     end
 
-    if not uuidb.general.hidearenaframes and CompactArenaFrame:GetScale() ~= 1 then
+    if not uuidb.general.hidearenaframes then
         arenaframes:ShowArenaFrames();
     end
 end

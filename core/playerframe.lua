@@ -44,6 +44,8 @@ function playerframes:Color()
         self:ColorComboPoints();
     elseif (class == "Warlock") then
         self:ColorSoulShards();
+    elseif (class == "Monk") then
+        self:ColorMonkChi();
     end
     self:ColorAlternatePower();
     self:PvPIcon();
@@ -97,6 +99,7 @@ function playerframes:HealthManaBarTexture(force)
         healthBar.TotalAbsorbBar:SetTexture(texture);
         healthBar.TotalAbsorbBar:SetVertexColor(.7, .9, .9, 1);
         manaBar.ManaCostPredictionBar:SetTexture(texture);
+        manaBar.FeedbackFrame.BarTexture:SetTexture(texture);
     end
 end
 
@@ -138,6 +141,14 @@ function playerframes:ColorSoulShards()
     local dc = uuidb.general.darkencolor;
     for _, ss in pairs({ WarlockPowerFrame:GetChildren() }) do
         ss.Background:SetVertexColor(dc.r, dc.g, dc.b, dc.a);
+    end
+end
+
+function playerframes:ColorMonkChi()
+    local dc = uuidb.general.darkencolor;
+    for _, chi in pairs({ MonkHarmonyBarFrame:GetChildren() }) do
+        chi.Chi_BG:SetVertexColor(dc.r, dc.g, dc.b, dc.a);
+        chi.Chi_BG_Active:SetVertexColor(dc.r, dc.g, dc.b, dc.a);
     end
 end
 
