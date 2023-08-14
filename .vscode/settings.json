@@ -67,6 +67,9 @@
         "UISpecialFrames",
         "UIWidgetManager",
         "MEMBERS",
-        "MinimapCluster"
+        "MinimapCluster",
+        "LE_PARTY_CATEGORY_HOME",
+        "tostringall",
+        "LE_PARTY_CATEGORY_INSTANCE"
     ]
 }
