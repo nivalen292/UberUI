@@ -12,3 +12,8 @@
     Fixes:
         - fix party and raid frames randomly reverting textures
         - fix hiding arena frames
+
+10.1.5.3: Updates
+    Features:
+        - correct texturing of monk energy loss
+        - color monk chi
