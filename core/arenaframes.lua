@@ -9,6 +9,7 @@ arenaframes:SetScript("OnEvent", function(self, event, addon)
     arenaframes:LoopFrames();
     arenaframes:NameplateNumbers();
     arenaframes:SetVisibility();
+    arenaframes:HideOldArenaFrames();
 end)
 
 local point, relativeTo, relativePoint, offsetX, offsetY;
@@ -37,6 +38,22 @@ function arenaframes:SetVisibility()
 
     if not uuidb.general.hidearenaframes and CompactArenaFrame:GetScale() ~= 1 then
         arenaframes:ShowArenaFrames();
+    end
+end
+
+function arenaframes:HideOldArenaFrames()
+    if (uuidb.general.hidearenaframes) then
+        for i = 1, 5 do
+            _G["ArenaEnemyMatchFrame" .. i]:SetAlpha(0);
+            _G["ArenaEnemyPrepFrame" .. i]:SetAlpha(0);
+            _G["ArenaEnemyMatchFrame" .. i .. "PetFrame"]:SetAlpha(0);
+        end
+    else
+        for i = 1, 5 do
+            _G["ArenaEnemyMatchFrame" .. i]:SetAlpha(1);
+            _G["ArenaEnemyPrepFrame" .. i]:SetAlpha(1);
+            _G["ArenaEnemyMatchFrame" .. i .. "PetFrame"]:SetAlpha(1);
+        end
     end
 end
 
