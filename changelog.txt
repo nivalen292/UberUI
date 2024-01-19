@@ -4,3 +4,6 @@
 
 10.2.5.0:
     - Fixes for frame changes in 10.2.5
+
+10.2.5.1:
+    - Fix overlooked check

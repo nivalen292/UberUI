@@ -73,7 +73,7 @@ function playerframes:HealthManaBarTexture(force)
         healthBar.AnimatedLossBar:SetStatusBarTexture(texture);
 
         local playerPowerType = UnitPowerType("player");
-        if (playerPowerType < 4) then
+        if (playerPowerType and playerPowerType < 4) then
             manaBar:SetStatusBarTexture(texture);
             local pc = PowerBarColor[playerPowerType];
             manaBar:SetStatusBarDesaturated(true);
