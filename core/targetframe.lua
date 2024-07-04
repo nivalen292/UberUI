@@ -33,7 +33,8 @@ function targetframes:Color()
 end
 
 function targetframes:HealthBarColor()
-    local healthBar = TargetFrame.TargetFrameContent.TargetFrameContentMain.HealthBar;
+    local healthBar = TargetFrame.TargetFrameContent.TargetFrameContentMain.HealthBarsContainer.HealthBar;
+    print(healthBar)
     UberUI.general:SetHealthColor(healthBar, "target", uuidb.targetframes);
 
     local healthBar = TargetFrameToT.HealthBar;

@@ -8,8 +8,8 @@ local actionbars = {}
 
 local classcolor = RAID_CLASS_COLORS[select(2, UnitClass("player"))]
 local class = UnitClass("player")
-local dominos = IsAddOnLoaded("Dominos")
-local bartender4 = IsAddOnLoaded("Bartender4")
+local dominos = C_AddOns.IsAddOnLoaded("Dominos")
+local bartender4 = C_AddOns.IsAddOnLoaded("Bartender4")
 
 
 local actionbars = CreateFrame("frame")

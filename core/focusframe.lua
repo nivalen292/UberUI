@@ -33,7 +33,7 @@ function focusframes:Color()
 end
 
 function focusframes:HealthBarColor()
-    local healthBar = FocusFrame.TargetFrameContent.TargetFrameContentMain.HealthBar;
+    local healthBar = FocusFrame.TargetFrameContent.TargetFrameContentMain.HealthBarsContainer.HealthBar;
     UberUI.general:SetHealthColor(healthBar, "focus", uuidb.focusframes);
 
     local healthBar = FocusFrameToT.HealthBar;
