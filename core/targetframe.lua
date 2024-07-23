@@ -4,7 +4,7 @@ local targetframes = {}
 --[[
 	Local Variables
 ]]
-   --
+--
 local targetframes = CreateFrame("frame")
 targetframes:RegisterEvent("ADDON_LOADED")
 targetframes:RegisterEvent("PLAYER_LOGIN")
@@ -34,7 +34,6 @@ end
 
 function targetframes:HealthBarColor()
     local healthBar = TargetFrame.TargetFrameContent.TargetFrameContentMain.HealthBarsContainer.HealthBar;
-    print(healthBar)
     UberUI.general:SetHealthColor(healthBar, "target", uuidb.targetframes);
 
     local healthBar = TargetFrameToT.HealthBar;
