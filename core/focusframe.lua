@@ -41,7 +41,7 @@ function focusframes:HealthBarColor()
 end
 
 function focusframes:HealthManaBarTexture()
-    local focusFrame = FocusFrame.TargetFrameContent.TargetFrameContentMain;
+    local focusFrame = FocusFrame.TargetFrameContent.TargetFrameContentMain.HealthBarsContainer;
     if (uuidb.general.texture ~= "Blizzard") then
         local texture = uuidb.statusbars[uuidb.general.texture];
         focusFrame.HealthBar:SetStatusBarTexture(texture);
