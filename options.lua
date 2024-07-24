@@ -81,10 +81,10 @@ local function Register()
 
         local setting = Settings.RegisterAddOnSetting(category, name, variable, Settings.VarType.Number, defaultValue)
         setting.GetValue, setting.SetValue, setting.Commit = getValue, setValue, commitValue;
-        Settings.CreateDropDown(category, setting, GetOptions, tooltip);
+        Settings.CreateDropdown(category, setting, GetOptions, tooltip)
     end
 
-    -- -- Raid Bar Textures
+    -- Raid Bar Textures
     do
         local cbvariable, cbname = "RaidBarTextures", "Raid Bar Textures";
         local cbtooltip = "Retexture Raid & Raid Party Frames Separately from general texture"
@@ -105,6 +105,7 @@ local function Register()
         local cbsetting = Settings.RegisterAddOnSetting(category, cbname, cbvariable, Settings.VarType.Boolean,
             defaultValue)
         cbsetting.GetValue, cbsetting.SetValue, cbsetting.Commit = cbgetValue, cbsetValue, commitValue;
+
         -- drop down
         local ddvariable, ddname = "RaidTexture", "Raid Bar Texture";
         local ddtooltip =
@@ -139,12 +140,12 @@ local function Register()
             dddefaultValue)
         ddsetting.GetValue, ddsetting.SetValue, ddsetting.Commit = ddgetValue, ddsetValue, commitValue;
 
-        local cbdd = CreateSettingsCheckBoxDropDownInitializer(cbsetting, cbname, cbtooltip, ddsetting, GetOptions,
-            ddname, ddtooltip)
+        local cbdd = CreateSettingsCheckboxDropdownInitializer(cbsetting, cbname, cbtooltip, ddsetting, GetOptions,
+            ddname, ddtooltip);
         layout:AddInitializer(cbdd);
     end
 
-    -- -- Secondary Bar Textures
+    -- Secondary Bar Textures
     do
         local cbvariable, cbname = "SecondaryBarTextures", "Secondary Bar Textures";
         local cbtooltip =
@@ -200,7 +201,7 @@ local function Register()
             dddefaultValue)
         ddsetting.GetValue, ddsetting.SetValue, ddsetting.Commit = ddgetValue, ddsetValue, commitValue;
 
-        local cbdd = CreateSettingsCheckBoxDropDownInitializer(cbsetting, cbname, cbtooltip, ddsetting, GetOptions,
+        local cbdd = CreateSettingsCheckboxDropdownInitializer(cbsetting, cbname, cbtooltip, ddsetting, GetOptions,
             ddname, ddtooltip)
         layout:AddInitializer(cbdd);
     end
@@ -225,7 +226,7 @@ local function Register()
 
         local setting = Settings.RegisterAddOnSetting(category, name, variable, Settings.VarType.Boolean, defaultValue)
         setting.GetValue, setting.SetValue, setting.Commit = getValue, setValue, commitValue;
-        Settings.CreateCheckBox(category, setting, tooltip);
+        Settings.CreateCheckbox(category, setting, tooltip);
 
         -- HideArenaFrames
         local variable, name = "HideArenaFrames", "Hide Arena Frames";
@@ -246,7 +247,7 @@ local function Register()
 
         local setting = Settings.RegisterAddOnSetting(category, name, variable, Settings.VarType.Boolean, defaultValue)
         setting.GetValue, setting.SetValue, setting.Commit = getValue, setValue, commitValue;
-        Settings.CreateCheckBox(category, setting, tooltip);
+        Settings.CreateCheckbox(category, setting, tooltip);
     end
 
     -- Hide HotKeys
@@ -269,7 +270,7 @@ local function Register()
 
         local setting = Settings.RegisterAddOnSetting(category, name, variable, Settings.VarType.Boolean, defaultValue)
         setting.GetValue, setting.SetValue, setting.Commit = getValue, setValue, commitValue;
-        Settings.CreateCheckBox(category, setting, tooltip);
+        Settings.CreateCheckbox(category, setting, tooltip);
     end
 
     -- Hide Macros
@@ -292,7 +293,7 @@ local function Register()
 
         local setting = Settings.RegisterAddOnSetting(category, name, variable, Settings.VarType.Boolean, defaultValue)
         setting.GetValue, setting.SetValue, setting.Commit = getValue, setValue, commitValue;
-        Settings.CreateCheckBox(category, setting, tooltip);
+        Settings.CreateCheckbox(category, setting, tooltip);
     end
 
     -- Hide Honor
@@ -317,7 +318,7 @@ local function Register()
 
         local setting = Settings.RegisterAddOnSetting(category, name, variable, Settings.VarType.Boolean, defaultValue)
         setting.GetValue, setting.SetValue, setting.Commit = getValue, setValue, commitValue;
-        Settings.CreateCheckBox(category, setting, tooltip);
+        Settings.CreateCheckbox(category, setting, tooltip);
     end
 
     -- Hide Rep Color
@@ -341,7 +342,7 @@ local function Register()
 
         local setting = Settings.RegisterAddOnSetting(category, name, variable, Settings.VarType.Boolean, defaultValue)
         setting.GetValue, setting.SetValue, setting.Commit = getValue, setValue, commitValue;
-        Settings.CreateCheckBox(category, setting, tooltip);
+        Settings.CreateCheckbox(category, setting, tooltip);
     end
 
     -- Hide Nameplate Selection Glow
@@ -364,7 +365,7 @@ local function Register()
 
         local setting = Settings.RegisterAddOnSetting(category, name, variable, Settings.VarType.Boolean, defaultValue);
         setting.GetValue, setting.SetValue, setting.Commit = getValue, setValue, commitValue;
-        Settings.CreateCheckBox(category, setting, tooltip);
+        Settings.CreateCheckbox(category, setting, tooltip);
     end
 
     -- Hide Nameplate Selection Glow
@@ -387,7 +388,7 @@ local function Register()
 
         local setting = Settings.RegisterAddOnSetting(category, name, variable, Settings.VarType.Boolean, defaultValue);
         setting.GetValue, setting.SetValue, setting.Commit = getValue, setValue, commitValue;
-        Settings.CreateCheckBox(category, setting, tooltip);
+        Settings.CreateCheckbox(category, setting, tooltip);
     end
 
     -- Color options
@@ -414,7 +415,7 @@ local function Register()
 
         local setting = Settings.RegisterAddOnSetting(subcategory, name, variable, Settings.VarType.Boolean, defaultValue)
         setting.GetValue, setting.SetValue, setting.Commit = getValue, uuisetValue, commitValue;
-        Settings.CreateCheckBox(subcategory, setting, tooltip);
+        Settings.CreateCheckbox(subcategory, setting, tooltip);
     end
 
     -- Class Color Player Health
@@ -437,7 +438,7 @@ local function Register()
 
         local setting = Settings.RegisterAddOnSetting(subcategory, name, variable, Settings.VarType.Boolean, defaultValue)
         setting.GetValue, setting.SetValue, setting.Commit = getValue, setValue, commitValue;
-        Settings.CreateCheckBox(subcategory, setting, tooltip);
+        Settings.CreateCheckbox(subcategory, setting, tooltip);
     end
 
     -- Class Color Enemy Target
@@ -460,7 +461,7 @@ local function Register()
 
         local setting = Settings.RegisterAddOnSetting(subcategory, name, variable, Settings.VarType.Boolean, defaultValue)
         setting.GetValue, setting.SetValue, setting.Commit = getValue, setValue, commitValue;
-        Settings.CreateCheckBox(subcategory, setting, tooltip);
+        Settings.CreateCheckbox(subcategory, setting, tooltip);
     end
 
     -- Class Color Friendly Target
@@ -483,7 +484,7 @@ local function Register()
 
         local setting = Settings.RegisterAddOnSetting(subcategory, name, variable, Settings.VarType.Boolean, defaultValue)
         setting.GetValue, setting.SetValue, setting.Commit = getValue, setValue, commitValue;
-        Settings.CreateCheckBox(subcategory, setting, tooltip);
+        Settings.CreateCheckbox(subcategory, setting, tooltip);
     end
 
 
@@ -507,7 +508,7 @@ local function Register()
 
         local setting = Settings.RegisterAddOnSetting(subcategory, name, variable, Settings.VarType.Boolean, defaultValue)
         setting.GetValue, setting.SetValue, setting.Commit = getValue, setValue, commitValue;
-        Settings.CreateCheckBox(subcategory, setting, tooltip);
+        Settings.CreateCheckbox(subcategory, setting, tooltip);
     end
 
     -- -- Class Color Friendly Focus
@@ -530,7 +531,7 @@ local function Register()
 
         local setting = Settings.RegisterAddOnSetting(subcategory, name, variable, Settings.VarType.Boolean, defaultValue)
         setting.GetValue, setting.SetValue, setting.Commit = getValue, setValue, commitValue;
-        Settings.CreateCheckBox(subcategory, setting, tooltip);
+        Settings.CreateCheckbox(subcategory, setting, tooltip);
     end
 
     -- Class Color Friendly Nameplates
@@ -551,7 +552,7 @@ local function Register()
         -- Class Color Enemy Nameplates
         local setting = Settings.RegisterAddOnSetting(subcategory, name, variable, Settings.VarType.Boolean, defaultValue)
         setting.GetValue, setting.SetValue, setting.Commit = getValue, setValue, commitValue;
-        Settings.CreateCheckBox(subcategory, setting, tooltip);
+        Settings.CreateCheckbox(subcategory, setting, tooltip);
     end
 
     -- Class Color Enemy Nameplates
@@ -572,7 +573,7 @@ local function Register()
         -- Class Color Friendly Nameplates
         local setting = Settings.RegisterAddOnSetting(subcategory, name, variable, Settings.VarType.Boolean, defaultValue)
         setting.GetValue, setting.SetValue, setting.Commit = getValue, setValue, commitValue;
-        Settings.CreateCheckBox(subcategory, setting, tooltip);
+        Settings.CreateCheckbox(subcategory, setting, tooltip);
     end
 
     -- Class Color Personal Resource
@@ -595,7 +596,7 @@ local function Register()
 
         local setting = Settings.RegisterAddOnSetting(subcategory, name, variable, Settings.VarType.Boolean, defaultValue)
         setting.GetValue, setting.SetValue, setting.Commit = getValue, setValue, commitValue;
-        Settings.CreateCheckBox(subcategory, setting, tooltip);
+        Settings.CreateCheckbox(subcategory, setting, tooltip);
     end
 
     -- Class Color Arena
@@ -618,7 +619,7 @@ local function Register()
 
         local setting = Settings.RegisterAddOnSetting(subcategory, name, variable, Settings.VarType.Boolean, defaultValue)
         setting.GetValue, setting.SetValue, setting.Commit = getValue, setValue, commitValue;
-        Settings.CreateCheckBox(subcategory, setting, tooltip);
+        Settings.CreateCheckbox(subcategory, setting, tooltip);
     end
 
     -- Class Color Party
@@ -641,7 +642,7 @@ local function Register()
 
         local setting = Settings.RegisterAddOnSetting(subcategory, name, variable, Settings.VarType.Boolean, defaultValue)
         setting.GetValue, setting.SetValue, setting.Commit = getValue, setValue, commitValue;
-        Settings.CreateCheckBox(subcategory, setting, tooltip);
+        Settings.CreateCheckbox(subcategory, setting, tooltip);
     end
 
     Settings.RegisterAddOnCategory(subcategory);

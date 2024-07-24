@@ -1,9 +1,5 @@
-10.2.0.0:
-    - Update toc to correct Version
-    - add option for half size friendly nameplates
+11.0.2.1:
+    - Fixes for structural changes to TargetFrame and FocusFrame
 
-10.2.5.0:
-    - Fixes for frame changes in 10.2.5
-
-10.2.5.1:
-    - Fix overlooked check
+11.0.2.2:
+    - Blizzard changed "CheckBox" -> "Checkbox" and "DropDown" -> "Dropdown" killing the options menu
