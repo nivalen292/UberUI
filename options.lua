@@ -391,6 +391,28 @@ local function Register()
         Settings.CreateCheckbox(category, setting, tooltip);
     end
 
+    -- Use Default Nameplates
+    do
+        local variable, name = "UseDefaultNameplates", "Use Default Nameplates";
+        local tooltip = "Use default texture nameplates\n\n|cffff0000Requires reload on disable"
+        local defaultValue = false;
+        local function getValue()
+            if (uuidb.general) then
+                return uuidb.general.usedefaultnameplates;
+            else
+                return defaultValue;
+            end
+        end
+
+        local function setValue(self, value)
+            uuidb.general.usedefaultnameplates = value;
+        end
+
+        local setting = Settings.RegisterAddOnSetting(category, name, variable, Settings.VarType.Boolean, defaultValue);
+        setting.GetValue, setting.SetValue, setting.Commit = getValue, setValue, commitValue;
+        Settings.CreateCheckbox(category, setting, tooltip);
+    end
+
     -- Color options
     local subcategory, layout = Settings.RegisterVerticalLayoutSubcategory(category, "Health Bar Color Options");
 

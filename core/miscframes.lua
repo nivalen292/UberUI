@@ -18,6 +18,7 @@ end)
 
 local nthook = false
 function misc:NameplateTexture()
+    if uuidb.general.usedefaultnameplates then return end
     local texture = uuidb.statusbars[uuidb.general.texture];
     if nthook then return end
     hooksecurefunc("CompactUnitFrame_UpdateHealthColor", function(frame)

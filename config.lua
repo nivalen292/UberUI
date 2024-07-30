@@ -69,6 +69,7 @@ local defaults = {
         secondarybartextures   = false,
         raidbartextures        = false,
         smallfriendlynameplate = false,
+        usedefaultnameplates   = false,
     },
     playerframes = {
         classcolor = true,
